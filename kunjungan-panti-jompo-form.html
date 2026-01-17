@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Pendaftaran Panti Jompo - Relawan Nusantara</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .form-container {
+            max-width: 500px;
+            margin: 40px auto;
+            padding: 40px;
+            background: var(--color-white);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .form-container h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--color-blue);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--color-dark);
+        }
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="tel"],
+        .form-group input[type="number"],
+        .form-group select,
+        .form-group textarea,
+        .form-group input[type="file"] {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-family: var(--font-family);
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+        .form-group input[type="file"] {
+            padding-top: 8px;
+        }
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        .form-group .radio-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        .form-group .radio-group label {
+            display: flex;
+            align-items: center;
+            font-weight: 400;
+            margin-bottom: 0;
+        }
+        .form-group .radio-group input[type="radio"] {
+            width: auto;
+            margin-right: 8px;
+        }
+        .form-container .btn-primary {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--color-blue); /* Assuming var(--color-blue) is defined in style.css */
+            color: var(--color-white);
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .form-container .btn-primary:hover {
+            background-color: var(--color-dark-blue); /* Assuming a darker blue is desired for hover */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <a href="index.html" class="nav-logo">Relawan Nusantara</a>
+        <ul class="nav-menu">
+            <li class="nav-item"><a href="pendidikan.html">Pendidikan</a></li>
+            <li class="nav-item"><a href="lingkungan.html">Lingkungan</a></li>
+            <li class="nav-item"><a href="kesehatan.html">Kesehatan</a></li>
+            <li class="nav-item"><a href="sosial-kemanusiaan.html">Sosial & Kemanusiaan</a></li>
+            <li class="nav-item"><a href="login.html">Login</a></li>
+        </ul>
+        <div class="hamburger">
+            <div class="bar1"></div>
+            <div class="bar2"></div>
+            <div class="bar3"></div>
+        </div>
+    </nav>
+
+    <!-- PAGE HEADER -->
+    <section class="page-header section">
+        <h1 class="section-title">Form Pendaftaran Panti Jompo</h1>
+    </section>
+
+    <!-- DONATION FORM -->
+    <section class="section">
+        <div class="form-container">
+            <h1>
+                Kunjungi Panti Jompo
+                <span style="font-size: 0.7em; font-weight: 400; white-space: nowrap;">karena perhatianmu sangat berarti</span>
+            </h1>
+            <form id="pantiJompoVisitForm">
+                <div class="form-group">
+                    <label for="volunteerName">Nama Relawan:</label>
+                    <input type="text" id="volunteerName" name="volunteerName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="volunteerAge">Usia Relawan:</label>
+                    <input type="number" id="volunteerAge" name="volunteerAge" min="17" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="contact">No. HP / Email:</label>
+                    <input type="text" id="contact" name="contact" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="visitDate">Pilih Jadwal:</label>
+                    <input type="date" id="visitDate" name="visitDate" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="activity">Pilih Aktivitas:</label>
+                    <select id="activity" name="activity" required>
+                        <option value="">Pilih Aktivitas</option>
+                        <option value="bermain_permainan">Bermain Permainan</option>
+                        <option value="temani_ngobrol">Temani ngobrol</option>
+                        <option value="senam_ringan">Senam ringan</option>
+                        <option value="hiburan_musik">Hiburan musik</option>
+                        <option value="lainnya">Lainnya</option>
+                    </select>
+                </div>
+
+                <div class="form-group" id="otherActivityGroup" style="display: none;">
+                    <label for="otherActivity">Aktivitas Lainnya:</label>
+                    <input type="text" id="otherActivity" name="otherActivity" placeholder="Contoh: Perayaan Ulang Tahun, Membaca & Dongeng">
+                </div>
+
+                <div class="form-group">
+                    <input type="checkbox" id="agreeRules" name="agreeRules" required>
+                    <label for="agreeRules" style="display: inline; margin-left: 10px;">Saya siap menaati aturan jompo</label>
+                </div>
+                
+                <button type="submit" class="btn-primary">Daftar & Tebar Kebaikan</button>
+            </form>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const activitySelect = document.getElementById('activity');
+                    const otherActivityGroup = document.getElementById('otherActivityGroup');
+                    const otherActivityInput = document.getElementById('otherActivity');
+
+                    function toggleOtherActivityField() {
+                        if (activitySelect.value === 'lainnya') {
+                            otherActivityGroup.style.display = 'block';
+                            otherActivityInput.setAttribute('required', 'required');
+                        } else {
+                            otherActivityGroup.style.display = 'none';
+                            otherActivityInput.removeAttribute('required');
+                            otherActivityInput.value = ''; // Clear the input when hidden
+                        }
+                    }
+
+                    activitySelect.addEventListener('change', toggleOtherActivityField);
+
+                    // Initial call to set correct visibility based on default selected value
+                    toggleOtherActivityField();
+
+                    // Handle form submission
+                    const pantiJompoVisitForm = document.getElementById('pantiJompoVisitForm');
+                    pantiJompoVisitForm.addEventListener('submit', function(event) {
+                        event.preventDefault(); // Prevent default form submission
+                        
+                        document.body.classList.add('fade-out'); // Add fade-out class
+
+                        // Wait for the transition to complete, then redirect
+                        setTimeout(function() {
+                            window.location.href = 'sosial-kemanusiaan.html';
+                        }, 500); // Match this duration to the CSS transition duration
+                    });
+                });
+            </script>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>&copy; 2026 Relawan Nusantara. Semua Hak Dilindungi.</p>
+    </footer>
+
+
+
+</body>
+</html>

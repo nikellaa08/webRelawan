@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Donasi Buku - Relawan Nusantara</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .form-container {
+            max-width: 500px;
+            margin: 40px auto;
+            padding: 40px;
+            background: var(--color-white);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .form-container h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--color-blue);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--color-dark);
+        }
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="tel"],
+        .form-group input[type="number"],
+        .form-group select,
+        .form-group textarea,
+        .form-group input[type="file"] {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-family: var(--font-family);
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+        .form-group input[type="file"] {
+            padding-top: 8px;
+        }
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        .form-group .radio-group {
+            display: flex;
+            flex-direction: row; /* Changed to row */
+            gap: 15px; /* Adjusted gap for horizontal layout */
+            margin-top: 10px;
+        }
+        .form-group .radio-group label {
+            display: flex;
+            align-items: center;
+            font-weight: 400;
+            margin-bottom: 0;
+        }
+        .form-group .radio-group input[type="radio"] {
+            width: auto;
+            margin-right: 8px;
+        }
+        .form-container .btn-primary {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--color-blue);
+            color: var(--color-white);
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .form-container .btn-primary:hover {
+            background-color: var(--color-dark-blue);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <a href="index.html" class="nav-logo">Relawan Nusantara</a>
+        <ul class="nav-menu">
+            <li class="nav-item"><a href="pendidikan.html">Pendidikan</a></li>
+            <li class="nav-item"><a href="lingkungan.html">Lingkungan</a></li>
+            <li class="nav-item"><a href="kesehatan.html">Kesehatan</a></li>
+            <li class="nav-item"><a href="sosial-kemanusiaan.html">Sosial & Kemanusiaan</a></li>
+            <li class="nav-item"><a href="login.html">Login</a></li>
+        </ul>
+        <div class="hamburger">
+            <div class="bar1"></div>
+            <div class="bar2"></div>
+            <div class="bar3"></div>
+        </div>
+    </nav>
+
+    <!-- PAGE HEADER -->
+    <section class="page-header section">
+        <h1 class="section-title">Form Donasi Buku</h1>
+    </section>
+
+    <!-- DONATION FORM -->
+    <section class="section">
+        <div class="form-container">
+            <h1>
+                Donasi Buku
+                <span style="display: block; font-size: 0.8em; font-weight: 400;">untuk Masa Depan</span>
+            </h1>
+            <form id="bookDonationForm">
+                <div class="form-group">
+                    <label for="donatorName">Nama Donatur:</label>
+                    <input type="text" id="donatorName" name="donatorName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="contact">No. HP / Email:</label>
+                    <input type="text" id="contact" name="contact" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="bookCategory">Jenis Buku:</label>
+                    <select id="bookCategory" name="bookCategory" required>
+                        <option value="">Pilih Jenis Buku</option>
+                        <option value="fiksi">Fiksi</option>
+                        <option value="nonfiksi">NonFiksi</option>
+                        <option value="pilih_sendiri">Custom / Pilih Sendiri</option>
+                    </select>
+                </div>
+
+                <div class="form-group" id="otherCategoryGroup" style="display: none;">
+                    <label for="otherCategory">Jenis Lainnya:</label>
+                    <input type="text" id="otherCategory" name="otherCategory" placeholder="Masukkan jenis buku lainnya">
+                </div>
+
+                <div class="form-group">
+                    <label for="numberOfBooks">Jumlah Buku:</label>
+                    <input type="number" id="numberOfBooks" name="numberOfBooks" min="1" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="bookCondition">Kondisi Buku:</label>
+                    <select id="bookCondition" name="bookCondition" required>
+                        <option value="">Pilih Kondisi</option>
+                        <option value="sangat_baik">Sangat Baik</option>
+                        <option value="baik">Baik</option>
+                        <option value="cukup">Cukup</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="bookPhoto">Foto Buku (Upload):</label>
+                    <input type="file" id="bookPhoto" name="bookPhoto" accept="image/*">
+                </div>
+
+                <div class="form-group">
+                    <label>Metode Pengiriman:</label>
+                    <div class="radio-group">
+                        <label for="jemputRelawan">
+                            <input type="radio" id="jemputRelawan" name="deliveryMethod" value="dijemput_relawan" required>
+                            Dijemput Relawan
+                        </label>
+                        <label for="antarDropPoint">
+                            <input type="radio" id="antarDropPoint" name="deliveryMethod" value="antar_drop_point">
+                            Antar ke Drop Point
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group" id="pickupAddressGroup">
+                    <label for="pickupAddress">Alamat Penjemputan:</label>
+                    <textarea id="pickupAddress" name="pickupAddress" rows="4" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="messageToRecipient">Catatan Tambahan:</label>
+                    <textarea id="messageToRecipient" name="messageToRecipient" rows="3"></textarea>
+                </div>
+                
+                <button type="submit" class="btn-primary">Donasikan Sekarang</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>&copy; 2026 Relawan Nusantara. Semua Hak Dilindungi.</p>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Logic for "Metode Pengiriman"
+            const deliveryMethodRadios = document.querySelectorAll('input[name="deliveryMethod"]');
+            const pickupAddressGroup = document.getElementById('pickupAddressGroup');
+            const pickupAddressTextarea = document.getElementById('pickupAddress');
+
+            function togglePickupAddress() {
+                const selectedMethod = document.querySelector('input[name="deliveryMethod"]:checked');
+                if (selectedMethod && selectedMethod.value === 'dijemput_relawan') {
+                    pickupAddressGroup.style.display = 'block';
+                    pickupAddressTextarea.setAttribute('required', 'required');
+                } else {
+                    pickupAddressGroup.style.display = 'none';
+                    pickupAddressTextarea.removeAttribute('required');
+                }
+            }
+
+            deliveryMethodRadios.forEach(radio => {
+                radio.addEventListener('change', togglePickupAddress);
+            });
+            
+            togglePickupAddress(); // Set initial state
+
+            // Logic for "Kategori Buku" and "Kategori Lainnya"
+            const bookCategorySelect = document.getElementById('bookCategory');
+            const otherCategoryGroup = document.getElementById('otherCategoryGroup');
+            const otherCategoryInput = document.getElementById('otherCategory');
+
+            function toggleOtherCategoryField() {
+                if (bookCategorySelect.value === 'pilih_sendiri') {
+                    otherCategoryGroup.style.display = 'block';
+                    otherCategoryInput.setAttribute('required', 'required');
+                } else {
+                    otherCategoryGroup.style.display = 'none';
+                    otherCategoryInput.removeAttribute('required');
+                    otherCategoryInput.value = ''; // Clear the input when hidden
+                }
+            }
+
+            bookCategorySelect.addEventListener('change', toggleOtherCategoryField);
+            toggleOtherCategoryField(); // Set initial state
+
+            // Handle form submission
+            const bookDonationForm = document.getElementById('bookDonationForm');
+            bookDonationForm.addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevent default form submission
+                
+                document.body.classList.add('fade-out'); // Add fade-out class
+
+                // Wait for the transition to complete, then redirect
+                setTimeout(function() {
+                    window.location.href = 'sosial-kemanusiaan.html';
+                }, 500); // Match this duration to the CSS transition duration
+            });
+        });
+    </script>
+
+</body>
+</html>
