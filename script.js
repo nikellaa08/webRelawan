@@ -1,4 +1,39 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // --- Theme Switcher (Refactored & Fixed) ---
+    const themeToggleBtn = document.querySelector('.theme-switcher');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+
+    // Function to apply the theme
+    const applyTheme = (isDark) => {
+        if (isDark) {
+            document.documentElement.classList.add('dark-mode');
+            themeToggleLightIcon.classList.remove('hidden');
+            themeToggleDarkIcon.classList.add('hidden');
+            localStorage.setItem('color-theme', 'dark');
+        } else {
+            document.documentElement.classList.remove('dark-mode');
+            themeToggleDarkIcon.classList.remove('hidden');
+            themeToggleLightIcon.classList.add('hidden');
+            localStorage.setItem('color-theme', 'light');
+        }
+    };
+
+    // Determine and apply initial theme on page load
+    const savedTheme = localStorage.getItem('color-theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const isInitialDark = savedTheme === 'dark' || (savedTheme === null && prefersDark);
+    applyTheme(isInitialDark);
+
+    // Add click event listener
+    if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', () => {
+            // Toggle theme based on the current state
+            const isCurrentlyDark = document.documentElement.classList.contains('dark-mode');
+            applyTheme(!isCurrentlyDark);
+        });
+    }
+
     // --- Hamburger Menu ---
     const hamburger = document.querySelector('.hamburger');
     const navMenu = document.querySelector('.nav-menu');
@@ -116,4 +151,62 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
+    // --- Stat Counter Animation ---
+    const statNumbers = document.querySelectorAll('.stat-number');
+
+    const animateValue = (obj, start, end, duration, prefix = '', suffix = '') => {
+        let startTimestamp = null;
+        const step = (timestamp) => {
+            if (!startTimestamp) startTimestamp = timestamp;
+            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+            const current = Math.floor(progress * (end - start) + start);
+            
+            // Format number with Indonesian locale for thousand separators
+            const formattedNumber = current.toLocaleString('id-ID');
+            
+            obj.innerHTML = `${prefix}${formattedNumber}${suffix}`;
+            
+            if (progress < 1) {
+                window.requestAnimationFrame(step);
+            } else {
+                // Ensure the final number is exactly the target and formatted.
+                obj.innerHTML = `${prefix}${end.toLocaleString('id-ID')}${suffix}`;
+            }
+        };
+        window.requestAnimationFrame(step);
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const el = entry.target;
+                const text = el.textContent.trim();
+                
+                // Regex to find number parts and any surrounding text
+                const match = text.match(/^(\D*\s*)?([\d,.]+)(\s*\D*)?$/);
+
+                if (match) {
+                    const prefix = match[1] || '';
+                    const numberString = match[2];
+                    const suffix = match[3] || '';
+                    
+                    // Remove dots/commas for parsing
+                    const targetValue = parseInt(numberString.replace(/[,.]/g, ''));
+                    
+                    // Animate from 0 to the target value
+                    animateValue(el, 0, targetValue, 2000, prefix, suffix);
+                    
+                    // Stop observing the element once the animation has started
+                    observer.unobserve(el);
+                }
+            }
+        });
+    }, {
+        threshold: 0.5 // Trigger when 50% of the element is visible
+    });
+
+    statNumbers.forEach(number => {
+        observer.observe(number);
+    });
 });

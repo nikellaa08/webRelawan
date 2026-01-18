@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -19,6 +19,10 @@
             <li class="nav-item"><a href="lingkungan.html">Lingkungan</a></li>
             <li class="nav-item"><a href="kesehatan.html">Kesehatan</a></li>
             <li class="nav-item"><a href="sosial-kemanusiaan.html">Sosial & Kemanusiaan</a></li>
+            <li class="theme-switcher">
+                <svg id="theme-toggle-dark-icon" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                <svg id="theme-toggle-light-icon" class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.121-3.536a1 1 0 010 1.414l-.707.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM10 18a1 1 0 01-1-1v-1a1 1 0 112 0v1a1 1 0 01-1 1zM4.95 15.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707a1 1 0 001.414-1.414zM1.88 10.536a1 1 0 010-1.414l.707-.707a1 1 0 111.414 1.414l-.707.707a1 1 0 01-1.414 0zM10 20a1 1 0 01-1-1v-1a1 1 0 112 0v1a1 1 0 01-1 1zM4.95 4.95a1 1 0 010-1.414l.707-.707a1 1 0 111.414 1.414l-.707.707a1 1 0 01-1.414 0zM15.05 4.95a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707z"></path></svg>
+            </li>
             <li class="nav-item"><a href="login.html">Login</a></li>
         </ul>
         <div class="hamburger">
@@ -36,7 +40,7 @@
             <h1>Bergabung, Beraksi, Berdampak</h1>
             <p class="subtitle" id="typing-subtitle"></p>
             <div class="cta-buttons">
-                <a href="#" class="btn btn-primary">Gabung Jadi Relawan</a>
+                <a href="registration-form.html" class="btn btn-primary">Gabung Jadi Relawan</a>
                 <a href="#pelajari-selengkapnya" id="learn-more-btn" class="btn btn-secondary" style="color: var(--color-white); border-color: var(--color-white);">Pelajari Selengkapnya</a>
             </div>
         </div>
@@ -48,22 +52,22 @@
         <div class="grid">
             <div class="stat-card">
                 <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-                <h3>1,250+</h3>
+                <h3 class="stat-number">1,250+</h3>
                 <p>Total Relawan</p>
             </div>
             <div class="stat-card">
                  <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg>
-                <h3>42</h3>
+                <h3 class="stat-number">42</h3>
                 <p>Event Aktif</p>
             </div>
             <div class="stat-card">
                  <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-2-9h4v-2h-4v2zm0 4h4v-2h-4v2z"/></svg>
-                <h3>Rp 250 Jt+</h3>
+                <h3 class="stat-number">Rp 250 Jt+</h3>
                 <p>Donasi Terkumpul</p>
             </div>
             <div class="stat-card">
                  <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg>
-                <h3>50,000+</h3>
+                <h3 class="stat-number">50,000+</h3>
                 <p>Koin Diberikan</p>
             </div>
         </div>
@@ -125,7 +129,7 @@
                 </div>
             </div>
             <div class="event-card" data-href="pendidikan-detail.html">
-                <img src="https://images.unsplash.com/photo-1518152006812-edb29b0a2ac0?q=80&w=2070&auto=format&fit=crop" alt="Event Kesehatan">
+                <img src="poster-donor-darah.jfif" alt="Event Kesehatan">
                 <h3>Donor Darah & Cek Kesehatan Gratis</h3>
                  <div class="info">
                     <span><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg> 10 Feb 2026</span>
