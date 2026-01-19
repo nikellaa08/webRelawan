@@ -907,7 +907,7 @@ body.fade-out {
 }
 
 .form-container {
-    max-width: 700px;
+    max-width: 500px;
     margin: 40px auto;
     padding: 40px;
     background: var(--background-primary);
