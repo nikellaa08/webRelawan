@@ -209,4 +209,41 @@ document.addEventListener('DOMContentLoaded', function() {
     statNumbers.forEach(number => {
         observer.observe(number);
     });
+
+    // --- Lingkungan Page Registration Form Logic ---
+    const locationPointSelect = document.getElementById('locationPoint');
+    const otherLocationPointInput = document.getElementById('otherLocationPoint');
+
+    if (locationPointSelect && otherLocationPointInput) {
+        function toggleOtherLocationPointField() {
+            if (locationPointSelect.value === 'lainnya') {
+                otherLocationPointInput.style.display = 'block';
+                otherLocationPointInput.setAttribute('required', 'required');
+            } else {
+                otherLocationPointInput.style.display = 'none';
+                otherLocationPointInput.removeAttribute('required');
+                otherLocationPointInput.value = ''; // Clear the input when hidden
+            }
+        }
+
+        locationPointSelect.addEventListener('change', toggleOtherLocationPointField);
+        // Initial call to set correct visibility based on default selected value
+        toggleOtherLocationPointField();
+    }
+
+    // Handle form submission for 'cleanUpRegistrationForm'
+    const cleanUpRegistrationForm = document.getElementById('cleanUpRegistrationForm');
+    if (cleanUpRegistrationForm) {
+        cleanUpRegistrationForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+            
+            // Here you would typically send the form data to a server
+            console.log('Form Submitted!', new FormData(cleanUpRegistrationForm));
+            alert('Terima kasih! Pendaftaran Anda untuk Aksi Bersih Lingkungan telah kami terima.');
+            cleanUpRegistrationForm.reset(); // Reset the form after submission
+            
+            // Optionally, redirect or show a success message
+            // window.location.href = 'thank-you-page.html'; 
+        });
+    }
 });
