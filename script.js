@@ -240,10 +240,11 @@ document.addEventListener('DOMContentLoaded', function() {
             // Here you would typically send the form data to a server
             console.log('Form Submitted!', new FormData(cleanUpRegistrationForm));
             alert('Terima kasih! Pendaftaran Anda untuk Aksi Bersih Lingkungan telah kami terima.');
-            cleanUpRegistrationForm.reset(); // Reset the form after submission
             
-            // Optionally, redirect or show a success message
-            // window.location.href = 'thank-you-page.html'; 
+            // Navigate back to the previous page
+            setTimeout(function() {
+                window.history.back();
+            }, 500); // Small delay to allow user to see the alert
         });
     }
 });
