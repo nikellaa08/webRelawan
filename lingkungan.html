@@ -64,14 +64,7 @@
                     <!-- Card 2: Clean-Up Day -->
                     <div class="event-card">
                         <div class="card-body">
-                            <h3 class="card-title">🌊 Clean-Up Day (Bersih Pantai/Sungai)</h3>
-                            <p class="call-to-action">“Jangan biarkan sampah merusak keindahan alam kita. Pungut satu sampah, selamatkan ribuan biota laut.”</p>
-                            <p><strong>📅 Jadwal Kegiatan</strong></p>
-                            <p><strong>📍 Lokasi:</strong> Pantai atau Tepi Sungai (ditentukan)</p>
-                            <p><strong>👥 Kuota Relawan:</strong> Terbuka</p>
-                            <p><strong>❤️ Aktivitas:</strong> Memungut dan memilah sampah anorganik.</p>
-                            <p><strong>🏅 Reward:</strong> Koin + Lencana Kebersihan</p>
-                            <a href="#" class="btn btn-primary btn-follow" style="margin-top: 1rem;">Daftar Sekarang</a>
+                            <a href="clean-up-form.html" class="btn btn-primary btn-follow" style="margin-top: 1rem;">Daftar Sekarang</a>
                         </div>
                     </div>
 
@@ -104,127 +97,6 @@
 
                 </div>
 
-            </div>
-        </section>
-
-        <section class="section registration-form-section">
-            <div class="form-container">
-                <h2 class="section-title">Form Pendaftaran Aksi Bersih Lingkungan</h2>
-                <form id="cleanUpRegistrationForm">
-                    <!-- 1. Data Diri Relawan -->
-                    <h3>Data Diri Relawan</h3>
-                    <div class="form-group">
-                        <label for="fullName">Nama Lengkap</label>
-                        <input type="text" id="fullName" name="fullName" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="whatsapp">No. WhatsApp</label>
-                        <input type="tel" id="whatsapp" name="whatsapp" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="age">Umur</label>
-                        <input type="number" id="age" name="age" min="17" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Jenis Kelamin</label>
-                        <div class="radio-group">
-                            <label><input type="radio" name="gender" value="pria" required> Pria</label>
-                            <label><input type="radio" name="gender" value="wanita"> Wanita</label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="community">Asal Sekolah / Kampus / Komunitas</label>
-                        <input type="text" id="community" name="community">
-                    </div>
-
-                    <!-- 2. Pilihan Kegiatan -->
-                    <h3>Pilihan Kegiatan</h3>
-                    <div class="form-group">
-                        <label>Pilih Lokasi:</label>
-                        <div class="checkbox-group">
-                            <label><input type="checkbox" name="location" value="pantai"> Pantai</label>
-                            <label><input type="checkbox" name="location" value="sungai"> Sungai</label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="locationPoint">Pilih Titik Lokasi</label>
-                        <select id="locationPoint" name="locationPoint" required>
-                            <option value="">-- Pilih Titik Lokasi --</option>
-                            <option value="pantai_indah">Pantai Indah</option>
-                            <option value="sungai_bersih">Sungai Bersih</option>
-                            <option value="lainnya">Lainnya (Sebutkan)</option>
-                        </select>
-                        <input type="text" id="otherLocationPoint" name="otherLocationPoint" placeholder="Sebutkan titik lokasi lainnya" style="display: none; margin-top: 10px;">
-                    </div>
-                    <div class="form-group">
-                        <label for="activityDate">Tanggal Kegiatan</label>
-                        <input type="date" id="activityDate" name="activityDate" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Sesi Waktu:</label>
-                        <div class="radio-group">
-                            <label><input type="radio" name="timeSession" value="pagi" required> Pagi</label>
-                            <label><input type="radio" name="timeSession" value="siang"> Siang</label>
-                        </div>
-                    </div>
-
-                    <!-- 3. Perlengkapan -->
-                    <h3>Perlengkapan</h3>
-                    <div class="form-group">
-                        <label>Apakah membawa perlengkapan sendiri?</label>
-                        <div class="checkbox-group">
-                            <label><input type="checkbox" name="ownEquipment" value="sarung_tangan"> Sarung tangan</label>
-                            <label><input type="checkbox" name="ownEquipment" value="kantong_sampah"> Kantong sampah</label>
-                            <label><input type="checkbox" name="ownEquipment" value="sepatu_boots"> Sepatu boots</label>
-                            <label><input type="checkbox" name="ownEquipment" value="topi"> Topi</label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Perlu dipinjamkan alat dari panitia?</label>
-                        <div class="radio-group">
-                            <label><input type="radio" name="borrowEquipment" value="ya" required> Ya</label>
-                            <label><input type="radio" name="borrowEquipment" value="tidak"> Tidak</label>
-                        </div>
-                    </div>
-
-                    <!-- 4. Kondisi Kesehatan -->
-                    <h3>Kondisi Kesehatan</h3>
-                    <div class="form-group">
-                        <label for="allergies">Riwayat alergi (jika ada)</label>
-                        <textarea id="allergies" name="allergies" rows="3"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="specialCondition">Kondisi khusus (asma, dll)</label>
-                        <textarea id="specialCondition" name="specialCondition" rows="3"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="emergencyContact">Kontak darurat</label>
-                        <input type="tel" id="emergencyContact" name="emergencyContact" required>
-                    </div>
-
-                    <!-- 5. Motivasi -->
-                    <h3>Motivasi</h3>
-                    <div class="form-group">
-                        <label for="motivation">Alasan ikut kegiatan bersih pantai/sungai</label>
-                        <textarea id="motivation" name="motivation" rows="5" required></textarea>
-                    </div>
-
-                    <!-- 6. Komitmen -->
-                    <h3>Komitmen</h3>
-                    <div class="form-group">
-                        <div class="checkbox-group">
-                            <label><input type="checkbox" name="commitment" value="selesai" required> Saya bersedia mengikuti kegiatan sampai selesai</label>
-                            <label><input type="checkbox" name="commitment" value="keselamatan" required> Saya siap menjaga keselamatan dan kebersihan lingkungan</label>
-                        </div>
-                    </div>
-
-                    <!-- 7. Tombol -->
-                    <button type="submit" class="btn btn-primary">Daftar Aksi Bersih Lingkungan 🌊♻️</button>
-                </form>
             </div>
         </section>
 
