@@ -136,6 +136,18 @@ body.fade-out {
 
 .hamburger { display: none; }
 
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.nav-login-btn {
+    padding: 8px 20px;
+    font-size: 0.9rem;
+}
+
+
 /* === JUMBOTRON === */
 .jumbotron {
     height: 100vh;
