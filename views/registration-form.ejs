@@ -1,21 +1,10 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pendaftaran Relawan - Relawan Nusantara</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+<%- include('partials/form-header') %>
 
     <main class="registration-container">
         <!-- Kolom Kiri: Form Pendaftaran -->
         <div class="form-wrapper">
             <header class="form-header">
-                <a href="index.html" class="back-button" style="margin-bottom: 20px; display: inline-flex;">
+                <a href="/" class="back-button" style="margin-bottom: 20px; display: inline-flex;">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z" fill="currentColor"></path></svg>
                     Kembali ke Beranda
                 </a>
@@ -23,7 +12,7 @@
                 <p>Isi data di bawah ini untuk menjadi bagian dari perubahan.</p>
             </header>
             
-            <form action="#" method="POST" class="registration-form">
+            <form action="/register" method="POST" class="registration-form">
                 <div class="input-group">
                     <label for="fullname">Nama Lengkap</label>
                     <input type="text" id="fullname" name="fullname" placeholder="Masukkan nama lengkap Anda" required>
@@ -82,5 +71,4 @@
             </div>
         </aside>    </main>
 
-</body>
-</html>
+<%- include('partials/footer') %>

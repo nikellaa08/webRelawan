@@ -1,4 +1,6 @@
 git add .
 git commit -m "pesan"
 git push -u origin master
-git pull origin main // ini ga usah di jalanin kalo emng yang ngepush itu kalian sendiri ini cuma di jalanin pas kalian mau ambil kode dari temen klen
+git pull origin master // ini ga usah di jalanin kalo emng yang ngepush itu kalian sendiri ini cuma di jalanin pas kalian mau ambil kode dari temen klen
+
+1
