@@ -78,10 +78,10 @@ app.get('/jadwal', (req, res) => {
     res.render('jadwal', { user: session.user, message: null });
 });
 
-app.post('/register', (req, res) => {
+app.post('/daftar', (req, res) => {
     const { fullname } = req.body;
     session.user = { name: fullname };
-    session.message = `Selamat ${fullname}! Pendaftaran Anda telah berhasil kami terima.`;
+    session.message = `Selamat Datang ${fullname}!`;
     res.redirect('/');
 });
 
