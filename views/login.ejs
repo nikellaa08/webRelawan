@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relawan Nusantara - Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .login-container {
+            max-width: 400px;
+            margin: 40px auto;
+            padding: 40px;
+            background: var(--color-white);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .login-container h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .login-container input {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            font-family: var(--font-family);
+        }
+        .login-container .btn {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="navbar-left">
+            <a href="index.html" class="back-button" style="display: inline-flex;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z" fill="currentColor"></path></svg>
+                Kembali ke Beranda
+            </a>
+            <a href="index.html" class="nav-logo">Relawan Nusantara</a>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item"><a href="pendidikan.html">Pendidikan</a></li>
+            <li class="nav-item"><a href="lingkungan.html">Lingkungan</a></li>
+            <li class="nav-item"><a href="kesehatan.html">Kesehatan</a></li>
+            <li class="nav-item"><a href="sosial-kemanusiaan.html">Sosial & Kemanusiaan</a></li>
+        </ul>
+        <div class="nav-right">
+            <a href="login.html" class="btn btn-secondary nav-login-btn">Login</a>
+        </div>
+        <div class="hamburger">
+            <div class="bar1"></div>
+            <div class="bar2"></div>
+            <div class="bar3"></div>
+        </div>
+    </nav>
+
+    <!-- PAGE HEADER -->
+    <section class="page-header section">
+        <h1 class="section-title">Login Relawan</h1>
+    </section>
+
+    <!-- LOGIN FORM -->
+    <section class="section">
+        <div class="login-container">
+            <form>
+                <input type="email" placeholder="Email" required>
+                <input type="password" placeholder="Password" required>
+                <button type="submit" class="btn btn-primary">Login</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>&copy; 2026 Relawan Nusantara. Semua Hak Dilindungi.</p>
+    </footer>
+
+    <script src="script.js"></script>
+
+</body>
+</html>

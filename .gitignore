@@ -1,0 +1,19 @@
+# Abaikan folder library (ukurannya gede banget)
+node_modules/
+
+# Abaikan file konfigurasi rahasia
+.env
+
+# Abaikan file log
+*.log
+
+# Abaikan folder build/dist
+dist/
+build/
+
+node_modules/
+.DS_Store
+Thumbs.db
+*.jpg
+*.jpeg
+*.png

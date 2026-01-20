@@ -1,0 +1,74 @@
+<%- include('partials/form-header') %>
+
+    <main class="registration-container">
+        <!-- Kolom Kiri: Form Pendaftaran -->
+        <div class="form-wrapper">
+            <header class="form-header">
+                <a href="/" class="back-button" style="margin-bottom: 20px; display: inline-flex;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z" fill="currentColor"></path></svg>
+                    Kembali ke Beranda
+                </a>
+                <h1>Registrasi Program Relawan</h1>
+                <p>Isi data di bawah ini untuk menjadi bagian dari perubahan.</p>
+            </header>
+            
+            <form action="/daftar" method="POST" class="registration-form">
+                <div class="input-group">
+                    <label for="fullname">Nama Lengkap</label>
+                    <input type="text" id="fullname" name="fullname" placeholder="Masukkan nama lengkap Anda" required>
+                </div>
+                <div class="input-group">
+                    <label for="whatsapp">No. WhatsApp</label>
+                    <input type="tel" id="whatsapp" name="whatsapp" placeholder="Contoh: 081234567890" required>
+                </div>
+                <div class="input-group">
+                    <label for="email">Alamat Email</label>
+                    <input type="email" id="email" name="email" placeholder="Contoh: email@anda.com" required>
+                </div>
+                <div class="input-group">
+                    <label for="experience">Pengalaman Organisasi</label>
+                    <textarea id="experience" name="experience" rows="4" placeholder="Ceritakan pengalaman organisasi Anda (jika ada)" required></textarea>
+                </div>
+                <div class="input-group">
+                    <label for="skills">Keahlian Khusus</label>
+                    <input type="text" id="skills" name="skills" placeholder="Contoh: Desain grafis, public speaking, dll." required>
+                </div>
+                <div class="input-group">
+                    <label for="motivation">Kenapa tertarik bergabung?</label>
+                    <textarea id="motivation" name="motivation" rows="4" placeholder="Jelaskan alasan dan motivasi Anda" required></textarea>
+                </div>
+                
+                <div class="input-group checkbox-group">
+                    <input type="checkbox" id="commitment" name="commitment" required>
+                    <label for="commitment">Saya bersedia mengikuti seluruh rangkaian kegiatan hingga selesai.</label>
+                </div>
+
+                <button type="submit" class="submit-btn">Kirim Pendaftaran</button>
+            </form>
+        </div>
+
+        <!-- Kolom Kanan: Ringkasan Aktivitas -->
+        <aside class="summary-card">
+            <h3>Ringkasan Aktivitas</h3>
+            <h4>Mengajar di Desa Terpencil</h4>
+            
+            <div class="summary-details">
+                <p class="detail-item">
+                    <span class="icon icon-calendar">📅</span>
+                    <strong>Jadwal:</strong> 25 Jan - 28 Feb 2026
+                </p>
+                <p class="detail-item">
+                    <span class="icon icon-location">📍</span>
+                    <strong>Lokasi:</strong> Desa Ciptagelar, Sukabumi
+                </p>
+                <p class="detail-item">
+                    <span class="icon icon-target">🎯</span>
+                    <strong>Fokus Program:</strong> Peningkatan literasi & numerasi anak-anak usia sekolah dasar.
+                </p>
+            </div>
+            <div class="card-footer">
+                <p>Kami sangat antusias menyambut Anda untuk bergabung dalam aksi nyata ini!</p>
+            </div>
+        </aside>    </main>
+
+<%- include('partials/footer') %>
