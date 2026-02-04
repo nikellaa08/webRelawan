@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Donasi Buku - Relawan Nusantara</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .detail-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 40px;
+            background: var(--color-white);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .detail-container h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--color-blue);
+        }
+        .detail-item {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            color: var(--color-dark);
+        }
+        .detail-item strong {
+            display: inline-block;
+            min-width: 150px;
+            color: var(--color-blue);
+        }
+        .detail-item span {
+            font-weight: 400;
+        }
+        .btn-back {
+            display: block;
+            width: fit-content;
+            margin: 30px auto 0;
+            padding: 10px 20px;
+            background-color: var(--color-blue);
+            color: var(--color-white);
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+        .btn-back:hover {
+            background-color: var(--color-dark-blue);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="navbar-left">
+            <a href="sosial-kemanusiaan.html" class="back-button" style="display: inline-flex;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z" fill="currentColor"></path></svg>
+                Kembali
+            </a>
+            <a href="index.html" class="nav-logo">Relawan Nusantara</a>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item"><a href="pendidikan.html">Pendidikan</a></li>
+            <li class="nav-item"><a href="lingkungan.html">Lingkungan</a></li>
+            <li class="nav-item"><a href="kesehatan.html">Kesehatan</a></li>
+            <li class="nav-item"><a href="sosial-kemanusiaan.html">Sosial & Kemanusiaan</a></li>
+        </ul>
+        <div class="nav-right">
+            <a href="login.html" class="btn btn-secondary nav-login-btn">Login</a>
+        </div>
+        <div class="hamburger">
+            <div class="bar1"></div>
+            <div class="bar2"></div>
+            <div class="bar3"></div>
+        </div>
+    </nav>
+
+    <!-- PAGE HEADER -->
+    <section class="page-header section">
+        <h1 class="section-title">Detail Program Donasi Buku</h1>
+    </section>
+
+    <!-- DETAIL CONTENT -->
+    <section class="section">
+        <div class="detail-container">
+            <h1>Detail Buku</h1>
+            <div class="detail-item">
+                <strong>📍 Lokasi Penyaluran :</strong> <span>Panti Asuhan / Sekolah Terpencil / Taman Baca</span>
+            </div>
+            <div class="detail-item">
+                <strong>👥 Usia Pembaca :</strong> <span>Anak- Anak, Remaja</span>
+            </div>
+            <div class="detail-item">
+                <strong>📅 Batas Waktu Donasi / Batas Pengumpulan</strong> <span></span>
+            </div>
+            <div class="detail-item">
+                <strong>🏅 Reward:</strong> <span>Koin + Lencana Donatur</span>
+            </div>
+            </div>
+        </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>&copy; 2026 Relawan Nusantara. Semua Hak Dilindungi.</p>
+    </footer>
+
+    <script src="script.js"></script>
+
+</body>
+</html>

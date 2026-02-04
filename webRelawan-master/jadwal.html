@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jadwal Kegiatan - Relawan Nusantara</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .calendar-container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 30px;
+            background: var(--color-white);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .calendar-header h2 {
+            color: var(--color-blue);
+        }
+        .calendar {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .calendar th, .calendar td {
+            text-align: center;
+            padding: 15px;
+            border: 1px solid #eee;
+        }
+        .calendar th {
+            background: #f9f9f9;
+            font-weight: 600;
+        }
+        .calendar td {
+            height: 80px;
+            vertical-align: top;
+            font-weight: 600;
+        }
+        .calendar .day-number {
+            font-size: 0.9em;
+            color: #999;
+        }
+        .calendar .today {
+            background-color: #e7f3ff;
+        }
+        .calendar .event {
+            background-color: var(--color-green);
+            color: var(--color-white);
+            border-radius: 5px;
+            padding: 5px;
+            font-size: 0.8em;
+            margin-top: 5px;
+            cursor: pointer;
+        }
+        .calendar .other-month {
+            color: #ccc;
+        }
+        .event-list {
+            margin-top: 40px;
+        }
+        .event-list h3 {
+            color: var(--color-blue);
+            margin-bottom: 20px;
+        }
+        .event-item {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 5px solid var(--color-green);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="navbar-left">
+            <a href="index.html" class="back-button" style="display: inline-flex;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z" fill="currentColor"></path></svg>
+                Kembali ke Beranda
+            </a>
+            <a href="index.html" class="nav-logo">Relawan Nusantara</a>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item"><a href="pendidikan.html">Pendidikan</a></li>
+            <li class="nav-item"><a href="lingkungan.html">Lingkungan</a></li>
+            <li class="nav-item"><a href="kesehatan.html">Kesehatan</a></li>
+            <li class="nav-item"><a href="sosial-kemanusiaan.html">Sosial & Kemanusiaan</a></li>
+        </ul>
+        <div class="nav-right">
+            <a href="login.html" class="btn btn-secondary nav-login-btn">Login</a>
+        </div>
+        <div class="hamburger">
+            <div class="bar1"></div>
+            <div class="bar2"></div>
+            <div class="bar3"></div>
+        </div>
+    </nav>
+
+    <!-- PAGE HEADER -->
+    <section class="page-header section">
+        <h1 class="section-title">Jadwal Kegiatan & Donasi</h1>
+    </section>
+
+    <!-- CALENDAR SECTION -->
+    <section class="section">
+        <div class="calendar-container">
+            <div class="calendar-header">
+                <button class="btn btn-secondary">&lt; Prev</button>
+                <h2>Januari 2026</h2>
+                <button class="btn btn-secondary">Next &gt;</button>
+            </div>
+            <table class="calendar">
+                <thead>
+                    <tr><th>Min</th><th>Sen</th><th>Sel</th><th>Rab</th><th>Kam</th><th>Jum</th><th>Sab</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="other-month"><span class="day-number">28</span></td>
+                        <td class="other-month"><span class="day-number">29</span></td>
+                        <td class="other-month"><span class="day-number">30</span></td>
+                        <td class="other-month"><span class="day-number">31</span></td>
+                        <td><span class="day-number">1</span></td>
+                        <td><span class="day-number">2</span></td>
+                        <td><span class="day-number">3</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="day-number">4</span></td>
+                        <td><span class="day-number">5</span></td>
+                        <td><span class="day-number">6</span></td>
+                        <td><span class="day-number">7</span></td>
+                        <td><span class="day-number">8</span></td>
+                        <td><span class="day-number">9</span></td>
+                        <td><span class="day-number">10</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="day-number">11</span></td>
+                        <td><span class="day-number">12</span></td>
+                        <td><span class="day-number">13</span></td>
+                        <td><span class="day-number">14</span></td>
+                        <td class="today"><span class="day-number">15</span></td>
+                        <td>
+                            <span class="day-number">16</span>
+                            <div class="event">Donasi Sumatra</div>
+                        </td>
+                        <td><span class="day-number">17</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="day-number">18</span></td>
+                        <td><span class="day-number">19</span></td>
+                        <td><span class="day-number">20</span></td>
+                        <td><span class="day-number">21</span></td>
+                        <td><span class="day-number">22</span></td>
+                        <td><span class="day-number">23</span></td>
+                        <td><span class="day-number">24</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="day-number">25</span></td>
+                        <td><span class="day-number">26</span></td>
+                        <td><span class="day-number">27</span></td>
+                        <td><span class="day-number">28</span></td>
+                        <td><span class="day-number">29</span></td>
+                        <td><span class="day-number">30</span></td>
+                        <td><span class="day-number">31</span></td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="event-list">
+                <h3>Daftar Jadwal Penjemputan & Event Donasi</h3>
+                <div class="event-item">
+                    <strong>16 Januari 2026:</strong> Penjemputan donasi pakaian di wilayah Sumatra. Relawan akan menghubungi donatur H-1 untuk konfirmasi.
+                </div>
+                <div class="event-item" style="border-left-color: var(--color-orange);">
+                    <strong>25 Januari 2026:</strong> Kunjungan ke Panti Asuhan Kasih Bunda. Batas pendaftaran relawan hingga 20 Januari 2026.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>&copy; 2026 Relawan Nusantara. Semua Hak Dilindungi.</p>
+    </footer>
+
+    <script src="script.js"></script>
+
+</body>
+</html>

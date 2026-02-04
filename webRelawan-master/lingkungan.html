@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Donasi Pakaian - Relawan Nusantara</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Link CSS diasumsikan berada di direktori publik Anda -->
+    <link rel="stylesheet" href="style.css"> 
+</head>
+<body>
+
+    <!-- NAVBAR (Tetap sama seperti kode Anda sebelumnya) -->
+    <nav class="navbar">
+        <div class="navbar-left">
+            <a href="index.html" class="back-button">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z" fill="currentColor"></path></svg>
+                Kembali ke Beranda
+            </a>
+            <span class="nav-logo">Relawan Nusantara</span>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item"><a href="pendidikan.html">Pendidikan</a></li>
+            <li class="nav-item"><a href="lingkungan.html">Lingkungan</a></li>
+            <li class="nav-item"><a href="kesehatan.html">Kesehatan</a></li>
+            <li class="nav-item"><a href="sosial-kemanusiaan.html">Sosial & Kemanusiaan</a></li>
+        </ul>
+        <div class="nav-right">
+            <a href="login.html" class="btn btn-secondary nav-login-btn">Login</a>
+        </div>
+        <div class="hamburger">
+            <div class="bar1"></div>
+            <div class="bar2"></div>
+            <div class="bar3"></div>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT - FORM DONASI -->
+    <main class="form-page-main">
+        <div class="form-container">
+            <h1 class="form-title">Form Donasi Pakaian</h1>
+            <div class="card form-card">
+                <div class="card-body">
+                    <h2>Donasi Baju</h2>
+                    <p class="subtitle">untuk Memberi kehangatan.</p>
+                    <form action="/submit-donation" method="POST">
+                        
+                        <div class="form-group">
+                            <label for="name">Nama Lengkap</label>
+                            <input type="text" id="name" name="name" placeholder="Masukan Nama Lengkap">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">No HP / Telepon</label>
+                            <input type="tel" id="phone" name="phone" placeholder="Masukan No HP/ Telepon">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="gender">Jenis Kelamin</label>
+                            <select id="gender" name="gender">
+                                <option value="">Pilih Jenis Kelamin</option>
+                                <option value="Laki-laki">Laki-laki</option>
+                                <option value="Perempuan">Perempuan</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="size">Ukuran Pakaian</label>
+                            <select id="size" name="size">
+                                <option value="">Pilih Ukuran Pakaian</option>
+                                <option value="S">S</option>
+                                <option value="M">M</option>
+                                <option value="L">L</option>
+                                <option value="XL">XL</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="quantity">Jumlah Pakaian</label>
+                            <input type="number" id="quantity" name="quantity" min="1" placeholder="Jumlah Pakaian">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="condition">Kondisi</label>
+                            <select id="condition" name="condition">
+                                <option value="">Pilih Kondisi</option>
+                                <option value="Baru">Baru</option>
+                                <option value="Bekas Layak Pakai">Bekas Layak Pakai</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="pickup-date">Tanggal Pengambilan (Optional)</label>
+                            <input type="date" id="pickup-date" name="pickup-date">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="address">Pilih Lokasi</label>
+                            <select id="address" name="address">
+                                <option value="">- Pilih Alamat / Kantor Drop Titik -</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="notes">Catatan Tambahan</label>
+                            <textarea id="notes" name="notes" rows="3"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-submit">Donasikan Sekarang</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER (Tetap sama seperti kode Anda sebelumnya) -->
+    <footer class="footer">
+        <p>&copy; 2026 Relawan Nusantara. Semua Hak Dilindungi.</p>
+    </footer>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
