@@ -1,13 +1,25 @@
-const express = require('express');
-const path = require('path');
-const app = express();
-const port = 3000;
+import express from 'express';
+import path from 'path';
+// import dotenv from 'dotenv'; // Uncomment this if you use dotenv for environment variables
+// dotenv.config(); // Load environment variables from .env file
 
-// In-memory session simulation
+const app = express();
+const port = process.env.PORT || 3000; // Use port from environment variable or default to 3000
+
+// Import controllers (using ES Module syntax)
+import { login } from './controllers/authController.js'; // Import spesifik fungsi login
+import { getCategories } from './controllers/categoryController.js';
+import { getEvents } from './controllers/eventController.js';
+
+// In-memory session simulation (consider using proper session management or JWT for stateful apps)
 let session = {
     user: null,
     message: null
 };
+
+// __dirname is not available in ES Modules directly, so we derive it
+const __filename = new URL(import.meta.url).pathname;
+const __dirname = path.dirname(__filename);
 
 // View engine setup
 app.set('view engine', 'ejs');
@@ -16,6 +28,7 @@ app.set('views', path.join(__dirname, 'views'));
 // Middleware
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true })); // To parse form data
+app.use(express.json()); // To parse JSON request bodies
 
 // Routes
 app.get('/', (req, res) => {
@@ -30,6 +43,13 @@ app.get('/register', (req, res) => {
 app.get('/login', (req, res) => {
     res.render('login', { user: session.user, message: null });
 });
+
+// New API endpoint for login
+app.post('/api/login', login); // Menggunakan fungsi login yang diimpor langsung
+
+// New API endpoints for categories and events
+app.get('/api/categories', getCategories); // Menggunakan fungsi getCategories yang diimpor
+app.get('/api/events', getEvents);           // Menggunakan fungsi getEvents yang diimpor
 
 app.get('/pendidikan', (req, res) => {
     res.render('pendidikan', { user: session.user, message: null });
