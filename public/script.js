@@ -210,6 +210,7 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(number);
     });
 
+ HEAD
     // --- FITUR BARU: Handle Klik "Daftar Sekarang" ---
     const daftarSekarangBtns = document.querySelectorAll('.btn-follow');
     daftarSekarangBtns.forEach(btn => {
@@ -227,4 +228,42 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+    // --- Lingkungan Page Registration Form Logic ---
+    const locationPointSelect = document.getElementById('locationPoint');
+    const otherLocationPointInput = document.getElementById('otherLocationPoint');
+
+    if (locationPointSelect && otherLocationPointInput) {
+        function toggleOtherLocationPointField() {
+            if (locationPointSelect.value === 'lainnya') {
+                otherLocationPointInput.style.display = 'block';
+                otherLocationPointInput.setAttribute('required', 'required');
+            } else {
+                otherLocationPointInput.style.display = 'none';
+                otherLocationPointInput.removeAttribute('required');
+                otherLocationPointInput.value = ''; // Clear the input when hidden
+            }
+        }
+
+        locationPointSelect.addEventListener('change', toggleOtherLocationPointField);
+        // Initial call to set correct visibility based on default selected value
+        toggleOtherLocationPointField();
+    }
+
+    // Handle form submission for 'cleanUpRegistrationForm'
+    const cleanUpRegistrationForm = document.getElementById('cleanUpRegistrationForm');
+    if (cleanUpRegistrationForm) {
+        cleanUpRegistrationForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+            
+            // Here you would typically send the form data to a server
+            console.log('Form Submitted!', new FormData(cleanUpRegistrationForm));
+            alert('Terima kasih! Pendaftaran Anda untuk Aksi Bersih Lingkungan telah kami terima.');
+            
+            // Navigate back to the previous page
+            setTimeout(function() {
+                window.history.back();
+            }, 500); // Small delay to allow user to see the alert
+        });
+    }
+ d5b234de8bd880f5ea5b9a1dbba88a643eb0c03c
 });

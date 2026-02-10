@@ -901,4 +901,120 @@ body.fade-out {
 
         
 
-    
+    /* Registration Form Specific Styles */
+.registration-form-section {
+    padding-top: 40px; /* Add some padding to separate it from the previous section */
+}
+
+.form-container {
+    max-width: 500px;
+    margin: 40px auto;
+    padding: 40px;
+    background: var(--background-primary);
+    border-radius: 15px;
+    box-shadow: 0 5px 15px var(--shadow-color);
+}
+
+.form-container .section-title {
+    margin-bottom: 30px;
+    font-size: 2rem;
+    color: var(--color-blue);
+    text-align: center;
+}
+
+.form-container h3 {
+    font-size: 1.5rem;
+    color: var(--color-dark);
+    margin-top: 40px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--background-secondary);
+    padding-bottom: 10px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="tel"],
+.form-group input[type="number"],
+.form-group input[type="date"],
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-family: var(--font-family);
+    font-size: 1rem;
+    box-sizing: border-box; /* Ensures padding doesn't increase width */
+    background-color: var(--background-secondary);
+    color: var(--text-primary);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="email"]:focus,
+.form-group input[type="tel"]:focus,
+.form-group input[type="number"]:focus,
+.form-group input[type="date"]:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--color-blue);
+    box-shadow: 0 0 0 3px rgba(30, 136, 229, 0.3); /* Blue glowing effect */
+}
+
+.form-group textarea {
+    resize: vertical; /* Allow vertical resizing */
+}
+
+.radio-group, .checkbox-group {
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap */
+    gap: 20px; /* Space between radio/checkbox items */
+    margin-top: 10px;
+}
+
+.radio-group label, .checkbox-group label {
+    display: flex;
+    align-items: center;
+    font-weight: 400; /* Lighter font weight for options */
+    margin-bottom: 0; /* Remove bottom margin from individual labels */
+    cursor: pointer;
+}
+
+.radio-group input[type="radio"], .checkbox-group input[type="checkbox"] {
+    width: 1.2em;
+    height: 1.2em;
+    margin-right: 8px;
+    accent-color: var(--color-green); /* Green accent for checked state */
+}
+
+.form-container .btn-primary {
+    margin-top: 30px;
+    width: 100%;
+    padding: 15px;
+    font-size: 1.1rem;
+    background-color: var(--color-green); /* Use green for primary action */
+    color: var(--color-white);
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-container .btn-primary:hover {
+    background-color: #388e3c; /* Darker green on hover */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
