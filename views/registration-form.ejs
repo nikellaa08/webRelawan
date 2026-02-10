@@ -1,18 +1,19 @@
 <%- include('partials/form-header') %>
 
     <main class="registration-container">
-        <!-- Kolom Kiri: Form Pendaftaran -->
         <div class="form-wrapper">
             <header class="form-header">
                 <a href="/" class="back-button" style="margin-bottom: 20px; display: inline-flex;">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z" fill="currentColor"></path></svg>
                     Kembali ke Beranda
                 </a>
-                <h1>Registrasi Program Relawan</h1>
+                <h1 id="display-program-title">Registrasi Program Relawan</h1>
                 <p>Isi data di bawah ini untuk menjadi bagian dari perubahan.</p>
             </header>
             
             <form action="/daftar" method="POST" class="registration-form">
+                <input type="hidden" id="selected-program-input" name="program_name" value="">
+
                 <div class="input-group">
                     <label for="fullname">Nama Lengkap</label>
                     <input type="text" id="fullname" name="fullname" placeholder="Masukkan nama lengkap Anda" required>
@@ -47,28 +48,49 @@
             </form>
         </div>
 
-        <!-- Kolom Kanan: Ringkasan Aktivitas -->
         <aside class="summary-card">
             <h3>Ringkasan Aktivitas</h3>
-            <h4>Mengajar di Desa Terpencil</h4>
+            <h4 id="summary-program-name">Memuat nama program...</h4>
             
             <div class="summary-details">
                 <p class="detail-item">
                     <span class="icon icon-calendar">📅</span>
-                    <strong>Jadwal:</strong> 25 Jan - 28 Feb 2026
+                    <strong>Jadwal:</strong> <span id="summary-schedule">Sesuai ketentuan program</span>
                 </p>
                 <p class="detail-item">
                     <span class="icon icon-location">📍</span>
-                    <strong>Lokasi:</strong> Desa Ciptagelar, Sukabumi
+                    <strong>Lokasi:</strong> <span id="summary-location">Lokasi ditentukan admin</span>
                 </p>
                 <p class="detail-item">
                     <span class="icon icon-target">🎯</span>
-                    <strong>Fokus Program:</strong> Peningkatan literasi & numerasi anak-anak usia sekolah dasar.
+                    <strong>Fokus Program:</strong> Aksi nyata untuk masyarakat Nusantara.
                 </p>
             </div>
             <div class="card-footer">
                 <p>Kami sangat antusias menyambut Anda untuk bergabung dalam aksi nyata ini!</p>
             </div>
-        </aside>    </main>
+        </aside>    
+    </main>
 
 <%- include('partials/footer') %>
+
+<script>
+    // Logika penangkap data dari LocalStorage agar tidak error
+    document.addEventListener('DOMContentLoaded', function() {
+        const savedProgram = localStorage.getItem('selectedProgram');
+        
+        if (savedProgram) {
+            // 1. Ubah Judul di Header Form
+            const displayTitle = document.getElementById('display-program-title');
+            if (displayTitle) displayTitle.innerText = "Registrasi: " + savedProgram;
+
+            // 2. Ubah Nama Program di Kolom Ringkasan (Kanan)
+            const summaryTitle = document.getElementById('summary-program-name');
+            if (summaryTitle) summaryTitle.innerText = savedProgram;
+
+            // 3. Masukkan ke Input Hidden agar terkirim ke Backend saat Submit
+            const hiddenInput = document.getElementById('selected-program-input');
+            if (hiddenInput) hiddenInput.value = savedProgram;
+        }
+    });
+</script>

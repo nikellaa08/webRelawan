@@ -209,4 +209,22 @@ document.addEventListener('DOMContentLoaded', function() {
     statNumbers.forEach(number => {
         observer.observe(number);
     });
+
+    // --- FITUR BARU: Handle Klik "Daftar Sekarang" ---
+    const daftarSekarangBtns = document.querySelectorAll('.btn-follow');
+    daftarSekarangBtns.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            // Mengambil judul program dari elemen .card-title terdekat
+            const cardBody = this.closest('.card-body');
+            if (cardBody) {
+                const programTitle = cardBody.querySelector('.card-title').innerText;
+                
+                // Simpan judul ke localStorage agar bisa dibaca di halaman pendaftaran/donasi
+                localStorage.setItem('selectedProgram', programTitle);
+                
+                // Arahkan ke halaman form pendaftaran (sesuaikan nama filenya)
+                // window.location.href = 'registration-form.html'; 
+            }
+        });
+    });
 });

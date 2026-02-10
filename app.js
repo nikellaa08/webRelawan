@@ -23,9 +23,16 @@ app.get('/', (req, res) => {
     session.message = null; // Clear message after displaying it
 });
 
+// Route register yang sudah ada
 app.get('/register', (req, res) => {
     res.render('registration-form', { user: session.user, message: null });
 });
+
+// --- TAMBAHAN BARU ---
+app.get('/registration-form', (req, res) => {
+    res.render('registration-form', { user: session.user, message: null });
+});
+// --------------------
 
 app.get('/login', (req, res) => {
     res.render('login', { user: session.user, message: null });
