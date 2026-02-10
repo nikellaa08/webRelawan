@@ -7,126 +7,136 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    
     <style>
+        /* TEMA NEON DARK MODE */
+        :root {
+            --bg-dark: #0a0f1e;
+            --card-bg: #1e293b;
+            --accent-cyan: #00d2ff;
+            --text-gray: #94a3b8;
+            --input-bg: #0f172a;
+        }
+
+        body {
+            background-color: var(--bg-dark) !important;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+        }
+
+        /* NAVBAR ASLI DENGAN STYLE BARU */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            background: rgba(10, 15, 30, 0.9);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .navbar-left { display: flex; align-items: center; gap: 20px; }
+        .nav-logo { color: var(--accent-cyan); font-weight: bold; font-size: 1.5rem; text-decoration: none; }
+        .back-button { color: #cbd5e1; text-decoration: none; display: flex; align-items: center; font-size: 0.9rem; }
+        .nav-menu { display: flex; list-style: none; gap: 20px; margin: 0; padding: 0; }
+        .nav-menu a { text-decoration: none; color: #cbd5e1; font-size: 0.85rem; }
+        .nav-right #koin-nav { color: var(--accent-cyan); font-weight: bold; margin-right: 15px; }
+
+        /* FORM CONTAINER */
         .form-container {
             max-width: 500px;
             margin: 40px auto;
             padding: 40px;
-            background: var(--color-white);
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            background: var(--card-bg);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            border: 1px solid rgba(0, 210, 255, 0.2);
         }
+
         .form-container h1 {
             text-align: center;
             margin-bottom: 30px;
-            color: var(--color-blue);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            color: var(--accent-cyan);
+            font-size: 1.8rem;
         }
-        .form-group {
-            margin-bottom: 20px;
-        }
+
+        .form-group { margin-bottom: 20px; }
         .form-group label {
             display: block;
             margin-bottom: 8px;
             font-weight: 600;
-            color: var(--color-dark);
+            color: #cbd5e1;
+            font-size: 0.9rem;
         }
-        .form-group input[type="text"],
-        .form-group input[type="email"],
-        .form-group input[type="tel"],
-        .form-group input[type="number"],
-        .form-group select,
-        .form-group textarea,
-        .form-group input[type="file"] {
+
+        .form-group input, .form-group select {
             width: 100%;
             padding: 12px;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-            font-family: var(--font-family);
-            font-size: 1rem;
+            background: var(--input-bg);
+            border: 1px solid #334155;
+            border-radius: 10px;
+            color: white;
+            font-family: 'Poppins', sans-serif;
             box-sizing: border-box;
         }
-        .form-group input[type="file"] {
-            padding-top: 8px;
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 10px rgba(0, 210, 255, 0.2);
         }
-        .form-group textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-        .form-group .radio-group {
-            display: flex;
-            gap: 15px;
-            margin-top: 10px;
-        }
-        .form-group .radio-group label {
-            display: flex;
-            align-items: center;
-            font-weight: 400;
-            margin-bottom: 0;
-        }
-        .form-group .radio-group input[type="radio"] {
-            width: auto;
-            margin-right: 8px;
-        }
-        .form-container .btn-primary {
+
+        /* BUTTON */
+        .btn-primary {
             width: 100%;
             padding: 15px;
-            background-color: var(--color-blue); /* Assuming var(--color-blue) is defined in style.css */
-            color: var(--color-white);
+            background: linear-gradient(90deg, #00f2fe, #0077ff);
+            color: #0a0f1e;
             border: none;
-            border-radius: 8px;
+            border-radius: 50px;
             font-size: 1.1rem;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: 0.3s;
+            margin-top: 10px;
         }
-        .form-container .btn-primary:hover {
-            background-color: var(--color-dark-blue); /* Assuming a darker blue is desired for hover */
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 242, 254, 0.4);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: var(--text-gray);
+            font-size: 0.8rem;
         }
     </style>
 </head>
 <body>
 
-    <!-- NAVBAR -->
     <nav class="navbar">
         <div class="navbar-left">
-            <a href="sosial-kemanusiaan.html" class="back-button" style="display: inline-flex;">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z" fill="currentColor"></path></svg>
+            <a href="/pendidikan" class="back-button">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z"></path></svg>
                 Kembali
             </a>
-            <a href="index.html" class="nav-logo">Relawan Nusantara</a>
+            <a href="/" class="nav-logo">Relawan Nusantara</a>
         </div>
-        <ul class="nav-menu">
-            <li class="nav-item"><a href="pendidikan.html">Pendidikan</a></li>
-            <li class="nav-item"><a href="lingkungan.html">Lingkungan</a></li>
-            <li class="nav-item"><a href="kesehatan.html">Kesehatan</a></li>
-            <li class="nav-item"><a href="sosial-kemanusiaan.html">Sosial & Kemanusiaan</a></li>
-        </ul>
         <div class="nav-right">
-            <a href="login.html" class="btn btn-secondary nav-login-btn">Login</a>
-        </div>
-        <div class="hamburger">
-            <div class="bar1"></div>
-            <div class="bar2"></div>
-            <div class="bar3"></div>
+            <span id="koin-nav">🪙 Koin: 0</span>
+            <a href="/login" style="color: white; border: 1px solid white; padding: 5px 15px; border-radius: 20px; text-decoration: none; font-size: 0.8rem;">Login</a>
         </div>
     </nav>
 
-    <!-- PAGE HEADER -->
-    <section class="page-header section">
-        <h1 class="section-title">Form Pendaftaran Panti Asuhan</h1>
-    </section>
-
-    <!-- DONATION FORM -->
     <section class="section">
         <div class="form-container">
             <h1>
-                Kunjungi Panti Asuhan
-                <span style="font-size: 0.7em; font-weight: 400; white-space: nowrap;">Luangkan waktumu, hadirkan senyuman</span>
+                Kunjungi Panti Asuhan<br>
+                <span style="font-size: 0.5em; font-weight: 400; color: var(--text-gray);">Luangkan waktumu, hadirkan senyuman</span>
             </h1>
+
             <form id="pantiAsuhanVisitForm">
                 <div class="form-group">
                     <label for="volunteerName">Nama Relawan:</label>
@@ -160,62 +170,41 @@
                     </select>
                 </div>
 
-                <div class="form-group" id="otherActivityGroup" style="display: none;">
-                    <label for="otherActivity">Aktivitas Lainnya:</label>
-                    <input type="text" id="otherActivity" name="otherActivity" placeholder="Contoh: Menggambar, Membaca Buku">
-                </div>
-
                 <div class="form-group">
                     <input type="checkbox" id="agreeRules" name="agreeRules" required>
-                    <label for="agreeRules" style="display: inline; margin-left: 10px;">Saya siap menaati aturan panti</label>
+                    <label for="agreeRules" style="display: inline; margin-left: 10px; font-weight: 400;">Saya siap menaati aturan panti</label>
                 </div>
                 
                 <button type="submit" class="btn-primary">Daftar & Tebar Kebaikan</button>
             </form>
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    const activitySelect = document.getElementById('activity');
-                    const otherActivityGroup = document.getElementById('otherActivityGroup');
-                    const otherActivityInput = document.getElementById('otherActivity');
-
-                    function toggleOtherActivityField() {
-                        if (activitySelect.value === 'lainnya') {
-                            otherActivityGroup.style.display = 'block';
-                            otherActivityInput.setAttribute('required', 'required');
-                        } else {
-                            otherActivityGroup.style.display = 'none';
-                            otherActivityInput.removeAttribute('required');
-                            otherActivityInput.value = ''; // Clear the input when hidden
-                        }
-                    }
-
-                    activitySelect.addEventListener('change', toggleOtherActivityField);
-
-                    // Initial call to set correct visibility based on default selected value
-                    toggleOtherActivityField();
-
-                    // Handle form submission
-                    const pantiAsuhanVisitForm = document.getElementById('pantiAsuhanVisitForm');
-                    pantiAsuhanVisitForm.addEventListener('submit', function(event) {
-                        event.preventDefault(); // Prevent default form submission
-                        
-                        document.body.classList.add('fade-out'); // Add fade-out class
-
-                        // Wait for the transition to complete, then redirect
-                        setTimeout(function() {
-                            window.location.href = 'sosial-kemanusiaan.html';
-                        }, 500); // Match this duration to the CSS transition duration
-                    });
-                });
-            </script>
         </div>
     </section>
 
-    <!-- FOOTER -->
     <footer class="footer">
         <p>&copy; 2026 Relawan Nusantara. Semua Hak Dilindungi.</p>
     </footer>
 
-    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 1. Tampilkan Koin saat ini di Navbar
+            let currentCoins = parseInt(localStorage.getItem('relawan_koin')) || 0;
+            document.getElementById('koin-nav').innerText = `🪙 Koin: ${currentCoins}`;
+
+            const form = document.getElementById('pantiAsuhanVisitForm');
+            
+            form.addEventListener('submit', function(event) {
+                event.preventDefault(); 
+
+                // 2. Tambahkan Koin (Contoh: +25 Koin)
+                currentCoins += 25;
+                localStorage.setItem('relawan_koin', currentCoins);
+
+                alert("Pendaftaran Berhasil! 🎉\nKamu mendapatkan +25 Koin. Terima kasih atas kepedulianmu!");
+
+                // 3. Redirect kembali ke halaman utama
+                window.location.href = '/pendidikan';
+            });
+        });
+    </script>
 </body>
 </html>

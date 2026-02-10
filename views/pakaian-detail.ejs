@@ -4,121 +4,150 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detail Donasi Pakaian - Relawan Nusantara</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    
     <style>
-        .detail-container {
+        :root {
+            --bg-dark: #0a0f1e;
+            --accent-cyan: #00d2ff;
+            --card-bg: #1e293b;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        /* Header / Navbar */
+        .navbar {
+            padding: 20px 5%;
+            background: rgba(10, 15, 30, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .back-link {
+            text-decoration: none;
+            color: var(--accent-cyan);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Detail Container */
+        .container {
             max-width: 800px;
             margin: 40px auto;
+            padding: 20px;
+        }
+
+        .hero-image {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 1px solid rgba(0, 210, 255, 0.3);
+        }
+
+        .detail-box {
+            background: var(--card-bg);
+            margin-top: -50px;
+            position: relative;
             padding: 40px;
-            background: var(--color-white);
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-radius: 25px;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
         }
-        .detail-container h1 {
-            text-align: center;
-            margin-bottom: 30px;
-            color: var(--color-blue);
+
+        h1 { color: var(--accent-cyan); margin-bottom: 20px; font-size: 2rem; }
+
+        .info-list {
+            list-style: none;
+            padding: 0;
+            margin: 25px 0;
         }
-        .detail-item {
-            margin-bottom: 20px;
-            font-size: 1.1rem;
-            color: var(--color-dark);
+
+        .info-list li {
+            background: rgba(255,255,255,0.05);
+            margin-bottom: 12px;
+            padding: 15px 20px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        .detail-item strong {
-            display: inline-block;
-            min-width: 150px;
-            color: var(--color-blue);
-        }
-        .detail-item span {
-            font-weight: 400;
-        }
-        .btn-back {
+
+        .info-label { color: #94a3b8; font-size: 0.9rem; }
+        .info-value { font-weight: 600; color: #fff; text-align: right; }
+
+        .btn-submit {
             display: block;
-            width: fit-content;
-            margin: 30px auto 0;
-            padding: 10px 20px;
-            background-color: var(--color-blue);
-            color: var(--color-white);
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            text-decoration: none;
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(90deg, #00f2fe, #0077ff);
+            color: #0a0f1e;
             text-align: center;
-            transition: background-color 0.3s ease;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
         }
-        .btn-back:hover {
-            background-color: var(--color-dark-blue);
+
+        .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(0, 242, 254, 0.4);
         }
     </style>
 </head>
 <body>
 
-    <!-- NAVBAR -->
     <nav class="navbar">
-        <div class="navbar-left">
-            <a href="sosial-kemanusiaan.html" class="back-button" style="display: inline-flex;">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z" fill="currentColor"></path></svg>
-                Kembali
-            </a>
-            <a href="index.html" class="nav-logo">Relawan Nusantara</a>
-        </div>
-        <ul class="nav-menu">
-            <li class="nav-item"><a href="pendidikan.html">Pendidikan</a></li>
-            <li class="nav-item"><a href="lingkungan.html">Lingkungan</a></li>
-            <li class="nav-item"><a href="kesehatan.html">Kesehatan</a></li>
-            <li class="nav-item"><a href="sosial-kemanusiaan.html">Sosial & Kemanusiaan</a></li>
-        </ul>
-        <div class="nav-right">
-            <a href="login.html" class="btn btn-secondary nav-login-btn">Login</a>
-        </div>
-        <div class="hamburger">
-            <div class="bar1"></div>
-            <div class="bar2"></div>
-            <div class="bar3"></div>
-        </div>
+        <a href="/pendidikan" class="back-link">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z"></path></svg>
+            Kembali
+        </a>
+        <div style="color: var(--accent-cyan); font-weight: bold;">Relawan Nusantara</div>
     </nav>
 
-    <!-- PAGE HEADER -->
-    <section class="page-header section">
-        <h1 class="section-title">Detail Program Donasi Pakaian</h1>
-    </section>
+    <div class="container">
+        <img src="https://images.unsplash.com/photo-1517677208171-0bc6725a3e60?q=80&w=2070&auto=format&fit=crop" class="hero-image" alt="Donasi Pakaian">
+        
+        <div class="detail-box">
+            <h1>Detail Program Donasi Pakaian</h1>
+            <p>Salurkan pakaian layak pakaimu untuk meringankan beban saudara-saudara kita yang membutuhkan di Panti Asuhan dan daerah terdampak bencana.</p>
+            
+            <ul class="info-list">
+                <li><span class="info-label">📍 Lokasi Penyaluran</span> <span class="info-value">Panti Asuhan / Korban Bencana</span></li>
+                <li><span class="info-label">👕 Jenis Pakaian</span> <span class="info-value">Anak, Dewasa, Seragam, dll</span></li>
+                <li><span class="info-label">✨ Kondisi</span> <span class="info-value">Layak Pakai / Baru</span></li>
+                <li><span class="info-label">🚚 Pengiriman</span> <span class="info-value">Drop Point / Jemput Relawan</span></li>
+                <li><span class="info-label">🏅 Reward</span> <span class="info-value">30 Koin + Lencana</span></li>
+            </ul>
 
-    <!-- DETAIL CONTENT -->
-    <section class="section">
-        <div class="detail-container">
-            <h1>Detail Pakaian</h1>
-            <div class="detail-item">
-                <strong>📍 Lokasi Penyaluran:</strong> <span>Panti Asuhan / Korban Bencana / Warga Duafa</span>
-            </div>
-            <div class="detail-item">
-                <strong>📦 Jenis Pakaian:</strong> <span>Anak, Dewasa, Muslim, Seragam, Jaket, dll</span>
-            </div>
-            <div class="detail-item">
-                <strong>📏 Kondisi:</strong> <span>Layak Pakai / Baru</span>
-            </div>
-            <div class="detail-item">
-                <strong>📅 Batas Waktu Donasi:</strong> <span>(Informasi akan diperbarui secara berkala)</span>
-            </div>
-            <div class="detail-item">
-                <strong>🚚 Metode Pengiriman:</strong> <span>Drop Point / Dijemput Relawan</span>
-            </div>
-            <div class="detail-item">
-                <strong>🌟 Reward:</strong> <span>Koin + Lencana Donatur</span>
-            </div>
-            </div>
-        </section>
+            <button id="donasiBtn" class="btn-submit">Donasi Sekarang</button>
+        </div>
+    </div>
 
-    <!-- FOOTER -->
-    <footer class="footer">
-        <p>&copy; 2026 Relawan Nusantara. Semua Hak Dilindungi.</p>
-    </footer>
-
-    <script src="script.js"></script>
-
+    <script>
+        document.getElementById('donasiBtn').addEventListener('click', () => {
+            // Ambil koin lama
+            let coins = parseInt(localStorage.getItem('relawan_koin')) || 0;
+            // Tambah koin baru
+            coins += 30;
+            localStorage.setItem('relawan_koin', coins);
+            
+            alert("Terima kasih pahlawan! 🎉\nDonasi kamu sedang diproses. +30 Koin ditambahkan!");
+            window.location.href = "/pendidikan"; // Balik ke menu utama
+        });
+    </script>
 </body>
 </html>
