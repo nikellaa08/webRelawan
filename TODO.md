@@ -1,0 +1,2 @@
+- [ ] Edit sosial-kemanusiaan.html to replace program-list grid with a table listing sosial programs
+- [ ] Edit kesehatan.html to replace program-list grid with a table listing kesehatan programs
