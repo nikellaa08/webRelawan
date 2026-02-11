@@ -8,10 +8,106 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* --- Animasi Mengambang (Floating) --- */
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .program-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 15px; /* Memberi jarak antar baris agar efek floating terlihat */
+            animation: floating 4s ease-in-out infinite;
+        }
+
+        .program-table tr {
+            background-color: rgba(255, 255, 255, 0.05);
+            transition: 0.3s;
+        }
+
+        .program-table th, .program-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .program-table tr:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: scale(1.01);
+        }
+
+        /* --- Style Modal (Pop-up Form) --- */
+        .modal {
+            display: none; 
+            position: fixed;
+            z-index: 9999;
+            left: 0; top: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.85);
+            backdrop-filter: blur(8px);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 2% auto;
+            padding: 25px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 450px;
+            color: #333;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            animation: slideUp 0.4s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .close-btn {
+            position: absolute;
+            right: 20px; top: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .form-header { text-align: center; margin-bottom: 20px; }
+        .form-header h2 { color: #007bff; font-size: 1.5rem; margin-bottom: 5px; }
+        .form-header p { font-size: 0.9rem; color: #666; }
+
+        .input-group { margin-bottom: 12px; }
+        .input-group label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.85rem; }
+        .input-group input, .input-group select, .input-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 12px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: 0.3s;
+        }
+
+        .btn-submit:hover { background: #0056b3; }
+    </style>
 </head>
 <body>
 
-    <!-- NAVBAR -->
     <nav class="navbar">
         <div class="navbar-left">
             <a href="index.html" class="back-button">
@@ -29,21 +125,14 @@
         <div class="nav-right">
             <a href="login.html" class="btn btn-secondary nav-login-btn">Login</a>
         </div>
-        <div class="hamburger">
-            <div class="bar1"></div>
-            <div class="bar2"></div>
-            <div class="bar3"></div>
-        </div>
     </nav>
 
-    <!-- MAIN CONTENT -->
     <main>
         <section class="section">
             <div class="container">
                 <h2 class="section-title">Program Relawan Kesehatan</h2>
                 <div class="section-subtitle">
-                    <p>Kesehatan adalah hak setiap individu, bukan kemewahan. Bersama Relawan Nusantara, mari wujudkan akses kesehatan yang merata untuk seluruh lapisan masyarakat, terutama bagi mereka yang paling membutuhkan. Setiap aksi kecil kita bisa membawa dampak besar bagi kualitas hidup dan kesejahteraan banyak orang.</p>
-                    <p>Dari pemeriksaan dini hingga dukungan mental, kehadiranmu adalah harapan. Mari gerakkan hati dan tangan untuk: <strong>melayani, mengedukasi, dan mendukung</strong>. Sehat bersama, kuat bersama!</p>
+                    <p>Kesehatan adalah hak setiap individu. Mari gerakkan hati dan tangan untuk: melayani, mengedukasi, dan mendukung.</p>
                 </div>
                 
                 <table class="program-table">
@@ -53,66 +142,105 @@
                             <th>Description</th>
                             <th>Schedule</th>
                             <th>Location</th>
-                            <th>Requirements / Target</th>
-                            <th>Services / Benefits</th>
+                            <th>Requirements</th>
                             <th>Reward</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>🩺 Pemeriksaan Kesehatan Gratis</td>
-                            <td>“Akses kesehatan dasar adalah hak semua. Bergabunglah untuk memberikan pemeriksaan gratis bagi masyarakat kurang mampu.”</td>
-                            <td>Jadwal Kegiatan</td>
-                            <td>Posko Kesehatan / Puskesmas Pembantu (ditentukan)</td>
-                            <td>Dokter, Perawat, Relawan Umum</td>
-                            <td>Cek tensi, gula darah, konsultasi umum.</td>
-                            <td>Koin + Lencana Kesehatan</td>
-                            <td><a href="/registration-form" class="btn btn-primary btn-follow">Daftar Sekarang</a></td>
+                            <td class="prog-name">🩺 Pemeriksaan Gratis</td>
+                            <td>Akses kesehatan untuk masyarakat kurang mampu.</td>
+                            <td>Setiap Minggu</td>
+                            <td>Puskesmas Pembantu</td>
+                            <td>Medis/Umum</td>
+                            <td>Koin + Lencana</td>
+                            <td><button class="btn btn-primary btn-follow">Daftar Sekarang</button></td>
                         </tr>
                         <tr>
-                            <td>🩸 Donor Darah Nasional</td>
-                            <td>“Setetes darahmu menyelamatkan nyawa. Ikuti aksi donor darah rutin kami dan jadilah pahlawan kemanusiaan!”</td>
-                            <td>Jadwal Event Donor</td>
-                            <td>PMI Setempat / Area Publik (ditentukan)</td>
-                            <td>Usia 17-60 tahun, berat min. 45kg, sehat jasmani rohani.</td>
-                            <td>Cek kesehatan gratis, regenerasi sel darah.</td>
-                            <td>Koin + Lencana Donor</td>
-                            <td><a href="/registration-form" class="btn btn-primary btn-follow">Daftar Sekarang</a></td>
-                        </tr>
+                <td class="prog-name">🩺 Pemeriksaan Kesehatan Gratis</td>
+                <td>“Akses kesehatan dasar adalah hak semua...”</td>
+                <td><button class="btn btn-primary btn-follow">Daftar Sekarang</button></td>
+                          </tr>
                         <tr>
-                            <td>🍎 Sosialisasi Gizi Anak (Cegah Stunting)</td>
-                            <td>“Masa depan bangsa dimulai dari gizi yang baik. Edukasi orang tua tentang pentingnya nutrisi untuk cegah stunting.”</td>
-                            <td>Jadwal Sosialisasi</td>
-                            <td>Posyandu / Desa Binaan</td>
-                            <td>Ibu hamil, ibu menyusui, orang tua balita.</td>
-                            <td>MPASI, pola makan sehat, kebersihan diri.</td>
-                            <td>Koin + Lencana Edukasi</td>
-                            <td><a href="/registration-form" class="btn btn-primary btn-follow">Daftar Sekarang</a></td>
-                        </tr>
-                        <tr>
-                            <td>🧠 Support System Mental Health</td>
-                            <td>“Mental yang sehat adalah pondasi kebahagiaan. Saling mendukung untuk kesehatan jiwa yang lebih baik.”</td>
-                            <td>Jadwal Sesi Dukungan</td>
-                            <td>Pusat Komunitas / Online</td>
-                            <td>Psikolog / Konselor (Profesional)</td>
-                            <td>Diskusi kelompok, konseling individu (opsional).</td>
-                            <td>Koin + Lencana Peduli</td>
-                            <td><a href="/registration-form" class="btn btn-primary btn-follow">Daftar Sekarang</a></td>
-                        </tr>
-                    </tbody>
-                </table>
+                            <td class="prog-name">🩸 Donor Darah</td>
+                            <td>Setetes darahmu menyelamatkan nyawa.</td>
+                            <td>Event Bulanan</td>
+                            <td>PMI / Area Publik</td>
+                            <td>Sehat Jasmani</td>
+                            <td>Koin + Lencana</td>
+                            <td><button class="btn btn-primary btn-follow">Daftar Sekarang
+                                <div id="registrationModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <div class="form-header">
+            <h2 id="targetProgram">Pendaftaran Program</h2>
+            <p>Silakan isi data diri Anda untuk bergabung sebagai relawan.</p>
+        </div>
 
+        <form id="healthForm">
+            <div class="input-group">
+                <label>Nama Lengkap:</label>
+                <input type="text" placeholder="Contoh: Budi Santoso" required>
             </div>
-        </section>
-    </main>
+            <div class="input-group">
+                <label>Nomor WhatsApp:</label>
+                <input type="tel" placeholder="08123456789" required>
+            </div>
+            <div class="input-group">
+                <label>Profesi / Keahlian:</label>
+                <select required>
+                    <option value="">Pilih Profesi</option>
+                    <option value="Dokter">Dokter</option>
+                    <option value="Perawat">Perawat</option>
+                    <option value="Mahasiswa Medis">Mahasiswa Medis</option>
+                    <option value="Umum">Relawan Umum</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label>Unggah Bukti Identitas (KTP/KTM/STR):</label>
+                <input type="file" required>
+            </div>
+            <button type="submit" class="btn-submit">Daftarkan Sekarang</button>
+        </form>
+    </div>
+</div>
 
-    <!-- FOOTER -->
-    <footer class="footer">
-        <p>&copy; 2026 Relawan Nusantara. Semua Hak Dilindungi.</p>
-    </footer>
-
-    <script src="script.js"></script>
-
-</body>
-</html>
+<style>
+    /* CSS untuk memastikan modal tersembunyi di awal dan tampil rapi */
+    .modal {
+        display: none; /* Modal tertutup saat pertama buka */
+        position: fixed;
+        z-index: 9999;
+        left: 0; top: 0;
+        width: 100%; height: 100%;
+        background-color: rgba(0,0,0,0.8);
+        backdrop-filter: blur(5px);
+    }
+    .modal-content {
+        background-color: white;
+        margin: 5% auto;
+        padding: 25px;
+        border-radius: 15px;
+        width: 90%;
+        max-width: 450px;
+        color: #333;
+        position: relative;
+    }
+    .close-btn {
+        position: absolute;
+        right: 20px; top: 10px;
+        font-size: 30px;
+        cursor: pointer;
+        color: #aaa;
+    }
+    .input-group { margin-bottom: 15px; }
+    .input-group label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.9rem; }
+    .input-group input, .input-group select {
+        width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px;
+    }
+    .btn-submit {
+        width: 100%; padding: 12px; background: #007bff; color: white;
+        border: none; border-radius: 8px; font-weight: bold; cursor: pointer;
+    }
+</style>
