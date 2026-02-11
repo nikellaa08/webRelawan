@@ -135,77 +135,129 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // --- Registration Button ---
-    const registerBtn = document.getElementById('registerBtn');
-    if (registerBtn) {
-        registerBtn.addEventListener('click', function() {
-            if (!this.classList.contains('registered')) {
-                this.classList.add('registered');
-                this.textContent = 'Terdaftar';
-                
-                // You can also add a class to disable pointer events
-                this.style.cursor = 'not-allowed';
+    // --- Event and Category Filtering (New Feature) ---
+    const eventFilterContainer = document.getElementById('event-filter-container');
+    const eventListContainer = document.getElementById('event-list-container');
+    let allEvents = []; // To store all fetched events
 
-                // Optional: Show a more elegant notification/modal instead of an alert
-                alert('Pendaftaran berhasil! Koin akan ditambahkan setelah kehadiran Anda diverifikasi oleh admin.');
+    // Helper to format date
+    const formatDate = (dateString) => {
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        return new Date(dateString).toLocaleDateString('id-ID', options);
+    };
+
+    // Fetch Categories
+    async function fetchCategories() {
+        try {
+            const response = await fetch('/api/categories');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
+            const categories = await response.json();
+            renderCategories(categories);
+        } catch (error) {
+            console.error('Error fetching categories:', error);
+            if (eventFilterContainer) {
+                eventFilterContainer.innerHTML = '<p class="error-message">Gagal memuat kategori.</p>';
+            }
+        }
+    }
+
+    // Render Categories Filter Buttons
+    function renderCategories(categories) {
+        if (!eventFilterContainer) return;
+
+        eventFilterContainer.innerHTML = ''; // Clear previous buttons
+
+        // Add "All" button
+        const allButton = document.createElement('button');
+        allButton.textContent = 'Semua Kategori';
+        allButton.classList.add('btn', 'btn-category', 'active');
+        allButton.dataset.categoryId = 'all';
+        allButton.addEventListener('click', () => filterEvents('all'));
+        eventFilterContainer.appendChild(allButton);
+
+        // Add category buttons
+        categories.forEach(category => {
+            const button = document.createElement('button');
+            button.textContent = category.name;
+            button.classList.add('btn', 'btn-category');
+            button.dataset.categoryId = category.id;
+            button.addEventListener('click', () => filterEvents(category.id));
+            eventFilterContainer.appendChild(button);
         });
     }
 
-    // --- Stat Counter Animation ---
-    const statNumbers = document.querySelectorAll('.stat-number');
-
-    const animateValue = (obj, start, end, duration, prefix = '', suffix = '') => {
-        let startTimestamp = null;
-        const step = (timestamp) => {
-            if (!startTimestamp) startTimestamp = timestamp;
-            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-            const current = Math.floor(progress * (end - start) + start);
-            
-            // Format number with Indonesian locale for thousand separators
-            const formattedNumber = current.toLocaleString('id-ID');
-            
-            obj.innerHTML = `${prefix}${formattedNumber}${suffix}`;
-            
-            if (progress < 1) {
-                window.requestAnimationFrame(step);
-            } else {
-                // Ensure the final number is exactly the target and formatted.
-                obj.innerHTML = `${prefix}${end.toLocaleString('id-ID')}${suffix}`;
+    // Fetch Events
+    async function fetchEvents() {
+        if (!eventListContainer) return;
+        eventListContainer.innerHTML = '<p class="loading-message">Memuat event...</p>';
+        try {
+            const response = await fetch('/api/events');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
-        };
-        window.requestAnimationFrame(step);
-    };
+            allEvents = await response.json();
+            renderEvents(allEvents); // Render all events initially
+        } catch (error) {
+            console.error('Error fetching events:', error);
+            eventListContainer.innerHTML = '<p class="error-message">Gagal memuat event.</p>';
+        }
+    }
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const el = entry.target;
-                const text = el.textContent.trim();
-                
-                // Regex to find number parts and any surrounding text
-                const match = text.match(/^(\D*\s*)?([\d,.]+)(\s*\D*)?$/);
+    // Render Event Cards
+    function renderEvents(eventsToRender) {
+        if (!eventListContainer) return;
+        eventListContainer.innerHTML = ''; // Clear previous events
 
-                if (match) {
-                    const prefix = match[1] || '';
-                    const numberString = match[2];
-                    const suffix = match[3] || '';
-                    
-                    // Remove dots/commas for parsing
-                    const targetValue = parseInt(numberString.replace(/[,.]/g, ''));
-                    
-                    // Animate from 0 to the target value
-                    animateValue(el, 0, targetValue, 2000, prefix, suffix);
-                    
-                    // Stop observing the element once the animation has started
-                    observer.unobserve(el);
-                }
-            }
+        if (eventsToRender.length === 0) {
+            eventListContainer.innerHTML = '<p class="no-results-message">Tidak ada event yang ditemukan.</p>';
+            return;
+        }
+
+        eventsToRender.forEach(event => {
+            const eventCard = document.createElement('div');
+            eventCard.classList.add('card', 'event-card');
+            // Assuming default image if no image is provided, or you can add an image field to your DB
+            const imageUrl = event.image_url || 'https://via.placeholder.com/300x200?text=Event+Image'; 
+            
+            eventCard.innerHTML = `
+                <img src="${imageUrl}" alt="${event.name}" loading="lazy">
+                <div class="card-content">
+                    <h3>${event.name}</h3>
+                    <p class="event-category">${event.category_name || 'Uncategorized'}</p>
+                    <div class="event-info">
+                        <span class="event-location"><i class="fas fa-map-marker-alt"></i> ${event.location}</span>
+                        <span class="event-date"><i class="fas fa-calendar-alt"></i> ${formatDate(event.date)}</span>
+                    </div>
+                    <p class="event-description">${event.description ? event.description.substring(0, 100) + '...' : ''}</p>
+                    <a href="/events/${event.id}" class="btn btn-primary btn-sm">Detail</a>
+                </div>
+            `;
+            eventListContainer.appendChild(eventCard);
         });
-    }, {
-        threshold: 0.5 // Trigger when 50% of the element is visible
-    });
+    }
 
+<<<<<<< HEAD
+    // Filter Events
+    function filterEvents(categoryId) {
+        const filtered = categoryId === 'all'
+            ? allEvents
+            : allEvents.filter(event => event.category_id == categoryId);
+        renderEvents(filtered);
+
+        // Update active button style
+        document.querySelectorAll('.btn-category').forEach(button => {
+            button.classList.remove('active');
+        });
+        document.querySelector(`.btn-category[data-category-id="${categoryId}"]`).classList.add('active');
+    }
+
+    // Initialize event and category loading if containers exist
+    if (eventFilterContainer && eventListContainer) {
+        fetchCategories();
+        fetchEvents();
+=======
     statNumbers.forEach(number => {
         observer.observe(number);
     });
@@ -264,6 +316,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 window.history.back();
             }, 500); // Small delay to allow user to see the alert
         });
+>>>>>>> d5b234de8bd880f5ea5b9a1dbba88a643eb0c03c
     }
  d5b234de8bd880f5ea5b9a1dbba88a643eb0c03c
 });

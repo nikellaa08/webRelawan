@@ -899,6 +899,142 @@ body.fade-out {
 
         }
 
+/* --- New Styles for Event Filtering and Cards --- */
+.filter-buttons-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.btn-category {
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    background-color: var(--background-primary);
+    color: var(--text-primary);
+    border: 1px solid var(--text-secondary);
+    transition: all 0.3s ease;
+}
+
+.btn-category:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px var(--shadow-color);
+    border-color: var(--color-blue);
+    color: var(--color-blue);
+}
+
+.btn-category.active {
+    background-color: var(--color-blue);
+    color: var(--color-white);
+    border-color: var(--color-blue);
+    box-shadow: 0 4px 10px rgba(30, 136, 229, 0.4);
+}
+
+.event-card {
+    display: flex;
+    flex-direction: column;
+    /* Existing card styles are good */
+}
+
+.event-card .card-content {
+    padding: 15px; /* Add padding inside the content area */
+    flex-grow: 1; /* Allow content to take available space */
+    display: flex;
+    flex-direction: column;
+}
+
+.event-card h3 {
+    font-size: 1.3rem; /* Slightly larger title */
+    margin-bottom: 8px;
+    color: var(--color-blue); /* Title color */
+}
+
+.event-card .event-category {
+    font-size: 0.85rem;
+    color: var(--color-green); /* Category name color */
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.event-card .event-info {
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping on small screens */
+    gap: 10px;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 15px;
+}
+
+.event-card .event-info span {
+    display: flex;
+    align-items: center;
+}
+
+.event-card .event-info i {
+    margin-right: 5px;
+    color: var(--color-orange); /* Icon color */
+}
+
+.event-card .event-description {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 20px;
+    flex-grow: 1; /* Allows description to push button to bottom */
+}
+
+.event-card .btn-sm {
+    padding: 8px 15px;
+    font-size: 0.85rem;
+    border-radius: 20px;
+    align-self: flex-start; /* Align button to start */
+}
+
+/* Messages for loading, error, no results */
+.loading-message,
+.error-message,
+.no-results-message {
+    text-align: center;
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    padding: 40px;
+    grid-column: 1 / -1; /* Span across all columns in grid */
+}
+
+.error-message {
+    color: #d32f2f; /* Red for errors */
+}
+
+@media (min-width: 768px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+@media (min-width: 1024px) {
+    .grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+@media (max-width: 767px) {
+    .filter-buttons-container {
+        justify-content: flex-start;
+    }
+    .event-card .card-content {
+        padding: 10px;
+    }
+    .event-card h3 {
+        font-size: 1.1rem;
+    }
+    .event-card .event-info {
+        flex-direction: column;
+        gap: 5px;
+    }
+}
+
+
         
 
     /* Registration Form Specific Styles */
