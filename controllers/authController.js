@@ -1,15 +1,6 @@
 // controllers/authController.js
 
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
-import { getUserByEmail } from '../models/userModel.js'; // Mengimpor dari model baru
-
-// Untuk aplikasi nyata, SECRET KEY ini harus disimpan di environment variable
-// Anda bisa menggunakan library 'dotenv' untuk memuatnya:
-// import dotenv from 'dotenv';
-// dotenv.config();
-// const JWT_SECRET = process.env.JWT_SECRET || 'supersecretjwtkey';
-const JWT_SECRET = 'supersecretjwtkey'; // GANTI dengan kunci rahasia yang kuat dan aman!
+import { getUserByEmail } from '../models/userModel.js';
 
 /**
  * Fungsi untuk menangani proses login.
@@ -26,37 +17,30 @@ export const login = async (req, res) => {
 
   try {
     // 2. Cek email di tabel users
-    const user = await getUserByEmail(email); // Menggunakan fungsi dari userModel
+    const user = await getUserByEmail(email);
     if (!user) {
       return res.status(401).json({ message: 'Email atau password salah.' });
     }
 
-    // 3. Verifikasi password menggunakan bcrypt
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-
-    if (!isPasswordValid) {
+    // 3. Verifikasi password - bandingkan langsung (plain text) tanpa bcrypt
+    if (password !== user.password) {
       return res.status(401).json({ message: 'Email atau password salah.' });
     }
 
-    // 4. Jika berhasil, buat JSON Web Token (JWT)
-    const token = jwt.sign(
-      { userId: user.id, email: user.email },
-      JWT_SECRET,
-      { expiresIn: '1h' } // Token akan kadaluarsa dalam 1 jam
-    );
-
-    // 5. Kirim response sukses beserta data user (kecuali password) dan token
-    const { password: _, ...userData } = user; // Destrukturisasi untuk mengecualikan password
-
-    res.status(200).json({
-      message: 'Login berhasil!',
-      token, // Kirim token ke frontend
+    // 4. Jika berhasil, set session.user dengan data dari database
+    // Akses session melalui req.session atau req.app.locals.session
+    // Karena menggunakan in-memory session di app.js, kita simpan ke app locals
+    req.app.locals.session = {
       user: {
-        id: userData.id,
-        email: userData.email,
-        nama_lengkap: userData.name // Menggunakan 'name' sebagai nama_lengkap
-      }
-    });
+        id: user.id,
+        email: user.email,
+        name: user.nama_lengkap || user.name
+      },
+      message: null
+    };
+
+    // 5. Redirect ke halaman utama setelah login sukses
+    res.redirect('/');
 
   } catch (error) {
     console.error('Error saat proses login:', error.message);
