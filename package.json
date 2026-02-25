@@ -1,31 +1,18 @@
 {
   "name": "projek-relawan",
   "version": "1.0.0",
-  "description": "",
-  "main": "script.js",
+  "description": "Web Relawan Project",
+  "main": "app.js",
+  "type": "module",
   "scripts": {
     "start": "node app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "eslint": "^9.39.2",
-    "htmlhint": "^1.8.0",
-    "stylelint": "^16.26.1",
-    "stylelint-config-standard": "^39.0.1"
+    "dev": "nodemon app.js"
   },
   "dependencies": {
-    "ejs": "^3.1.10",
-    "express": "^4.19.2",
-<<<<<<< HEAD
-    "express-flash": "^0.0.2",
-    "express-session": "^1.18.2",
-    "method-override": "^3.0.0",
-    "mysql": "^2.18.1"
-=======
-    "mysql2": "^3.16.3"
->>>>>>> b6f2a3e4b7687170d97c87a22dc3991ece29ad09
-  }
+    "express": "^4.18.2",
+    "ejs": "^3.1.9",
+    "path": "^0.12.7"
+  },
+  "author": "",
+  "license": "ISC"
 }

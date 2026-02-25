@@ -1,3 +1,4 @@
+ <HEAD></HEAD>
 gid <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -11,75 +12,38 @@ gid <!DOCTYPE html>
 </head>
 <body>
 
-    <!-- NAVBAR -->
-    <nav class="navbar">
-        <div class="navbar-left">
-            <a href="/pendidikan" class="back-button" style="display: inline-flex;">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z" fill="currentColor"></path></svg>
-                Kembali
-            </a>
-            <a href="/" class="nav-logo">Relawan Nusantara</a>
-        </div>
-        <ul class="nav-menu">
-            <li class="nav-item"><a href="/pendidikan">Pendidikan</a></li>
-            <li class="nav-item"><a href="/lingkungan">Lingkungan</a></li>
-            <li class="nav-item"><a href="/kesehatan">Kesehatan</a></li>
-            <li class="nav-item"><a href="/sosial-anal">Sosial Anak</a></li>
-            <li class="nav-item"><a href="/kemanusiaal">Kemanusiaan</a></li>
-        </ul>
-        <div class="nav-right">
-            <a href="/login" class="btn btn-secondary nav-login-btn">Login</a>
-        </div>
-        <div class="hamburger">
-            <div class="bar1"></div>
-            <div class="bar2"></div>
-            <div class="bar3"></div>
-        </div>
-    </nav>
+<%- include('partials/header') %>
 
-    <!-- PAGE HEADER -->
-    <section class="page-header section">
-        <h1 class="section-title">Detail Program</h1>
-    </section>
-
-    <!-- DETAIL SECTION -->
-    <section class="detail-section">
-        <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=2070&auto=format&fit=crop" alt="Kegiatan Mengajar" class="detail-image">
-        <div class="detail-content">
-            <h2>Kelas Inspirasi Anak Negeri</h2>
-            <p>
-                Bergabunglah dengan kami untuk memberikan inspirasi dan motivasi kepada anak-anak di daerah terpencil. Program ini bertujuan untuk membuka wawasan mereka tentang berbagai profesi dan cita-cita melalui cerita dan pengalaman para relawan.
+    <div class="container">
+        <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=2070&auto=format&fit=crop" class="hero-img" alt="Kelas Inspirasi">
+        
+        <div class="content-card">
+            <h1>Kelas Inspirasi Anak Negeri</h1>
+            <p class="description">
+                Jadilah bagian dari perubahan! Program ini mengajak kamu untuk berbagi ilmu, cerita profesi, dan memotivasi anak-anak di pelosok negeri agar mereka berani bermimpi setinggi langit.
             </p>
-
-            <div class="detail-info-grid">
-                <div class="detail-info-item">
-                    <h4>Jadwal Mengajar</h4>
-                    <p>Setiap hari Sabtu, pukul 10:00 - 12:00 WIB.</p>
+            
+            <div class="info-grid">
+                <div class="info-item">
+                    <h4>📅 Jadwal Mengajar</h4>
+                    <p>Sabtu, 10:00 - 12:00 WIB</p>
                 </div>
-                <div class="detail-info-item">
-                    <h4>Tugas Relawan</h4>
-                    <p>Berbagi cerita, mengadakan permainan edukatif, dan menjadi teman belajar bagi anak-anak.</p>
+                <div class="info-item">
+                    <h4>👥 Kuota Relawan</h4>
+                    <p>Tersisa 25 Slot</p>
                 </div>
-                <div class="detail-info-item">
-                    <h4>Kuota Peserta</h4>
-                    <p>25 Relawan</p>
+                <div class="info-item">
+                    <h4>📝 Tugas Utama</h4>
+                    <p>Mengajar & Bermain Edukatif</p>
                 </div>
-                <div class="detail-info-item">
-                    <h4>Koin yang Diperoleh</h4>
-                    <p>30 Koin</p>
+                <div class="info-item">
+                    <h4>🏅 Reward Koin</h4>
+                    <p>30 Koin Aktivitas</p>
                 </div>
             </div>
 
-            <button id="registerBtn" class="btn btn-primary">Daftar Mengajar</button>
+            <button id="btnDaftar" class="btn-register">Daftar Sekarang</button>
         </div>
-    </section>
+    </div>
 
-    <!-- FOOTER -->
-    <footer class="footer">
-        <p>&copy; 2026 Relawan Nusantara. Semua Hak Dilindungi.</p>
-    </footer>
-
-    <script src="script.js"></script>
-
-</body>
-</html>
+<%- include('partials/footer') %>
