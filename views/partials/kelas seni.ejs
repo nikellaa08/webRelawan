@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Kelas Seni - Relawan Nusantara</title>
+    <link rel="stylesheet" href="/style.css"> 
+    <style>
+        /* CSS Tambahan agar langsung terlihat bagus dan dark mode */
+        body {
+            background-color: #0b0e14;
+            color: #ffffff;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .detail-container {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .header-icon {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+        h1 {
+            color: #a855f7; /* Warna ungu biar senada dengan navbar kamu */
+            margin-top: 0;
+        }
+        .info-list {
+            list-style: none;
+            padding: 0;
+            margin: 25px 0;
+        }
+        .info-list li {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            font-size: 0.95rem;
+            color: #c9d1d9;
+        }
+        .info-list li span {
+            margin-right: 10px;
+        }
+        .btn-ambil {
+            background-color: #ffffff;
+            color: #000000;
+            border: none;
+            padding: 15px;
+            border-radius: 12px;
+            width: 100%;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-ambil:hover {
+            background-color: #e2e8f0;
+            transform: translateY(-2px);
+        }
+        .back-link {
+            color: #58a6ff;
+            text-decoration: none;
+            font-size: 0.85rem;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="detail-container">
+        <a href="/pendidikan" class="back-link">← Kembali ke Program</a>
+        <div class="header-icon">🎨</div>
+        <h1>Kelas Seni Kreatif</h1>
+        <p>Eksplorasi bakat anak panti asuhan. Wadahi imajinasi mereka lewat lukisan, kriya, dan kerajinan tangan.</p>
+
+        <ul class="info-list">
+            <li><span>📅</span> <strong>Jadwal:</strong> Minggu, 10:00 WIB</li>
+            <li><span>📍</span> <strong>Lokasi:</strong> Panti Asuhan Kasih</li>
+            <li><span>👥</span> <strong>Kuota:</strong> 10 Slot Tersedia</li>
+            <li><span>💰</span> <strong>Reward:</strong> 200 Koin</li>
+        </ul>
+
+        <button class="btn-ambil" onclick="alert('Misi berhasil diambil!')">Ambil Misi (200 Koin) →</button>
+    </div>
+
+</body>
+</html>

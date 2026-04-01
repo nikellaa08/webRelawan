@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Misi - Taman Baca Desa</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #010409;
+            --primary: #00f2ff;
+            --secondary: #7000ff;
+            --card-bg: #0d1117;
+            --border: #30363d;
+            --text-muted: #8b949e;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            background: var(--bg); 
+            color: white; 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            display: flex; justify-content: center; align-items: center; 
+            min-height: 100vh; padding: 40px 20px;
+        }
+
+        .container {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 32px;
+            width: 100%;
+            max-width: 600px;
+            overflow: hidden;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+        }
+
+        /* Banner Atas */
+        .banner {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            height: 200px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            position: relative;
+        }
+        .banner-icon { font-size: 5rem; margin-bottom: 10px; }
+        .status-pill {
+            position: absolute; top: 20px; right: 20px;
+            background: rgba(0, 255, 0, 0.1);
+            color: #00ff00; border: 1px solid rgba(0, 255, 0, 0.3);
+            padding: 6px 14px; border-radius: 50px; font-size: 0.7rem; font-weight: 800;
+        }
+
+        .content { padding: 40px; }
+        
+        h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 12px; color: var(--primary); }
+        .description { color: var(--text-muted); line-height: 1.8; font-size: 1rem; margin-bottom: 30px; }
+
+        /* Grid Info */
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 35px; }
+        .info-box { 
+            background: rgba(255,255,255,0.02); 
+            padding: 15px 20px; border-radius: 18px; border: 1px solid var(--border);
+        }
+        .info-box .label { font-size: 0.65rem; color: var(--primary); font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
+        .info-box .val { display: block; font-size: 0.95rem; font-weight: 600; margin-top: 5px; }
+
+        /* Section Rinci */
+        .section-title { 
+            font-size: 1rem; color: white; font-weight: 800; 
+            margin-bottom: 15px; display: flex; align-items: center; gap: 10px;
+        }
+        .section-title::after { content: ""; height: 1px; flex: 1; background: var(--border); }
+        
+        .list-item { list-style: none; margin-bottom: 25px; }
+        .list-item li { 
+            color: var(--text-muted); font-size: 0.9rem; margin-bottom: 10px; 
+            padding-left: 25px; position: relative;
+        }
+        .list-item li::before { 
+            content: "✓"; position: absolute; left: 0; color: var(--primary); font-weight: 800;
+        }
+
+        /* Tombol */
+        .btn-group { margin-top: 40px; }
+        .btn-main {
+            display: block; width: 100%; padding: 20px; 
+            background: var(--primary); color: black; 
+            border: none; border-radius: 20px; 
+            font-weight: 800; font-size: 1.1rem;
+            cursor: pointer; text-align: center; text-decoration: none;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .btn-main:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0, 242, 255, 0.3); }
+
+        .btn-link { 
+            display: block; text-align: center; margin-top: 20px; 
+            color: var(--text-muted); text-decoration: none; font-size: 0.9rem; 
+        }
+        .btn-link:hover { color: white; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="banner">
+            <span class="status-pill">OPEN RECRUITMENT</span>
+            <div class="banner-icon">📖</div>
+        </div>
+        
+        <div class="content">
+            <h1>Taman Baca Desa</h1>
+            <p class="description">Program pemberdayaan literasi untuk anak-anak di wilayah 3T guna membangun minat baca sejak dini melalui aktivitas kreatif.</p>
+            
+            <div class="info-grid">
+                <div class="info-box"><span class="label">📅 Jadwal</span><span class="val">15 - 20 Feb 2026</span></div>
+                <div class="info-box"><span class="label">📍 Lokasi</span><span class="val">Sukamaju, Jabar</span></div>
+                <div class="info-box"><span class="label">👥 Kuota</span><span class="val">8 Slot Tersedia</span></div>
+                <div class="info-box"><span class="label">🪙 Reward</span><span class="val">150 Koin</span></div>
+            </div>
+
+            <h4 class="section-title">Job Description</h4>
+            <ul class="list-item">
+                <li>Mengklasifikasi koleksi buku berdasarkan kategori umur.</li>
+                <li>Menyelenggarakan sesi dongeng interaktif (Storytelling).</li>
+                <li>Membantu renovasi ringan area baca anak.</li>
+                <li>Mendampingi sesi membaca nyaring (Read Aloud).</li>
+            </ul>
+
+            <h4 class="section-title">Persyaratan</h4>
+            <ul class="list-item">
+                <li>Memiliki jiwa sosial dan sabar menghadapi anak-anak.</li>
+                <li>Berusia minimal 17 tahun.</li>
+                <li>Pecinta buku & mampu berkomunikasi dengan baik.</li>
+            </ul>
+
+            <h4 class="section-title">Benefit</h4>
+            <ul class="list-item">
+                <li>Sertifikat Relawan Nasional (E-Certificate).</li>
+                <li>150 Koin Kontribusi (Bisa ditukar Merchandise).</li>
+                <li>Networking dengan komunitas literasi nasional.</li>
+            </ul>
+
+            <div class="btn-group">
+                <a href="#" class="btn-main" onclick="alert('Pendaftaran Berhasil! Admin akan segera menghubungi kamu.')">Daftar Sekarang</a>
+                <a href="/pendidikan" class="btn-link">← Kembali ke Daftar Program</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
