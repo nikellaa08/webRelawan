@@ -3,239 +3,182 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pendaftaran Panti Jompo - Relawan Nusantara</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Form Kunjungan Panti Jompo - Relawan Nusantara</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
     <style>
-        /* CSS KHUSUS UNTUK HALAMAN INI AGAR TIDAK BLANK */
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #0a0f1e !important; /* Biru gelap pekat sesuai tema */
-            font-family: 'Poppins', sans-serif;
-            color: white;
-            min-height: 100vh;
-        }
-
-        /* Navigasi tetap konsisten */
-        .navbar {
-            background: rgba(10, 15, 30, 0.9);
-            padding: 15px 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-
-        /* Header yang bikin kesan "Wow" */
-        .page-header {
-            text-align: center;
-            padding: 80px 20px 120px;
-            background: linear-gradient(rgba(10, 15, 30, 0.8), rgba(10, 15, 30, 0.9)), 
-                        url('https://images.unsplash.com/photo-1516627145497-ae6968895b74?q=80&w=1500');
-            background-size: cover;
-            background-position: center;
-        }
-
-        .page-header h1 {
-            font-size: 2.5rem;
-            margin: 0;
-            letter-spacing: 1px;
-        }
-
-        /* Form Container yang Rapi & Presisi */
-        .form-wrapper {
-            max-width: 550px;
-            margin: -70px auto 60px; /* Biar agak naik menimpa header */
-            background: #1e293b; /* Warna card sesuai screenshot */
+        .form-container {
+            max-width: 500px;
+            margin: 40px auto;
             padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-            border: 1px solid rgba(255,255,255,0.1);
-            position: relative;
+            background: var(--color-white);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
-
-        .reward-badge {
-            position: absolute;
-            top: -15px;
-            right: 30px;
-            background: #facc15;
-            color: #000;
-            padding: 5px 15px;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 0.8rem;
-        }
-
-        .form-header {
+        .form-container h1 {
             text-align: center;
             margin-bottom: 30px;
+            color: var(--color-blue);
         }
-
-        .form-header h2 {
-            color: #00d2ff;
-            margin: 0;
-            font-size: 1.6rem;
-        }
-
-        .form-header p {
-            font-size: 0.85rem;
-            color: #94a3b8;
-            margin-top: 5px;
-        }
-
-        /* Styling Input */
-        .input-box {
+        .form-group {
             margin-bottom: 20px;
         }
-
-        .input-box label {
+        .form-group label {
             display: block;
             margin-bottom: 8px;
-            font-size: 0.85rem;
-            color: #cbd5e1;
+            font-weight: 600;
+            color: var(--color-dark);
         }
-
-        .form-control {
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="tel"],
+        .form-group input[type="number"],
+        .form-group input[type="date"],
+        .form-group select,
+        .form-group textarea {
             width: 100%;
-            padding: 12px 15px;
-            background: #0f172a;
-            border: 1px solid #334155;
-            border-radius: 10px;
-            color: white;
-            font-family: inherit;
-            font-size: 0.9rem;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-family: var(--font-family);
+            font-size: 1rem;
             box-sizing: border-box;
         }
-
-        .form-control:focus {
-            outline: none;
-            border-color: #00d2ff;
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
         }
-
-        /* Baris ganda untuk Usia & HP */
-        .form-row {
+        .form-group .checkbox-group {
             display: flex;
-            gap: 15px;
-        }
-
-        .form-row .input-box {
-            flex: 1;
-        }
-
-        /* Tombol Utama */
-        .btn-kirim {
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(90deg, #00d2ff, #0077ff);
-            border: none;
-            border-radius: 10px;
-            color: white;
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: 0.3s;
+            align-items: center;
+            gap: 10px;
             margin-top: 10px;
         }
-
-        .btn-kirim:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0, 210, 255, 0.3);
+        .form-group .checkbox-group input[type="checkbox"] {
+            width: auto;
+            margin: 0;
         }
-
-        .checkbox-group {
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            background: rgba(255,255,255,0.05);
-            padding: 10px;
+        .form-group .checkbox-group label {
+            font-weight: 400;
+            margin: 0;
+        }
+        .form-container .btn-primary {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--color-blue);
+            color: var(--color-white);
+            border: none;
             border-radius: 8px;
-            margin-bottom: 20px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
         }
-
-        .checkbox-group input { margin-top: 3px; }
-        .checkbox-group span { font-size: 0.75rem; color: #94a3b8; }
-
+        .form-container .btn-primary:hover {
+            background-color: var(--color-dark-blue);
+        }
     </style>
 </head>
 <body>
 
+    <!-- NAVBAR -->
     <nav class="navbar">
-        <div style="display: flex; align-items: center; gap: 20px;">
-            <a href="/sosial-kemanusiaan" style="color: white; text-decoration: none; font-size: 0.9rem;">&larr; Kembali</a>
-            <span style="font-weight: 700; color: #00d2ff;">Relawan Nusantara</span>
+        <div class="navbar-left">
+            <a href="/sosial-kemanusiaan" class="back-button" style="display: inline-flex;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z" fill="currentColor"></path></svg>
+                Kembali
+            </a>
+            <a href="/" class="nav-logo">Relawan Nusantara</a>
         </div>
-        <div style="color: #facc15; font-weight: 700;" id="display-koin">🪙 0</div>
+        <ul class="nav-menu">
+            <li class="nav-item"><a href="/pendidikan">Pendidikan</a></li>
+            <li class="nav-item"><a href="/lingkungan">Lingkungan</a></li>
+            <li class="nav-item"><a href="/kesehatan">Kesehatan</a></li>
+            <li class="nav-item"><a href="/sosial-kemanusiaan">Sosial & Kemanusiaan</a></li>
+        </ul>
+        <div class="nav-right">
+            <a href="/login" class="btn btn-secondary nav-login-btn">Login</a>
+        </div>
+        <div class="hamburger">
+            <div class="bar1"></div>
+            <div class="bar2"></div>
+            <div class="bar3"></div>
+        </div>
     </nav>
 
-    <header class="page-header">
-        <h1>Aksi Kemanusiaan</h1>
-    </header>
+    <!-- PAGE HEADER -->
+    <section class="page-header section">
+        <h1 class="section-title">Form Kunjungan Panti Jompo</h1>
+    </section>
 
-    <div class="form-wrapper">
-        <div class="reward-badge">+40 KOIN</div>
-        <div class="form-header">
-            <h2>Kunjungi Panti Jompo</h2>
-            <p>Berbagi waktu, menghadirkan senyuman bagi lansia</p>
+    <!-- FORM -->
+    <section class="section">
+        <div class="form-container">
+            <h1 style="text-align: center;">Kunjungi Panti Jompo<br><small style="font-weight: 400;">Berbagi waktu, menghadirkan senyuman</small></h1>
+            <form id="pantiJompoVisitForm">
+                <div class="form-group">
+                    <label for="volunteerName">Nama Relawan:</label>
+                    <input type="text" id="volunteerName" name="volunteerName" required>
+                </div>
+                <div class="form-group">
+                    <label for="volunteerAge">Usia Relawan:</label>
+                    <input type="number" id="volunteerAge" name="volunteerAge" min="17" required>
+                </div>
+                <div class="form-group">
+                    <label for="contact">No. HP / Email:</label>
+                    <input type="text" id="contact" name="contact" required>
+                </div>
+                <div class="form-group">
+                    <label for="visitDate">Pilih Jadwal:</label>
+                    <input type="date" id="visitDate" name="visitDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="activity">Pilih Aktivitas:</label>
+                    <select id="activity" name="activity" required>
+                        <option value="">Pilih Aktivitas</option>
+                        <option value="ngobrol">Mendengar Cerita & Ngobrol</option>
+                        <option value="senam">Senam Lansia Ringan</option>
+                        <option value="musik">Bernyanyi & Musik</option>
+                        <option value="permainan">Bermain Game Papan</option>
+                        <option value="lainnya">Lainnya</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="notes">Catatan Tambahan:</label>
+                    <textarea id="notes" name="notes"></textarea>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="agreeRules" name="agreeRules" required>
+                        <label for="agreeRules">Saya setuju untuk mengikuti aturan panti dan menjaga kesantunan selama kunjungan</label>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-primary">Daftar & Tebar Kebaikan</button>
+            </form>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const form = document.getElementById('pantiJompoVisitForm');
+                    form.addEventListener('submit', function(event) {
+                        event.preventDefault();
+                        document.body.classList.add('fade-out');
+                        setTimeout(function() {
+                            window.location.href = '/sosial-kemanusiaan';
+                        }, 500);
+                    });
+                });
+            </script>
         </div>
+    </section>
 
-        <form id="pantiForm">
-            <div class="input-box">
-                <label>Nama Relawan</label>
-                <input type="text" class="form-control" placeholder="Nama lengkap Anda" required>
-            </div>
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>&copy; 2026 Relawan Nusantara. Semua Hak Dilindungi.</p>
+    </footer>
 
-            <div class="form-row">
-                <div class="input-box">
-                    <label>Usia (Min 17)</label>
-                    <input type="number" class="form-control" min="17" placeholder="Usia" required>
-                </div>
-                <div class="input-box">
-                    <label>No. WhatsApp</label>
-                    <input type="tel" class="form-control" placeholder="0812xxxx" required>
-                </div>
-            </div>
+    <script src="/script.js"></script>
 
-            <div class="input-box">
-                <label>Pilih Jadwal</label>
-                <input type="date" class="form-control" required>
-            </div>
-
-            <div class="input-box">
-                <label>Pilih Aktivitas</label>
-                <select class="form-control" required>
-                    <option value="">-- Pilih Aktivitas --</option>
-                    <option value="ngobrol">Mendengar Cerita & Ngobrol</option>
-                    <option value="senam">Senam Lansia Ringan</option>
-                    <option value="musik">Bernyanyi & Musik</option>
-                    <option value="permainan">Bermain Game Papan</option>
-                </select>
-            </div>
-
-            <div class="checkbox-group">
-                <input type="checkbox" required>
-                <span>Saya setuju untuk mengikuti aturan panti dan menjaga kesantunan selama kunjungan berlangsung.</span>
-            </div>
-
-            <button type="submit" class="btn-kirim">Daftar & Tebarkan Kebaikan</button>
-        </form>
-    </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Urusan Koin
-            let koin = parseInt(localStorage.getItem('relawan_koin')) || 0;
-            document.getElementById('display-koin').innerText = `🪙 ${koin}`;
-
-            document.getElementById('pantiForm').addEventListener('submit', (e) => {
-                e.preventDefault();
-                koin += 40;
-                localStorage.setItem('relawan_koin', koin);
-                
-                alert("Pendaftaran Berhasil! 🎉\nKoin Anda bertambah +40.");
-                window.location.href = '/sosial-kemanusiaan';
-            });
-        });
-    </script>
 </body>
 </html>

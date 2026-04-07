@@ -7,7 +7,160 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/style.css">
+    <style>
+        /* Scrollable main content */
+        main {
+            margin-top: 80px; /* Height of navbar */
+            min-height: calc(100vh - 80px);
+            overflow-y: auto;
+        }
+
+        /* Ensure smooth scrolling */
+        main::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        main::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        main::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+
+        main::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        /* Animasi Mengambang (Floating) */
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .event-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+        }
+
+        .event-card.animate {
+            animation: floating 4s ease-in-out infinite;
+        }
+
+        .event-card:nth-child(even) {
+            animation-delay: 1s;
+        }
+
+        .event-card:hover {
+            animation-play-state: paused;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .info-container {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            border-left: 4px solid #f39c12;
+        }
+
+        .info-container p {
+            margin-bottom: 5px;
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        .card-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 1.5rem;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 40px auto;
+            opacity: 0.8;
+        }
+
+        /* Style Modal (Pop-up Form) */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0; top: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.85);
+            backdrop-filter: blur(8px);
+        }
+        .modal-content {
+            background-color: #fff;
+            margin: 2% auto;
+            padding: 25px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 450px;
+            color: #333;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            animation: slideUp 0.4s ease-out;
+        }
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .close-btn {
+            position: absolute;
+            right: 20px; top: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+        }
+        .form-header { text-align: center; margin-bottom: 20px; }
+        .form-header h2 { color: #007bff; font-size: 1.5rem; margin-bottom: 5px; }
+        .form-header p { font-size: 0.9rem; color: #666; }
+        .input-group { margin-bottom: 12px; }
+        .input-group label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.85rem; }
+        .input-group input, .input-group select, .input-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+        }
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+        }
+        .checkbox-group input {
+            width: auto;
+            margin-right: 10px;
+        }
+        .btn-submit {
+            width: 100%;
+            padding: 12px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: 0.3s;
+        }
+        .btn-submit:hover { background: #0056b3; }
+    </style>
 </head>
 <body>
 
@@ -23,7 +176,7 @@
         <ul class="nav-menu">
             <li class="nav-item"><a href="/pendidikan">Pendidikan</a></li>
             <li class="nav-item"><a href="/lingkungan">Lingkungan</a></li>
-            <li class="nav-item"><a href="kesehatan.html">Kesehatan</a></li>
+            <li class="nav-item"><a href="/kesehatan">Kesehatan</a></li>
             <li class="nav-item"><a href="/sosial-kemanusiaan">Sosial & Kemanusiaan</a></li>
         </ul>
         <div class="nav-right">
@@ -36,75 +189,95 @@
         </div>
     </nav>
 
-    <!-- MAIN CONTENT -->
     <main>
         <section class="section">
             <div class="container">
                 <h2 class="section-title">Program Relawan Kesehatan</h2>
                 <div class="section-subtitle">
-                    <p>Kesehatan adalah hak setiap individu, bukan kemewahan. Bersama Relawan Nusantara, mari wujudkan akses kesehatan yang merata untuk seluruh lapisan masyarakat, terutama bagi mereka yang paling membutuhkan. Setiap aksi kecil kita bisa membawa dampak besar bagi kualitas hidup dan kesejahteraan banyak orang.</p>
-                    <p>Dari pemeriksaan dini hingga dukungan mental, kehadiranmu adalah harapan. Mari gerakkan hati dan tangan untuk: <strong>melayani, mengedukasi, dan mendukung</strong>. Sehat bersama, kuat bersama!</p>
+                    <p>Kesehatan adalah hak setiap individu. Bersama Relawan Nusantara, mari wujudkan akses kesehatan yang merata. Setiap aksi kecil kita membawa dampak besar.</p>
                 </div>
-                
+
                 <div class="program-list grid">
-                    <!-- Card 1: Pemeriksaan Kesehatan Gratis -->
+                    <%
+                    const programs = [
+                        {
+                            emoji: "🩺", title: "Pemeriksaan Kesehatan Gratis",
+                            cta: 'Akses kesehatan dasar adalah hak semua. Bergabunglah untuk memberikan pemeriksaan gratis bagi masyarakat kurang mampu.',
+                            deadline: "Ditentukan kemudian",
+                            location: "Posko Kesehatan / Puskesmas",
+                            participants: "Dokter, Perawat, Umum",
+                            activity: "Cek tensi, gula darah, konsultasi.",
+                            reward: "Koin + Lencana Kesehatan"
+                        },
+                        {
+                            emoji: "🩸", title: "Donor Darah Nasional",
+                            cta: 'Setetes darahmu menyelamatkan nyawa. Ikuti aksi donor darah rutin kami dan jadilah pahlawan!',
+                            deadline: "Sesuai jadwal PMI",
+                            location: "PMI Setempat / Area Publik",
+                            participants: "Usia 17-60 thn, Berat min 45kg",
+                            activity: "Cek kesehatan, regenerasi sel darah.",
+                            reward: "Koin + Lencana Donor"
+                        },
+                        {
+                            emoji: "🍎", title: "Sosialisasi Gizi Anak",
+                            cta: 'Masa depan bangsa dimulai dari gizi yang baik. Edukasi orang tua tentang nutrisi untuk cegah stunting.',
+                            deadline: "Setiap Akhir Bulan",
+                            location: "Posyandu / Desa Binaan",
+                            participants: "Ibu hamil, Ibu menyusui",
+                            activity: "MPASI, pola makan sehat.",
+                            reward: "Koin + Lencana Edukasi"
+                        },
+                        {
+                            emoji: "🧠", title: "Support System Mental Health",
+                            cta: 'Mental yang sehat adalah pondasi kebahagiaan. Saling mendukung untuk kesehatan jiwa yang lebih baik.',
+                            deadline: "Online / Terjadwal",
+                            location: "Pusat Komunitas / Online",
+                            participants: "Psikolog / Konselor (Profesional)",
+                            activity: "Diskusi kelompok, konseling individu.",
+                            reward: "Koin + Lencana Peduli"
+                        }
+                    ];
+                    %>
+
+                    <% programs.forEach(function(item) { %>
                     <div class="event-card">
                         <div class="card-body">
-                            <h3 class="card-title">🩺 Pemeriksaan Kesehatan Gratis</h3>
-                            <p class="call-to-action">“Akses kesehatan dasar adalah hak semua. Bergabunglah untuk memberikan pemeriksaan gratis bagi masyarakat kurang mampu.”</p>
-                            <p><strong>📅 Jadwal Kegiatan</strong></p>
-                            <p><strong>📍 Lokasi:</strong> Posko Kesehatan / Puskesmas Pembantu (ditentukan)</p>
-                            <p><strong>👥 Tenaga Medis:</strong> Dokter, Perawat, Relawan Umum</p>
-                            <p><strong>❤️ Layanan:</strong> Cek tensi, gula darah, konsultasi umum.</p>
-                            <p><strong>🏅 Reward:</strong> Koin + Lencana Kesehatan</p>
-                            <a href="#" class="btn btn-primary btn-follow" style="margin-top: 1rem;">Daftar Sekarang</a>
+                            <h3 class="card-title"><%= item.emoji %> <%= item.title %></h3>
+                            <p class="call-to-action"><%= item.cta %></p>
+
+                            <div class="info-row">
+                                <span class="icon-circle">📅</span>
+                                <span class="info-label">Batas:</span>
+                                <span class="info-value"><%= item.deadline %></span>
+                            </div>
+                            <div class="info-row">
+                                <span class="icon-circle">📍</span>
+                                <span class="info-label">Lokasi:</span>
+                                <span class="info-value"><%= item.location %></span>
+                            </div>
+                            <div class="info-row">
+                                <span class="icon-circle">👥</span>
+                                <span class="info-label">Peserta:</span>
+                                <span class="info-value"><%= item.participants %></span>
+                            </div>
+                            <div class="info-row">
+                                <span class="icon-circle">❤️</span>
+                                <span class="info-label">Aktivitas:</span>
+                                <span class="info-value"><%= item.activity %></span>
+                            </div>
+                            <div class="info-row">
+                                <span class="icon-circle">🏅</span>
+                                <span class="info-label">Reward:</span>
+                                <span class="info-value"><%= item.reward %></span>
+                            </div>
+
+                            <div class="card-actions">
+                                <a href="#" class="btn btn-primary btn-follow">Daftar Sekarang</a>
+                            </div>
                         </div>
                     </div>
-
-                    <!-- Card 2: Donor Darah Nasional -->
-                    <div class="event-card">
-                        <div class="card-body">
-                            <h3 class="card-title">🩸 Donor Darah Nasional</h3>
-                            <p class="call-to-action">“Setetes darahmu menyelamatkan nyawa. Ikuti aksi donor darah rutin kami dan jadilah pahlawan kemanusiaan!”</p>
-                            <p><strong>📅 Jadwal Event Donor</strong></p>
-                            <p><strong>📍 Lokasi:</strong> PMI Setempat / Area Publik (ditentukan)</p>
-                            <p><strong>👥 Syarat:</strong> Usia 17-60 tahun, berat min. 45kg, sehat jasmani rohani.</p>
-                            <p><strong>❤️ Manfaat:</strong> Cek kesehatan gratis, regenerasi sel darah.</p>
-                            <p><strong>🏅 Reward:</strong> Koin + Lencana Donor</p>
-                            <a href="#" class="btn btn-primary btn-follow" style="margin-top: 1rem;">Daftar Sekarang</a>
-                        </div>
-                    </div>
-
-                    <!-- Card 3: Sosialisasi Gizi Anak (Cegah Stunting) -->
-                    <div class="event-card">
-                        <div class="card-body">
-                            <h3 class="card-title">🍎 Sosialisasi Gizi Anak (Cegah Stunting)</h3>
-                            <p class="call-to-action">“Masa depan bangsa dimulai dari gizi yang baik. Edukasi orang tua tentang pentingnya nutrisi untuk cegah stunting.”</p>
-                            <p><strong>📅 Jadwal Sosialisasi</strong></p>
-                            <p><strong>📍 Lokasi:</strong> Posyandu / Desa Binaan</p>
-                            <p><strong>👥 Target Peserta:</strong> Ibu hamil, ibu menyusui, orang tua balita.</p>
-                            <p><strong>❤️ Materi:</strong> MPASI, pola makan sehat, kebersihan diri.</p>
-                            <p><strong>🏅 Reward:</strong> Koin + Lencana Edukasi</p>
-                            <a href="#" class="btn btn-primary btn-follow" style="margin-top: 1rem;">Daftar Sekarang</a>
-                        </div>
-                    </div>
-
-                    <!-- Card 4: Support System Mental Health -->
-                    <div class="event-card">
-                        <div class="card-body">
-                            <h3 class="card-title">🧠 Support System Mental Health</h3>
-                            <p class="call-to-action">“Mental yang sehat adalah pondasi kebahagiaan. Saling mendukung untuk kesehatan jiwa yang lebih baik.”</p>
-                            <p><strong>📅 Jadwal Sesi Dukungan</strong></p>
-                            <p><strong>📍 Lokasi:</strong> Pusat Komunitas / Online</p>
-                            <p><strong>👥 Pendamping:</strong> Psikolog / Konselor (Profesional)</p>
-                            <p><strong>❤️ Format:</strong> Diskusi kelompok, konseling individu (opsional).</p>
-                            <p><strong>🏅 Reward:</strong> Koin + Lencana Peduli</p>
-                            <a href="#" class="btn btn-primary btn-follow" style="margin-top: 1rem;">Daftar Sekarang</a>
-                        </div>
-                    </div>
-
+                    <% }); %>
                 </div>
-
             </div>
         </section>
     </main>
@@ -114,7 +287,45 @@
         <p>&copy; 2026 Relawan Nusantara. Semua Hak Dilindungi.</p>
     </footer>
 
-    <script src="script.js"></script>
+    <!-- Modal for Registration -->
+    <div id="registrationModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <div class="form-header">
+                <h2 id="targetProgram">Pendaftaran Program</h2>
+                <p>Silakan isi data diri Anda untuk bergabung sebagai relawan.</p>
+            </div>
+
+            <form id="healthForm">
+                <div class="input-group">
+                    <label>Nama Lengkap:</label>
+                    <input type="text" name="nama" placeholder="Contoh: Budi Santoso" required>
+                </div>
+                <div class="input-group">
+                    <label>Nomor WhatsApp:</label>
+                    <input type="tel" name="whatsapp" placeholder="08123456789" required>
+                </div>
+                <div class="input-group">
+                    <label>Profesi / Keahlian:</label>
+                    <select name="profesi" required>
+                        <option value="">Pilih Profesi</option>
+                        <option value="Dokter">Dokter</option>
+                        <option value="Perawat">Perawat</option>
+                        <option value="Mahasiswa Medis">Mahasiswa Medis</option>
+                        <option value="Umum">Relawan Umum</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Unggah Bukti Identitas (KTP/KTM/STR):</label>
+                    <input type="file" name="identitas" required>
+                </div>
+                <button type="submit" class="btn-submit">Daftarkan Sekarang</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="/script.js"></script>
+    <script src="/kesehatan.js"></script>
 
 </body>
 </html>
