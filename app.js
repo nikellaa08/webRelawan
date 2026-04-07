@@ -149,9 +149,9 @@ app.get('/daftar/:program', (req, res) => {
 // Handle submit form pendaftaran kesehatan
 app.post('/daftar/:program', (req, res) => {
     const programSlug = req.params.program;
-    const { fullname, email, whatsapp } = req.body;
+    const { fullname, email, whatsapp, umur, emergencyName, emergencyPhone } = req.body;
 
-    // Validasi input
+    // Validasi input umum
     if (!fullname || !email || !whatsapp) {
         req.session.message = '⚠️ Semua field wajib diisi.';
         return res.redirect(`/daftar/${programSlug}`);
@@ -170,11 +170,33 @@ app.post('/daftar/:program', (req, res) => {
         return res.redirect(`/daftar/${programSlug}`);
     }
 
+    // Validasi khusus Donor Darah
+    if (programSlug === 'donor-darah') {
+        // Validasi umur minimal 17 tahun
+        if (!umur || parseInt(umur) < 17) {
+            req.session.message = '⚠️ Maaf, syarat minimal donor darah adalah 17 tahun.';
+            return res.redirect(`/daftar/${programSlug}`);
+        }
+
+        // Validasi kontak darurat
+        if (!emergencyName || !emergencyPhone) {
+            req.session.message = '⚠️ Kontak darurat wajib diisi untuk program Donor Darah.';
+            return res.redirect(`/daftar/${programSlug}`);
+        }
+
+        // Validasi nomor telepon darurat hanya angka
+        if (!/^[0-9]+$/.test(emergencyPhone)) {
+            req.session.message = '⚠️ Nomor telepon darurat hanya boleh angka.';
+            return res.redirect(`/daftar/${programSlug}`);
+        }
+    }
+
     // Simpan data pendaftaran (untuk sementara ke console, bisa dikembangkan ke database)
     console.log(`✅ Pendaftaran ${programSlug}:`, {
         fullname,
         email,
         whatsapp,
+        ...(programSlug === 'donor-darah' && { umur, emergencyName, emergencyPhone }),
         ...req.body
     });
 
