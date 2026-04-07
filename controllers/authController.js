@@ -103,8 +103,8 @@ export const register = async (req, res) => {
     req.session.message = `✅ Pendaftaran berhasil! Selamat datang, ${newUser.name}!`;
     console.log(`✅ User baru terdaftar: ${fullname} (${email})`);
 
-    // 6. Redirect ke halaman login
-    res.redirect('/login');
+    // 6. Redirect ke halaman utama (langsung login)
+    res.redirect('/');
 
   } catch (error) {
     console.error('❌ Error saat proses registrasi:', error.message);
