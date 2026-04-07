@@ -28,31 +28,23 @@ app.use(express.json());
 
 // Session configuration
 app.use(session({
-    secret: 'relawan-nusantara-secret-key-2026', // Ganti dengan random string yang kompleks
+    secret: 'relawan-nusantara-secret-key-2026',
     resave: false,
     saveUninitialized: false,
     cookie: {
-        secure: false, // Set true jika menggunakan HTTPS
+        secure: false,
         maxAge: 24 * 60 * 60 * 1000 // 24 jam
     }
 }));
 
-// Session middleware
-app.use(session({
-    secret: 'secret-key-relawan-nusantara',
-    resave: false,
-    saveUninitialized: false,
-    cookie: { maxAge: 3600000, secure: false }
-}));
-
-// Middleware untuk membuat user dan message tersedia di semua template
+// Middleware untuk mengakses session di setiap route
 app.use((req, res, next) => {
     res.locals.user = req.session.user || null;
     res.locals.message = req.session.message || null;
     next();
 });
 
-// --- Routes Halaman Utama ---
+// --- Routes ---
 
 app.get('/', (req, res) => {
     res.render('index', { user: req.session.user || null, message: req.session.message || null });
@@ -68,39 +60,58 @@ app.get('/registration-form', (req, res) => {
 });
 
 app.get('/login', (req, res) => {
-    res.render('login', { user: app.locals.session.user, message: null });
+    res.render('login', { user: req.session.user || null, message: null });
 });
 
-// --- API Endpoints ---
+// API Endpoints
 app.post('/api/login', login);
 app.get('/api/categories', getCategories);
 app.get('/api/events', getEvents);
 
 // --- Page Routes ---
-app.get('/pendidikan', (req, res) => res.render('pendidikan', { user: app.locals.session.user, message: null }));
-app.get('/lingkungan', (req, res) => res.render('lingkungan', { user: app.locals.session.user, message: null }));
-app.get('/kesehatan', (req, res) => res.render('kesehatan', { user: app.locals.session.user, message: null }));
-app.get('/sosial-kemanusiaan', (req, res) => res.render('sosial-kemanusiaan', { user: app.locals.session.user, message: null }));
+app.get('/pendidikan', (req, res) => res.render('pendidikan', { user: req.session.user || null }));
+app.get('/lingkungan', (req, res) => res.render('lingkungan', { user: req.session.user || null }));
+app.get('/kesehatan', (req, res) => res.render('kesehatan', { user: req.session.user || null }));
+app.get('/sosial-kemanusiaan', (req, res) => res.render('sosial-kemanusiaan', { user: req.session.user || null }));
 
 // --- Detail Pages ---
-app.get('/book-detail', (req, res) => res.render('book-detail', { user: app.locals.session.user, message: null }));
-app.get('/pakaian-detail', (req, res) => res.render('pakaian-detail', { user: app.locals.session.user, message: null }));
-app.get('/pendidikan-detail', (req, res) => res.render('pendidikan-detail', { user: app.locals.session.user, message: null }));
-app.get('/sosial-anak-detail', (req, res) => res.render('sosial-anak-detail', { user: app.locals.session.user, message: null }));
+app.get('/book-detail', (req, res) => res.render('book-detail', { user: req.session.user || null }));
+app.get('/pakaian-detail', (req, res) => res.render('pakaian-detail', { user: req.session.user || null }));
+app.get('/pendidikan-detail', (req, res) => res.render('pendidikan-detail', { user: req.session.user || null }));
+app.get('/sosial-anak-detail', (req, res) => res.render('sosial-anak-detail', { user: req.session.user || null }));
 
 // --- Form Pages ---
-app.get('/donation-book-form', (req, res) => res.render('donation-book-form', { user: app.locals.session.user, message: null }));
-app.get('/donation-form', (req, res) => res.render('donation-form', { user: app.locals.session.user, message: null }));
-app.get('/kunjungan-panti-asuhan-form', (req, res) => res.render('kunjungan-panti-asuhan-form', { user: app.locals.session.user, message: null }));
-app.get('/kunjungan-panti-jompo-form', (req, res) => res.render('kunjungan-panti-jompo-form', { user: app.locals.session.user, message: null }));
-app.get('/jadwal', (req, res) => res.render('jadwal', { user: app.locals.session.user, message: null }));
+app.get('/donation-book-form', (req, res) => res.render('donation-book-form', { user: req.session.user || null }));
+app.get('/donation-form', (req, res) => res.render('donation-form', { user: req.session.user || null }));
+app.get('/kunjungan-panti-asuhan-form', (req, res) => res.render('kunjungan-panti-asuhan-form', { user: req.session.user || null }));
+app.get('/kunjungan-panti-jompo-form', (req, res) => res.render('kunjungan-panti-jompo-form', { user: req.session.user || null }));
+app.get('/jadwal', (req, res) => res.render('jadwal', { user: req.session.user || null }));
 
-// Handle pendaftaran dari form
+// Handle pendaftaran dari form - SIMPAN KE SESSION
 app.post('/daftar', (req, res) => {
-    const { fullname } = req.body;
-    app.locals.session.user = { name: fullname };
-    app.locals.session.message = `Selamat Datang ${fullname}!`;
+    const { fullname, email } = req.body;
+    
+    // Simpan user ke session setelah pendaftaran berhasil
+    req.session.user = {
+        name: fullname,
+        email: email || ''
+    };
+    
+    req.session.message = `Selamat Datang ${fullname}! Pendaftaran berhasil.`;
+    console.log(`✅ User terdaftar: ${fullname} (${email})`);
+    
+    // Redirect ke halaman utama
     res.redirect('/');
+});
+
+// Route logout
+app.get('/logout', (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            console.error('Error saat logout:', err);
+        }
+        res.redirect('/');
+    });
 });
 
 // Function to open browser automatically
