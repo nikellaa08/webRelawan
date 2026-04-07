@@ -98,7 +98,7 @@ app.get('/jadwal', (req, res) => res.render('jadwal', { user: req.session.user |
 
 // Handle pendaftaran dari form - SIMPAN KE SESSION
 app.post('/daftar', (req, res) => {
-    const { fullname, email } = req.body;
+    const { fullname, email, password } = req.body;
     
     // Simpan user ke session setelah pendaftaran berhasil
     req.session.user = {
@@ -106,11 +106,11 @@ app.post('/daftar', (req, res) => {
         email: email || ''
     };
     
-    req.session.message = `Selamat Datang ${fullname}! Pendaftaran berhasil.`;
+    req.session.message = `✅ Pendaftaran berhasil! Silakan login dengan email dan password Anda.`;
     console.log(`✅ User terdaftar: ${fullname} (${email})`);
     
-    // Redirect ke halaman utama
-    res.redirect('/');
+    // Redirect ke halaman login setelah pendaftaran
+    res.redirect('/login');
 });
 
 // Route logout
