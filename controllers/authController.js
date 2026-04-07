@@ -12,35 +12,39 @@ export const login = async (req, res) => {
 
   // 1. Validasi input
   if (!email || !password) {
-    return res.status(400).json({ message: 'Email dan password harus diisi.' });
+    req.session.message = 'Email dan password harus diisi.';
+    return res.redirect('/login');
   }
 
   try {
     // 2. Cek email di tabel users
     const user = await getUserByEmail(email);
     if (!user) {
-      return res.status(401).json({ message: 'Email atau password salah.' });
+      req.session.message = 'Email atau password salah.';
+      return res.redirect('/login');
     }
 
-    // 3. Verifikasi password - bandingkan langsung (plain text) tanpa bcrypt
+    // 3. Verifikasi password - bandingkan langsung (plain text)
     if (password !== user.password) {
-      return res.status(401).json({ message: 'Email atau password salah.' });
+      req.session.message = 'Email atau password salah.';
+      return res.redirect('/login');
     }
 
     // 4. Jika berhasil, set session.user dengan data dari database
     req.session.user = {
       id: user.id,
       email: user.email,
-      name: user.nama_lengkap || user.name
+      name: user.nama_lengkap || user.name || email.split('@')[0]
     };
 
-    req.session.message = `Selamat datang kembali, ${user.nama_lengkap || user.name}!`;
+    req.session.message = `Selamat datang kembali, ${req.session.user.name}!`;
 
     // 5. Redirect ke halaman utama setelah login sukses
     res.redirect('/');
 
   } catch (error) {
     console.error('Error saat proses login:', error.message);
-    res.status(500).json({ message: 'Terjadi kesalahan server saat login.', error: error.message });
+    req.session.message = 'Terjadi kesalahan server saat login.';
+    res.redirect('/login');
   }
 };

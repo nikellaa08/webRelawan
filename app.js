@@ -44,6 +44,15 @@ app.use((req, res, next) => {
     next();
 });
 
+// Middleware untuk proteksi halaman yang memerlukan login
+const requireAuth = (req, res, next) => {
+    if (!req.session.user) {
+        req.session.message = 'Maaf, Anda harus login terlebih dahulu untuk mengakses halaman ini. Silakan masuk atau daftar jika belum memiliki akun.';
+        return res.redirect('/login');
+    }
+    next();
+};
+
 // --- Routes ---
 
 app.get('/', (req, res) => {
