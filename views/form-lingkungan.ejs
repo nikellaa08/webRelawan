@@ -84,6 +84,187 @@
             line-height: 1.6;
         }
 
+        /* Progress Bar Styles */
+        .progress-bar-container {
+            margin-bottom: 30px;
+            padding-left: 20px;
+        }
+
+        .progress-steps {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .progress-steps::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #e0e0e0;
+            z-index: 0;
+        }
+
+        .progress-line {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #28a745 0%, #4CAF50 100%);
+            z-index: 1;
+            transition: width 0.4s ease;
+            width: 0%;
+        }
+
+        .progress-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+            flex: 1;
+        }
+
+        .step-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: white;
+            border: 3px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: #999;
+            transition: all 0.3s ease;
+            margin-bottom: 8px;
+        }
+
+        .progress-step.active .step-circle {
+            border-color: #28a745;
+            background: linear-gradient(135deg, #28a745 0%, #4CAF50 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+        }
+
+        .progress-step.completed .step-circle {
+            border-color: #28a745;
+            background: #28a745;
+            color: white;
+        }
+
+        .step-label {
+            font-size: 0.8rem;
+            color: #999;
+            font-weight: 600;
+            text-align: center;
+            transition: color 0.3s ease;
+        }
+
+        .progress-step.active .step-label,
+        .progress-step.completed .step-label {
+            color: #28a745;
+        }
+
+        /* Live Counter for Adopsi Pohon */
+        .live-counter {
+            margin-bottom: 20px;
+            padding: 15px 20px;
+            background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
+            border-radius: 12px;
+            border: 2px solid #4CAF50;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.4);
+            }
+            50% {
+                box-shadow: 0 0 0 10px rgba(76, 175, 80, 0);
+            }
+        }
+
+        .live-counter .counter-text {
+            font-size: 0.95rem;
+            color: #2e7d32;
+            font-weight: 600;
+        }
+
+        .live-counter .counter-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #28a745;
+            animation: countPulse 1s ease-in-out infinite;
+        }
+
+        @keyframes countPulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .live-counter .counter-icon {
+            font-size: 2rem;
+            margin-right: 15px;
+        }
+
+        .live-counter-left {
+            display: flex;
+            align-items: center;
+        }
+
+        /* Sticky Summary */
+        .sticky-summary {
+            position: sticky;
+            top: 80px;
+            z-index: 100;
+            background: white;
+            padding: 15px 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-left: 4px solid #28a745;
+            transition: all 0.3s ease;
+        }
+
+        .sticky-summary.scrolled {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+        }
+
+        .sticky-summary .program-emoji {
+            font-size: 2rem;
+        }
+
+        .sticky-summary .program-info h3 {
+            margin: 0;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .sticky-summary .program-info p {
+            margin: 0;
+            font-size: 0.85rem;
+            color: #666;
+        }
+
         .back-to-program {
             display: inline-flex;
             align-items: center;
@@ -300,44 +481,163 @@
             flex-shrink: 0;
         }
 
-        /* Payment Methods UI (untuk Adopsi) */
+        /* Payment Methods UI (untuk Adopsi) - Professional Design */
         .payment-methods {
+            margin-top: 12px;
+        }
+
+        .payment-category {
+            margin-bottom: 16px;
+        }
+
+        .payment-category-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .payment-category-label .category-icon {
+            font-size: 1rem;
+        }
+
+        .payment-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 10px;
-            margin-top: 10px;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
         }
 
         .payment-method {
-            padding: 12px;
+            position: relative;
+            padding: 16px 12px;
             border: 2px solid #e0e0e0;
-            border-radius: 8px;
+            border-radius: 10px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.3s ease;
-            background: #f9f9f9;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: #fafafa;
+            overflow: hidden;
+        }
+
+        .payment-method::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(40, 167, 69, 0.05) 0%, rgba(76, 175, 80, 0.05) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
         .payment-method:hover {
             border-color: #4CAF50;
-            background: #f0f9f0;
+            background: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.15);
+        }
+
+        .payment-method:hover::before {
+            opacity: 1;
         }
 
         .payment-method.selected {
             border-color: #28a745;
-            background: #e8f5e9;
-            box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.1);
+            background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
+            box-shadow: 0 4px 16px rgba(40, 167, 69, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .payment-method.selected::before {
+            opacity: 1;
+        }
+
+        .payment-method.selected::after {
+            content: '✓';
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 22px;
+            height: 22px;
+            background: #28a745;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            animation: checkmarkPop 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        @keyframes checkmarkPop {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
         }
 
         .payment-method .method-icon {
-            font-size: 1.5rem;
-            margin-bottom: 5px;
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
+            transition: transform 0.3s ease;
+        }
+
+        .payment-method.selected .method-icon {
+            transform: scale(1.1);
         }
 
         .payment-method .method-name {
             font-size: 0.85rem;
-            font-weight: 600;
+            font-weight: 700;
             color: #333;
+            position: relative;
+            z-index: 1;
+            transition: color 0.3s ease;
+        }
+
+        .payment-method.selected .method-name {
+            color: #28a745;
+        }
+
+        .payment-method .method-desc {
+            font-size: 0.75rem;
+            color: #666;
+            margin-top: 4px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .payment-note {
+            margin-top: 16px;
+            padding: 12px 14px;
+            background: linear-gradient(135deg, #fff9e6 0%, #fff3cd 100%);
+            border-left: 3px solid #ffc107;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            color: #666;
+            line-height: 1.6;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .payment-note .note-icon {
+            font-size: 1.1rem;
+            flex-shrink: 0;
         }
 
         .submit-btn {
@@ -459,8 +759,28 @@
                 padding-left: 10px;
             }
 
-            .payment-methods {
+            .payment-grid {
                 grid-template-columns: 1fr 1fr;
+            }
+
+            .payment-category-label {
+                font-size: 0.8rem;
+            }
+
+            .payment-method {
+                padding: 12px 8px;
+            }
+
+            .payment-method .method-icon {
+                font-size: 1.5rem;
+            }
+
+            .payment-method .method-name {
+                font-size: 0.8rem;
+            }
+
+            .payment-method .method-desc {
+                font-size: 0.7rem;
             }
         }
     </style>
@@ -523,6 +843,47 @@
                 <h1>Form Pendaftaran</h1>
                 <p><%= program.description %></p>
             </div>
+
+            <!-- Progress Bar -->
+            <div class="progress-bar-container">
+                <div class="progress-steps">
+                    <div class="progress-line" id="progressLine"></div>
+                    <div class="progress-step active" data-step="1">
+                        <div class="step-circle">1</div>
+                        <div class="step-label">Data Diri</div>
+                    </div>
+                    <div class="progress-step" data-step="2">
+                        <div class="step-circle">2</div>
+                        <div class="step-label">Data Program</div>
+                    </div>
+                    <div class="progress-step" data-step="3">
+                        <div class="step-circle">3</div>
+                        <div class="step-label">Selesai</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sticky Summary -->
+            <div class="sticky-summary" id="stickySummary">
+                <div class="program-emoji"><%= program.emoji %></div>
+                <div class="program-info">
+                    <h3><%= program.title %></h3>
+                    <p>Form Pendaftaran Relawan</p>
+                </div>
+            </div>
+
+            <% if (program.type === 'adopsi') { %>
+            <!-- Live Counter for Adopsi Pohon -->
+            <div class="live-counter">
+                <div class="live-counter-left">
+                    <div class="counter-icon">🌳</div>
+                    <div>
+                        <div class="counter-text">Pohon Telah Diadopsi</div>
+                    </div>
+                </div>
+                <div class="counter-number" id="treeCounter">1.240</div>
+            </div>
+            <% } %>
 
             <% if (typeof message !== 'undefined' && message) { %>
                 <div style="padding: 15px; background: #fff3cd; border-left: 4px solid #ffc107; border-radius: 8px; margin-bottom: 20px;">
@@ -637,17 +998,94 @@
                     <div class="form-group">
                         <label><span class="label-icon">💳</span> Metode Pembayaran *</label>
                         <div class="payment-methods">
-                            <div class="payment-method" onclick="selectPayment(this, 'transfer-bank')">
-                                <div class="method-icon">🏦</div>
-                                <div class="method-name">Transfer Bank</div>
+                            <!-- E-Wallet Category -->
+                            <div class="payment-category">
+                                <div class="payment-category-label">
+                                    <span class="category-icon">📱</span>
+                                    E-Wallet
+                                </div>
+                                <div class="payment-grid">
+                                    <div class="payment-method" onclick="selectPayment(this, 'gopay')">
+                                        <div class="method-icon">💚</div>
+                                        <div class="method-name">GOPAY</div>
+                                        <div class="method-desc">GoPay Indonesia</div>
+                                    </div>
+                                    <div class="payment-method" onclick="selectPayment(this, 'ovo')">
+                                        <div class="method-icon">💜</div>
+                                        <div class="method-name">OVO</div>
+                                        <div class="method-desc">OVO Digital</div>
+                                    </div>
+                                    <div class="payment-method" onclick="selectPayment(this, 'dana')">
+                                        <div class="method-icon">💙</div>
+                                        <div class="method-name">DANA</div>
+                                        <div class="method-desc">DANA Indonesia</div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="payment-method" onclick="selectPayment(this, 'ewallet')">
-                                <div class="method-icon">📱</div>
-                                <div class="method-name">E-Wallet</div>
+
+                            <!-- Bank Transfer Category -->
+                            <div class="payment-category">
+                                <div class="payment-category-label">
+                                    <span class="category-icon">🏦</span>
+                                    Transfer Bank
+                                </div>
+                                <div class="payment-grid">
+                                    <div class="payment-method" onclick="selectPayment(this, 'bca')">
+                                        <div class="method-icon">🔵</div>
+                                        <div class="method-name">BCA</div>
+                                        <div class="method-desc">Bank Central Asia</div>
+                                    </div>
+                                    <div class="payment-method" onclick="selectPayment(this, 'mandiri')">
+                                        <div class="method-icon">🟡</div>
+                                        <div class="method-name">Mandiri</div>
+                                        <div class="method-desc">Bank Mandiri</div>
+                                    </div>
+                                    <div class="payment-method" onclick="selectPayment(this, 'bni')">
+                                        <div class="method-icon">🟢</div>
+                                        <div class="method-name">BNI</div>
+                                        <div class="method-desc">Bank Negara Indonesia</div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="payment-method" onclick="selectPayment(this, 'qris')">
-                                <div class="method-icon">📲</div>
-                                <div class="method-name">QRIS</div>
+
+                            <!-- QRIS Category -->
+                            <div class="payment-category">
+                                <div class="payment-category-label">
+                                    <span class="category-icon">📲</span>
+                                    QRIS
+                                </div>
+                                <div class="payment-grid">
+                                    <div class="payment-method" onclick="selectPayment(this, 'qris')">
+                                        <div class="method-icon">
+                                            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <rect x="4" y="4" width="10" height="10" fill="#333" rx="1"/>
+                                                <rect x="18" y="4" width="10" height="10" fill="#333" rx="1"/>
+                                                <rect x="4" y="18" width="10" height="10" fill="#333" rx="1"/>
+                                                <rect x="6" y="6" width="6" height="6" fill="white" rx="0.5"/>
+                                                <rect x="20" y="6" width="6" height="6" fill="white" rx="0.5"/>
+                                                <rect x="6" y="20" width="6" height="6" fill="white" rx="0.5"/>
+                                                <rect x="8" y="8" width="2" height="2" fill="#333"/>
+                                                <rect x="22" y="8" width="2" height="2" fill="#333"/>
+                                                <rect x="8" y="22" width="2" height="2" fill="#333"/>
+                                                <rect x="18" y="18" width="3" height="3" fill="#333"/>
+                                                <rect x="23" y="18" width="3" height="3" fill="#333"/>
+                                                <rect x="18" y="23" width="3" height="3" fill="#333"/>
+                                                <rect x="23" y="23" width="3" height="3" fill="#333"/>
+                                                <rect x="28" y="18" width="2" height="3" fill="#333"/>
+                                                <rect x="28" y="23" width="2" height="3" fill="#333"/>
+                                                <rect x="18" y="28" width="3" height="2" fill="#333"/>
+                                                <rect x="23" y="28" width="3" height="2" fill="#333"/>
+                                            </svg>
+                                        </div>
+                                        <div class="method-name">QRIS</div>
+                                        <div class="method-desc">Scan & Bayar</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="payment-note">
+                                <span class="note-icon">ℹ️</span>
+                                <span>Pembayaran akan dikonfirmasi secara manual melalui WhatsApp setelah pendaftaran selesai</span>
                             </div>
                         </div>
                         <input type="hidden" id="metodePembayaran" name="metodePembayaran" required>
@@ -700,13 +1138,126 @@
 
     <script src="/script.js"></script>
     <script>
+        // Progress Bar & Sticky Summary Logic
+        const programType = '<%= program.type %>';
+        const programSlug = '<%= program.slug %>';
+        
+        // Sticky Summary scroll effect
+        const stickySummary = document.getElementById('stickySummary');
+        let lastScrollY = window.scrollY;
+        
+        window.addEventListener('scroll', () => {
+            const currentScrollY = window.scrollY;
+            
+            if (currentScrollY > 100) {
+                stickySummary.classList.add('scrolled');
+            } else {
+                stickySummary.classList.remove('scrolled');
+            }
+            
+            lastScrollY = currentScrollY;
+        });
+
+        // Progress Bar Logic
+        function updateProgress(step) {
+            const steps = document.querySelectorAll('.progress-step');
+            const progressLine = document.getElementById('progressLine');
+            
+            steps.forEach((stepEl, index) => {
+                const stepNum = index + 1;
+                stepEl.classList.remove('active', 'completed');
+                
+                if (stepNum < step) {
+                    stepEl.classList.add('completed');
+                    stepEl.querySelector('.step-circle').innerHTML = '✓';
+                } else if (stepNum === step) {
+                    stepEl.classList.add('active');
+                } else {
+                    stepEl.querySelector('.step-circle').textContent = stepNum;
+                }
+            });
+            
+            // Update progress line
+            const progressPercentage = ((step - 1) / (steps.length - 1)) * 100;
+            progressLine.style.width = progressPercentage + '%';
+        }
+
+        // Track form completion to update progress
+        function checkFormProgress() {
+            const fullname = document.getElementById('fullname');
+            const email = document.getElementById('email');
+            const whatsapp = document.getElementById('whatsapp');
+            
+            // Step 1: Data Diri (fullname, email, whatsapp)
+            const step1Complete = fullname && fullname.value.trim() && 
+                                 email && email.value.trim() && 
+                                 whatsapp && whatsapp.value.trim();
+            
+            // Step 2: Data Program (depends on program type)
+            let step2Complete = true;
+            
+            if (programType === 'adopsi') {
+                const jumlahPohon = document.getElementById('jumlahPohon');
+                const namaSertifikat = document.getElementById('namaSertifikat');
+                const metodePembayaran = document.getElementById('metodePembayaran');
+                step2Complete = jumlahPohon && jumlahPohon.value && 
+                               namaSertifikat && namaSertifikat.value.trim() && 
+                               metodePembayaran && metodePembayaran.value;
+            } else if (programType === 'aksi-lapangan') {
+                const alamat = document.getElementById('alamat');
+                const transportasi = document.getElementById('transportasi');
+                step2Complete = alamat && alamat.value.trim() && 
+                               transportasi && transportasi.value;
+            } else if (programType === 'workshop') {
+                const metode = document.getElementById('metode');
+                const minatBelajar = document.getElementById('minatBelajar');
+                step2Complete = metode && metode.value && 
+                               minatBelajar && minatBelajar.value;
+            }
+            
+            // Update progress
+            if (step2Complete) {
+                updateProgress(3); // Step 3: Selesai
+            } else if (step1Complete) {
+                updateProgress(2); // Step 2: Data Program
+            } else {
+                updateProgress(1); // Step 1: Data Diri
+            }
+        }
+
+        // Add event listeners to track form changes
+        document.getElementById('registrationForm').addEventListener('input', checkFormProgress);
+        document.getElementById('registrationForm').addEventListener('change', checkFormProgress);
+        
+        // Initialize progress
+        updateProgress(1);
+
+        // Live Counter Animation for Adopsi Pohon
+        if (programType === 'adopsi') {
+            const treeCounter = document.getElementById('treeCounter');
+            let currentCount = 1240;
+            
+            // Simulate occasional increment
+            setInterval(() => {
+                // Random chance to increment (30% every 5 seconds)
+                if (Math.random() < 0.3) {
+                    currentCount++;
+                    treeCounter.textContent = currentCount.toLocaleString('id-ID');
+                    
+                    // Add a brief animation effect
+                    treeCounter.style.transform = 'scale(1.2)';
+                    setTimeout(() => {
+                        treeCounter.style.transform = 'scale(1)';
+                    }, 300);
+                }
+            }, 5000);
+        }
+
         // Validasi Form
         const form = document.getElementById('registrationForm');
         const whatsappInput = document.getElementById('whatsapp');
         const emailInput = document.getElementById('email');
         const submitBtn = document.getElementById('submitBtn');
-        const programSlug = '<%= program.slug %>';
-        const programType = '<%= program.type %>';
 
         // Validasi WhatsApp hanya angka dan minimal 10 digit
         whatsappInput.addEventListener('input', function(e) {

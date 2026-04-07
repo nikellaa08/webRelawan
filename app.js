@@ -337,6 +337,139 @@ app.post('/daftar-lingkungan/:program', (req, res) => {
     res.redirect(`/daftar-lingkungan/${programSlug}?success=true`);
 });
 
+// ============================================
+// ROUTES UNTUK FORM PENDAFTARAN SOSIAL & KEMANUSIAAN
+// ============================================
+
+// Halaman form pendaftaran dinamis untuk program sosial
+app.get('/daftar-sosial/:program', (req, res) => {
+    const programSlug = req.params.program;
+
+    // Data program untuk form dinamis sosial
+    const programs = {
+        'donasi-pakaian': {
+            slug: 'donasi-pakaian',
+            title: 'Donasi Pakaian',
+            emoji: '👕',
+            type: 'donasi-pakaian',
+            description: 'Satu pakaian layak pakai darimu bisa menghangatkan harapan mereka. Mari berbagi kepedulian.'
+        },
+        'donasi-buku': {
+            slug: 'donasi-buku',
+            title: 'Donasi Buku',
+            emoji: '📚',
+            type: 'donasi-buku',
+            description: 'Buku yang tak lagi kau baca bisa membuka jendela dunia bagi anak-anak. Mari berbagi ilmu.'
+        },
+        'kunjungan-panti-asuhan': {
+            slug: 'kunjungan-panti-asuhan',
+            title: 'Kunjungan Panti Asuhan',
+            emoji: '🏠',
+            type: 'kunjungan-panti-asuhan',
+            description: 'Kehadiranmu adalah hadiah terindah bagi mereka. Jadilah kakak, sahabat, dan sumber semangat.'
+        },
+        'kunjungan-panti-jompo': {
+            slug: 'kunjungan-panti-jompo',
+            title: 'Kunjungan Panti Jompo',
+            emoji: '👴',
+            type: 'kunjungan-panti-jompo',
+            description: 'Mereka tak butuh kemewahan, hanya waktu dan perhatian. Hadirmu adalah kebahagiaan yang tak ternilai.'
+        }
+    };
+
+    const program = programs[programSlug];
+
+    if (!program) {
+        req.session.message = '⚠️ Program tidak ditemukan.';
+        return res.redirect('/sosial-kemanusiaan');
+    }
+
+    res.render('form-sosial', {
+        user: req.session.user || null,
+        message: req.session.message || null,
+        program: program
+    });
+    req.session.message = null;
+});
+
+// Handle submit form pendaftaran sosial
+app.post('/daftar-sosial/:program', (req, res) => {
+    const programSlug = req.params.program;
+    const { fullname, email, whatsapp } = req.body;
+
+    // Validasi input umum
+    if (!fullname || !email || !whatsapp) {
+        req.session.message = '⚠️ Semua field wajib diisi.';
+        return res.redirect(`/daftar-sosial/${programSlug}`);
+    }
+
+    // Validasi email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        req.session.message = '⚠️ Format email tidak valid.';
+        return res.redirect(`/daftar-sosial/${programSlug}`);
+    }
+
+    // Validasi WhatsApp minimal 10 digit dan hanya angka
+    if (!/^[0-9]{10,}$/.test(whatsapp)) {
+        req.session.message = '⚠️ Nomor WhatsApp harus minimal 10 digit dan hanya angka.';
+        return res.redirect(`/daftar-sosial/${programSlug}`);
+    }
+
+    // Validasi khusus Donasi Pakaian
+    if (programSlug === 'donasi-pakaian') {
+        const { jenisPakaian, jumlahPakaian, metodePengiriman } = req.body;
+        if (!jenisPakaian || !jumlahPakaian || !metodePengiriman) {
+            req.session.message = '⚠️ Semua field donasi pakaian wajib diisi.';
+            return res.redirect(`/daftar-sosial/${programSlug}`);
+        }
+
+        if (parseInt(jumlahPakaian) < 1) {
+            req.session.message = '⚠️ Jumlah pakaian minimal 1.';
+            return res.redirect(`/daftar-sosial/${programSlug}`);
+        }
+    }
+
+    // Validasi khusus Donasi Buku
+    if (programSlug === 'donasi-buku') {
+        const { jenisBuku, jumlahBuku, metodePengiriman } = req.body;
+        if (!jenisBuku || !jumlahBuku || !metodePengiriman) {
+            req.session.message = '⚠️ Semua field donasi buku wajib diisi.';
+            return res.redirect(`/daftar-sosial/${programSlug}`);
+        }
+
+        if (parseInt(jumlahBuku) < 1) {
+            req.session.message = '⚠️ Jumlah buku minimal 1.';
+            return res.redirect(`/daftar-sosial/${programSlug}`);
+        }
+    }
+
+    // Validasi khusus Kunjungan
+    if (programSlug === 'kunjungan-panti-asuhan' || programSlug === 'kunjungan-panti-jompo') {
+        const { tanggalKunjungan, aktivitas, jumlahPeserta } = req.body;
+        if (!tanggalKunjungan || !aktivitas || !jumlahPeserta) {
+            req.session.message = '⚠️ Semua field kunjungan wajib diisi.';
+            return res.redirect(`/daftar-sosial/${programSlug}`);
+        }
+
+        if (parseInt(jumlahPeserta) < 1) {
+            req.session.message = '⚠️ Jumlah peserta minimal 1.';
+            return res.redirect(`/daftar-sosial/${programSlug}`);
+        }
+    }
+
+    // Simpan data pendaftaran (untuk sementara ke console, bisa dikembangkan ke database)
+    console.log(`✅ Pendaftaran Sosial [${programSlug}]:`, {
+        fullname,
+        email,
+        whatsapp,
+        ...req.body
+    });
+
+    // Redirect dengan parameter success
+    res.redirect(`/daftar-sosial/${programSlug}?success=true`);
+});
+
 // Route logout
 app.get('/logout', (req, res) => {
     req.session.destroy((err) => {
