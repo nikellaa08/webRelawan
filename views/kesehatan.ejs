@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-, soal ny tad<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -8,8 +7,34 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/style.css">
     <style>
+        /* Scrollable main content */
+        main {
+            margin-top: 80px; /* Height of navbar */
+            min-height: calc(100vh - 80px);
+            overflow-y: auto;
+        }
+
+        /* Ensure smooth scrolling */
+        main::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        main::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        main::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+
+        main::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
         /* Animasi Mengambang (Floating) */
         @keyframes floating {
             0% { transform: translateY(0px); }
@@ -18,7 +43,6 @@
         }
 
         .event-card {
-            /* Animasi hanya berjalan saat class 'animate' ditambahkan */
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -29,13 +53,12 @@
             animation: floating 4s ease-in-out infinite;
         }
 
-        /* Variasi delay agar kartu tidak bergerak bersamaan (biar lebih natural) */
         .event-card:nth-child(even) {
             animation-delay: 1s;
         }
 
         .event-card:hover {
-            animation-play-state: paused; /* Berhenti mengambang saat kursor di atasnya */
+            animation-play-state: paused;
             box-shadow: 0 10px 20px rgba(0,0,0,0.3);
         }
 
@@ -44,7 +67,7 @@
             padding: 15px;
             border-radius: 10px;
             margin-top: 15px;
-            border-left: 4px solid #f39c12; /* Aksen warna */
+            border-left: 4px solid #f39c12;
         }
 
         .info-container p {
@@ -70,6 +93,7 @@
             margin: 0 auto 40px auto;
             opacity: 0.8;
         }
+
         /* Style Modal (Pop-up Form) */
         .modal {
             display: none;
@@ -140,6 +164,7 @@
 </head>
 <body>
 
+    <!-- NAVBAR -->
     <nav class="navbar">
         <div class="navbar-left">
             <a href="/" class="back-button">
@@ -157,10 +182,12 @@
         <div class="nav-right">
             <a href="/login" class="btn btn-secondary nav-login-btn">Login</a>
         </div>
+        <div class="hamburger">
+            <div class="bar1"></div>
+            <div class="bar2"></div>
+            <div class="bar3"></div>
+        </div>
     </nav>
-=======
-<%- include('partials/header') %>
->>>>>>> 5d9751ce610bd4cc41295d7578138261fe11fc0a
 
     <main>
         <section class="section">
@@ -169,13 +196,13 @@
                 <div class="section-subtitle">
                     <p>Kesehatan adalah hak setiap individu. Bersama Relawan Nusantara, mari wujudkan akses kesehatan yang merata. Setiap aksi kecil kita membawa dampak besar.</p>
                 </div>
-                
+
                 <div class="program-list grid">
-                    <% 
+                    <%
                     const programs = [
                         {
-        belomny tadi                      emoji: "🩺", title: "Pemeriksaan Kesehatan Gratis",
-                            cta: "“Akses kesehatan dasar adalah hak semua. Bergabunglah untuk memberikan pemeriksaan gratis bagi masyarakat kurang mampu.”",
+                            emoji: "🩺", title: "Pemeriksaan Kesehatan Gratis",
+                            cta: 'Akses kesehatan dasar adalah hak semua. Bergabunglah untuk memberikan pemeriksaan gratis bagi masyarakat kurang mampu.',
                             deadline: "Ditentukan kemudian",
                             location: "Posko Kesehatan / Puskesmas",
                             participants: "Dokter, Perawat, Umum",
@@ -184,7 +211,7 @@
                         },
                         {
                             emoji: "🩸", title: "Donor Darah Nasional",
-                            cta: "“Setetes darahmu menyelamatkan nyawa. Ikuti aksi donor darah rutin kami dan jadilah pahlawan!”",
+                            cta: 'Setetes darahmu menyelamatkan nyawa. Ikuti aksi donor darah rutin kami dan jadilah pahlawan!',
                             deadline: "Sesuai jadwal PMI",
                             location: "PMI Setempat / Area Publik",
                             participants: "Usia 17-60 thn, Berat min 45kg",
@@ -193,7 +220,7 @@
                         },
                         {
                             emoji: "🍎", title: "Sosialisasi Gizi Anak",
-                            cta: "“Masa depan bangsa dimulai dari gizi yang baik. Edukasi orang tua tentang nutrisi untuk cegah stunting.”",
+                            cta: 'Masa depan bangsa dimulai dari gizi yang baik. Edukasi orang tua tentang nutrisi untuk cegah stunting.',
                             deadline: "Setiap Akhir Bulan",
                             location: "Posyandu / Desa Binaan",
                             participants: "Ibu hamil, Ibu menyusui",
@@ -202,7 +229,7 @@
                         },
                         {
                             emoji: "🧠", title: "Support System Mental Health",
-                            cta: "“Mental yang sehat adalah pondasi kebahagiaan. Saling mendukung untuk kesehatan jiwa yang lebih baik.”",
+                            cta: 'Mental yang sehat adalah pondasi kebahagiaan. Saling mendukung untuk kesehatan jiwa yang lebih baik.',
                             deadline: "Online / Terjadwal",
                             location: "Pusat Komunitas / Online",
                             participants: "Psikolog / Konselor (Profesional)",
@@ -217,13 +244,31 @@
                         <div class="card-body">
                             <h3 class="card-title"><%= item.emoji %> <%= item.title %></h3>
                             <p class="call-to-action"><%= item.cta %></p>
-                            
-                            <div class="info-container">
-                                <p><strong>📅 Batas:</strong> <%= item.deadline %></p>
-                                <p><strong>📍 Lokasi:</strong> <%= item.location %></p>
-                                <p><strong>👥 Peserta:</strong> <%= item.participants %></p>
-                                <p><strong>❤️ Aktivitas:</strong> <%= item.activity %></p>
-                                <p><strong>🏅 Reward:</strong> <%= item.reward %></p>
+
+                            <div class="info-row">
+                                <span class="icon-circle">📅</span>
+                                <span class="info-label">Batas:</span>
+                                <span class="info-value"><%= item.deadline %></span>
+                            </div>
+                            <div class="info-row">
+                                <span class="icon-circle">📍</span>
+                                <span class="info-label">Lokasi:</span>
+                                <span class="info-value"><%= item.location %></span>
+                            </div>
+                            <div class="info-row">
+                                <span class="icon-circle">👥</span>
+                                <span class="info-label">Peserta:</span>
+                                <span class="info-value"><%= item.participants %></span>
+                            </div>
+                            <div class="info-row">
+                                <span class="icon-circle">❤️</span>
+                                <span class="info-label">Aktivitas:</span>
+                                <span class="info-value"><%= item.activity %></span>
+                            </div>
+                            <div class="info-row">
+                                <span class="icon-circle">🏅</span>
+                                <span class="info-label">Reward:</span>
+                                <span class="info-value"><%= item.reward %></span>
                             </div>
 
                             <div class="card-actions">
@@ -237,7 +282,7 @@
         </section>
     </main>
 
-<<<<<<< HEAD
+    <!-- FOOTER -->
     <footer class="footer">
         <p>&copy; 2026 Relawan Nusantara. Semua Hak Dilindungi.</p>
     </footer>
@@ -279,11 +324,8 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
-    <script src="kesehatan.js"></script>
-    <script src="kesehatan.js"></script>
+    <script src="/script.js"></script>
+    <script src="/kesehatan.js"></script>
+
 </body>
 </html>
-=======
-<%- include('partials/footer') %>
->>>>>>> 5d9751ce610bd4cc41295d7578138261fe11fc0a

@@ -1,6 +1,6 @@
 // db.js
 
-const mysql = require('mysql2/promise');
+import mysql from 'mysql2/promise';
 
 // Konfigurasi koneksi database
 const dbConfig = {
@@ -200,7 +200,7 @@ async function getAllCategories() {
 
 
 // Ekspor fungsi-fungsi agar bisa digunakan di file lain
-module.exports = {
+export {
   createEvent,
   getAllEvents,
   getEventById,

@@ -238,7 +238,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-<<<<<<< HEAD
     // Filter Events
     function filterEvents(categoryId) {
         const filtered = categoryId === 'all'
@@ -257,12 +256,35 @@ document.addEventListener('DOMContentLoaded', function() {
     if (eventFilterContainer && eventListContainer) {
         fetchCategories();
         fetchEvents();
-=======
+    }
+
+    // --- Statistics Counter Animation ---
+    const statNumbers = document.querySelectorAll('.stat-number');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const target = parseInt(entry.target.getAttribute('data-target'));
+                let count = 0;
+                const increment = target / 100;
+                const updateCount = () => {
+                    if (count < target) {
+                        count += increment;
+                        entry.target.textContent = Math.ceil(count);
+                        setTimeout(updateCount, 10);
+                    } else {
+                        entry.target.textContent = target;
+                    }
+                };
+                updateCount();
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.5 });
+
     statNumbers.forEach(number => {
         observer.observe(number);
     });
 
- HEAD
     // --- FITUR BARU: Handle Klik "Daftar Sekarang" ---
     const daftarSekarangBtns = document.querySelectorAll('.btn-follow');
     daftarSekarangBtns.forEach(btn => {
@@ -271,15 +293,16 @@ document.addEventListener('DOMContentLoaded', function() {
             const cardBody = this.closest('.card-body');
             if (cardBody) {
                 const programTitle = cardBody.querySelector('.card-title').innerText;
-                
+
                 // Simpan judul ke localStorage agar bisa dibaca di halaman pendaftaran/donasi
                 localStorage.setItem('selectedProgram', programTitle);
-                
+
                 // Arahkan ke halaman form pendaftaran (sesuaikan nama filenya)
-                // window.location.href = 'registration-form.html'; 
+                // window.location.href = 'registration-form.html';
             }
         });
     });
+
     // --- Lingkungan Page Registration Form Logic ---
     const locationPointSelect = document.getElementById('locationPoint');
     const otherLocationPointInput = document.getElementById('otherLocationPoint');
@@ -306,17 +329,15 @@ document.addEventListener('DOMContentLoaded', function() {
     if (cleanUpRegistrationForm) {
         cleanUpRegistrationForm.addEventListener('submit', function(event) {
             event.preventDefault(); // Prevent default form submission
-            
+
             // Here you would typically send the form data to a server
             console.log('Form Submitted!', new FormData(cleanUpRegistrationForm));
             alert('Terima kasih! Pendaftaran Anda untuk Aksi Bersih Lingkungan telah kami terima.');
-            
+
             // Navigate back to the previous page
             setTimeout(function() {
                 window.history.back();
             }, 500); // Small delay to allow user to see the alert
         });
->>>>>>> d5b234de8bd880f5ea5b9a1dbba88a643eb0c03c
     }
- d5b234de8bd880f5ea5b9a1dbba88a643eb0c03c
 });

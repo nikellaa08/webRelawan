@@ -1,13 +1,13 @@
 // controllers/eventController.js
 
-const { getAllEvents } = require('../db');
+import { getAllEvents } from '../db.js';
 
 /**
  * Mendapatkan semua event.
  * @param {object} req - Objek request Express.
  * @param {object} res - Objek response Express.
  */
-async function getEvents(req, res) {
+export async function getEvents(req, res) {
   try {
     const events = await getAllEvents();
     res.status(200).json(events);
@@ -16,7 +16,3 @@ async function getEvents(req, res) {
     res.status(500).json({ message: 'Terjadi kesalahan server saat mengambil event.', error: error.message });
   }
 }
-
-module.exports = {
-  getEvents
-};

@@ -1,6 +1,8 @@
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { exec } from 'child_process';
+import os from 'os';
 
 // Import controllers
 import { login } from './controllers/authController.js';
@@ -40,7 +42,7 @@ app.use((req, res, next) => {
 
 app.get('/', (req, res) => {
     res.render('index', { user: app.locals.session.user, message: app.locals.session.message });
-    app.locals.session.message = null; 
+    app.locals.session.message = null;
 });
 
 // Route register yang sudah ada
@@ -50,7 +52,7 @@ app.get('/register', (req, res) => {
 
 // --- TAMBAHAN BARU ---
 app.get('/registration-form', (req, res) => {
-    res.render('registration-form', { user: session.user, message: null });
+    res.render('registration-form', { user: app.locals.session.user, message: null });
 });
 // --------------------
 
@@ -90,7 +92,53 @@ app.post('/daftar', (req, res) => {
     res.redirect('/');
 });
 
+// Function to open browser automatically
+function openBrowser(url) {
+    const platform = os.platform();
+    
+    if (platform === 'win32') {
+        // Windows
+        exec(`start ${url}`);
+    } else if (platform === 'darwin') {
+        // macOS
+        exec(`open ${url}`);
+    } else {
+        // Linux
+        exec(`xdg-open ${url}`);
+    }
+}
+
 // Start server
 app.listen(port, () => {
-    console.log(`Server is running at http://localhost:${port}`);
+    const url = `http://localhost:${port}`;
+    console.log('');
+    console.log('╔══════════════════════════════════════════════════╗');
+    console.log('║                                                  ║');
+    console.log('║     🌟  RELAWAN NUSANTARA SERVER  🌟            ║');
+    console.log('║                                                  ║');
+    console.log('╠══════════════════════════════════════════════════╣');
+    console.log('║                                                  ║');
+    console.log(`║  🌐  Server: ${url.padEnd(38)}║`);
+    console.log('║                                                  ║');
+    console.log('║  📂  Available Routes:                          ║');
+    console.log('║      • http://localhost:3000/                   ║');
+    console.log('║      • http://localhost:3000/login              ║');
+    console.log('║      • http://localhost:3000/register           ║');
+    console.log('║      • http://localhost:3000/pendidikan         ║');
+    console.log('║      • http://localhost:3000/lingkungan         ║');
+    console.log('║      • http://localhost:3000/kesehatan          ║');
+    console.log('║      • http://localhost:3000/sosial-kemanusiaan ║');
+    console.log('║                                                  ║');
+    console.log('║  🔧  API Endpoints:                             ║');
+    console.log('║      • POST http://localhost:3000/api/login     ║');
+    console.log('║      • GET  http://localhost:3000/api/categories║');
+    console.log('║      • GET  http://localhost:3000/api/events    ║');
+    console.log('║                                                  ║');
+    console.log('╚══════════════════════════════════════════════════╝');
+    console.log('');
+    console.log('💡  Press Ctrl+C to stop the server');
+    console.log('🚀  Opening browser...\n');
+    
+    // Auto-open browser
+    openBrowser(url);
 });
