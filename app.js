@@ -204,6 +204,139 @@ app.post('/daftar/:program', (req, res) => {
     res.redirect(`/daftar/${programSlug}?success=true`);
 });
 
+// ============================================
+// ROUTES UNTUK FORM PENDAFTARAN LINGKUNGAN
+// ============================================
+
+// Halaman form pendaftaran dinamis untuk program lingkungan
+app.get('/daftar-lingkungan/:program', (req, res) => {
+    const programSlug = req.params.program;
+
+    // Data program untuk form dinamis lingkungan
+    const programs = {
+        'tanam-mangrove': {
+            slug: 'tanam-mangrove',
+            title: 'Aksi Tanam Mangrove',
+            emoji: '🌳',
+            type: 'aksi-lapangan',
+            description: 'Bersama kita lestarikan ekosistem pesisir dengan menanam mangrove. Satu pohon yang kau tanam hari ini adalah perisai bagi pesisir di masa depan!',
+            submitText: 'Daftar Sekarang'
+        },
+        'clean-up-day': {
+            slug: 'clean-up-day',
+            title: 'Clean-Up Day',
+            emoji: '🌊',
+            type: 'aksi-lapangan',
+            description: 'Jangan biarkan sampah merusak keindahan alam kita. Pungut satu sampah, selamatkan ribuan biota laut!',
+            submitText: 'Daftar Sekarang'
+        },
+        'workshop-zero-waste': {
+            slug: 'workshop-zero-waste',
+            title: 'Workshop Zero Waste',
+            emoji: '♻️',
+            type: 'workshop',
+            description: 'Ubah sampah jadi berkah. Belajar cara mengelola sampah rumah tangga menjadi barang berguna dan kompos.',
+            submitText: 'Daftar Workshop'
+        },
+        'adopsi-pohon': {
+            slug: 'adopsi-pohon',
+            title: 'Adopsi Pohon',
+            emoji: '🌱',
+            type: 'adopsi',
+            description: 'Miliki pohonmu sendiri dan pantau pertumbuhannya. Satu pohon darimu, investasi oksigen untuk masa depan.',
+            submitText: 'Adopsi Sekarang'
+        }
+    };
+
+    const program = programs[programSlug];
+
+    if (!program) {
+        req.session.message = '⚠️ Program tidak ditemukan.';
+        return res.redirect('/lingkungan');
+    }
+
+    res.render('form-lingkungan', {
+        user: req.session.user || null,
+        message: req.session.message || null,
+        program: program
+    });
+    req.session.message = null;
+});
+
+// Handle submit form pendaftaran lingkungan
+app.post('/daftar-lingkungan/:program', (req, res) => {
+    const programSlug = req.params.program;
+    const { fullname, email, whatsapp } = req.body;
+
+    // Validasi input umum
+    if (!fullname || !email || !whatsapp) {
+        req.session.message = '⚠️ Semua field wajib diisi.';
+        return res.redirect(`/daftar-lingkungan/${programSlug}`);
+    }
+
+    // Validasi email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        req.session.message = '⚠️ Format email tidak valid.';
+        return res.redirect(`/daftar-lingkungan/${programSlug}`);
+    }
+
+    // Validasi WhatsApp minimal 10 digit dan hanya angka
+    if (!/^[0-9]{10,}$/.test(whatsapp)) {
+        req.session.message = '⚠️ Nomor WhatsApp harus minimal 10 digit dan hanya angka.';
+        return res.redirect(`/daftar-lingkungan/${programSlug}`);
+    }
+
+    // Validasi khusus Aksi Lapangan
+    if (programSlug === 'tanam-mangrove' || programSlug === 'clean-up-day') {
+        const { alamat, transportasi } = req.body;
+        if (!alamat || !transportasi) {
+            req.session.message = '⚠️ Alamat domisili dan transportasi wajib diisi.';
+            return res.redirect(`/daftar-lingkungan/${programSlug}`);
+        }
+    }
+
+    // Validasi khusus Workshop
+    if (programSlug === 'workshop-zero-waste') {
+        const { metode, minatBelajar } = req.body;
+        if (!metode || !minatBelajar) {
+            req.session.message = '⚠️ Metode partisipasi dan minat belajar wajib dipilih.';
+            return res.redirect(`/daftar-lingkungan/${programSlug}`);
+        }
+    }
+
+    // Validasi khusus Adopsi Pohon
+    if (programSlug === 'adopsi-pohon') {
+        const { jumlahPohon, namaSertifikat, metodePembayaran } = req.body;
+
+        if (!jumlahPohon || parseInt(jumlahPohon) < 1) {
+            req.session.message = '⚠️ Jumlah pohon minimal 1.';
+            return res.redirect(`/daftar-lingkungan/${programSlug}`);
+        }
+
+        if (!namaSertifikat) {
+            req.session.message = '⚠️ Nama untuk sertifikat wajib diisi.';
+            return res.redirect(`/daftar-lingkungan/${programSlug}`);
+        }
+
+        if (!metodePembayaran) {
+            req.session.message = '⚠️ Metode pembayaran wajib dipilih.';
+            return res.redirect(`/daftar-lingkungan/${programSlug}`);
+        }
+    }
+
+    // Simpan data pendaftaran (untuk sementara ke console, bisa dikembangkan ke database)
+    console.log(`✅ Pendaftaran Lingkungan [${programSlug}]:`, {
+        fullname,
+        email,
+        whatsapp,
+        ...req.body
+    });
+
+    // Redirect dengan parameter success
+    res.redirect(`/daftar-lingkungan/${programSlug}?success=true`);
+});
+
 // Route logout
 app.get('/logout', (req, res) => {
     req.session.destroy((err) => {

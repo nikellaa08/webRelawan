@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Relawan - <%= program.title %></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/style.css">
+    <style>
+        /* Animasi Fade-in saat halaman dimuat */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .registration-form-page {
+            min-height: 100vh;
+            padding: 120px 20px 60px;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .form-card {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            width: 100%;
+            max-width: 700px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Aksen Garis Hijau Daun di sisi kiri */
+        .form-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 6px;
+            height: 100%;
+            background: linear-gradient(180deg, #28a745 0%, #4CAF50 50%, #8BC34A 100%);
+            border-radius: 16px 0 0 16px;
+        }
+
+        .form-header {
+            margin-bottom: 30px;
+            padding-left: 20px;
+        }
+
+        .form-header h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .form-header .program-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #28a745 0%, #4CAF50 100%);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .form-header p {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .back-to-program {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+            padding: 8px 16px;
+            background: #f5f5f5;
+            border: 2px solid #e0e0e0;
+            border-radius: 25px;
+            color: #666;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .back-to-program:hover {
+            background: #28a745;
+            border-color: #28a745;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .form-group label .label-icon {
+            margin-right: 6px;
+            font-size: 1rem;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="tel"],
+        .form-group input[type="number"],
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            background: #f9f9f9;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #999;
+            opacity: 1;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #28a745;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(40, 167, 69, 0.1);
+        }
+
+        .form-group select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23666' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            padding-right: 40px;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* Input number - hide spinners */
+        .form-group input[type="number"]::-webkit-outer-spin-button,
+        .form-group input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .form-group input[type="number"] {
+            -moz-appearance: textfield;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: #28a745;
+            cursor: pointer;
+            margin-top: 2px;
+        }
+
+        .checkbox-group label {
+            font-weight: 400;
+            color: #555;
+            cursor: pointer;
+            margin-bottom: 0;
+        }
+
+        /* Info Box untuk UX Cerdas */
+        .info-box {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            margin-top: 8px;
+            padding: 10px 12px;
+            background: #f0f9f0;
+            border-left: 3px solid #4CAF50;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .info-box .info-icon {
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        /* Section Khusus untuk Adopsi Pohon */
+        .adoption-info-box {
+            margin-top: 20px;
+            padding: 15px;
+            background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
+            border-radius: 10px;
+            border: 2px solid #4CAF50;
+            text-align: center;
+        }
+
+        .adoption-info-box .tree-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .adoption-info-box p {
+            margin: 0;
+            color: #2e7d32;
+            font-weight: 600;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Section Sertifikat */
+        .certificate-section {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 2px dashed #e0e0e0;
+            padding-left: 20px;
+        }
+
+        .certificate-section-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .certificate-section-header .icon-circle {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            min-width: 36px;
+            background: linear-gradient(135deg, #4CAF50 0%, #8BC34A 100%);
+            border-radius: 50%;
+            font-size: 1.2rem;
+        }
+
+        .certificate-section-header h3 {
+            margin: 0;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .certificate-note {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            margin-top: 10px;
+            padding: 10px 12px;
+            background: #fffde7;
+            border-left: 3px solid #FFD700;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .certificate-note .note-icon {
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        /* Payment Methods UI (untuk Adopsi) */
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .payment-method {
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #f9f9f9;
+        }
+
+        .payment-method:hover {
+            border-color: #4CAF50;
+            background: #f0f9f0;
+        }
+
+        .payment-method.selected {
+            border-color: #28a745;
+            background: #e8f5e9;
+            box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.1);
+        }
+
+        .payment-method .method-icon {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        .payment-method .method-name {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #28a745 0%, #4CAF50 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 25px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(40, 167, 69, 0.5);
+        }
+
+        .submit-btn:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        .submit-btn:disabled {
+            background: linear-gradient(135deg, #ccc 0%, #999 100%);
+            cursor: not-allowed;
+            box-shadow: none;
+            opacity: 0.7;
+        }
+
+        /* Notifikasi Sukses */
+        .success-notification {
+            display: none;
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: white;
+            padding: 20px 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            border-left: 4px solid #4CAF50;
+            z-index: 9999;
+            animation: slideInRight 0.5s ease-out;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .success-notification.show {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .success-notification .icon {
+            font-size: 2rem;
+        }
+
+        .success-notification .message h3 {
+            margin: 0 0 5px;
+            color: #4CAF50;
+            font-size: 1.1rem;
+        }
+
+        .success-notification .message p {
+            margin: 0;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Validasi Error */
+        .error-message {
+            color: #f44336;
+            font-size: 0.85rem;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .form-group.error input,
+        .form-group.error select,
+        .form-group.error textarea {
+            border-color: #f44336;
+        }
+
+        .form-group.error .error-message {
+            display: block;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .form-card {
+                padding: 30px 20px;
+            }
+
+            .form-header h1 {
+                font-size: 1.5rem;
+            }
+
+            .form-header {
+                padding-left: 10px;
+            }
+
+            .form-group {
+                padding-left: 10px;
+            }
+
+            .certificate-section {
+                padding-left: 10px;
+            }
+
+            .payment-methods {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="navbar-left">
+            <a href="/lingkungan" class="back-button">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z" fill="currentColor"></path></svg>
+                Kembali ke Program
+            </a>
+            <span class="nav-logo">Relawan Nusantara</span>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item"><a href="/pendidikan">Pendidikan</a></li>
+            <li class="nav-item"><a href="/lingkungan">Lingkungan</a></li>
+            <li class="nav-item"><a href="/kesehatan">Kesehatan</a></li>
+            <li class="nav-item"><a href="/sosial-kemanusiaan">Sosial & Kemanusiaan</a></li>
+        </ul>
+        <div class="nav-right">
+            <% if (typeof user !== 'undefined' && user) { %>
+                <div class="nav-user-greeting">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Halo, <%= user.name %>!</span>
+                </div>
+                <a href="/logout" class="btn btn-logout nav-logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </a>
+            <% } else { %>
+                <a href="/login" class="btn btn-secondary nav-login-btn">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Login
+                </a>
+            <% } %>
+            <div class="theme-switcher">
+                <svg id="theme-toggle-dark-icon" class="hidden" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                <svg id="theme-toggle-light-icon" class="hidden" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+            </div>
+        </div>
+        <div class="hamburger">
+            <div class="bar1"></div>
+            <div class="bar2"></div>
+            <div class="bar3"></div>
+        </div>
+    </nav>
+
+    <!-- FORM PENDAFTARAN -->
+    <main class="registration-form-page">
+        <div class="form-card">
+            <a href="/lingkungan" class="back-to-program">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z" fill="currentColor"></path></svg>
+                Kembali ke Program Lingkungan
+            </a>
+
+            <div class="form-header">
+                <div class="program-badge"><%= program.emoji %> <%= program.title %></div>
+                <h1>Form Pendaftaran</h1>
+                <p><%= program.description %></p>
+            </div>
+
+            <% if (typeof message !== 'undefined' && message) { %>
+                <div style="padding: 15px; background: #fff3cd; border-left: 4px solid #ffc107; border-radius: 8px; margin-bottom: 20px;">
+                    <p style="margin: 0; color: #856404;"><%= message %></p>
+                </div>
+            <% } %>
+
+            <form id="registrationForm" action="/daftar-lingkungan/<%= program.slug %>" method="POST" novalidate>
+                <!-- Field Umum -->
+                <div class="form-group">
+                    <label for="fullname"><span class="label-icon">👤</span> Nama Lengkap *</label>
+                    <input type="text" id="fullname" name="fullname" placeholder="Masukkan nama lengkap Anda" required>
+                    <div class="error-message">Nama lengkap wajib diisi</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email"><span class="label-icon">📧</span> Alamat Email *</label>
+                    <input type="email" id="email" name="email" placeholder="Contoh: email@anda.com" required>
+                    <div class="error-message">Format email tidak valid</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="whatsapp"><span class="label-icon">📱</span> Nomor WhatsApp *</label>
+                    <input type="tel" id="whatsapp" name="whatsapp" placeholder="Contoh: 08123456789" required pattern="[0-9]+">
+                    <div class="error-message">Nomor WhatsApp hanya boleh angka dan minimal 10 digit</div>
+                    <div class="info-box">
+                        <span class="info-icon">📍</span>
+                        <span>Lokasi dan detail kegiatan akan diinformasikan via WhatsApp</span>
+                    </div>
+                </div>
+
+                <!-- Field Khusus: Aksi Lapangan (Tanam Mangrove & Clean-Up Day) -->
+                <% if (program.type === 'aksi-lapangan') { %>
+                    <div class="form-group">
+                        <label for="alamat"><span class="label-icon">🏠</span> Alamat Domisili *</label>
+                        <input type="text" id="alamat" name="alamat" placeholder="Masukkan alamat lengkap Anda" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="transportasi"><span class="label-icon">🚗</span> Transportasi *</label>
+                        <select id="transportasi" name="transportasi" required>
+                            <option value="">Pilih Metode Transportasi</option>
+                            <option value="pribadi">Transportasi Pribadi</option>
+                            <option value="panitia">Diantar Panitia</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pengalaman"><span class="label-icon">📝</span> Pengalaman Relawan</label>
+                        <textarea id="pengalaman" name="pengalaman" rows="4" placeholder="Ceritakan pengalaman relawan Anda (jika ada)..."></textarea>
+                        <div class="info-box">
+                            <span class="info-icon">💡</span>
+                            <span>Tidak memiliki pengalaman? Tidak masalah! Semua orang dipersilakan bergabung.</span>
+                        </div>
+                    </div>
+                <% } %>
+
+                <!-- Field Khusus: Workshop Zero Waste -->
+                <% if (program.type === 'workshop') { %>
+                    <div class="form-group">
+                        <label for="metode"><span class="label-icon">💻</span> Metode Partisipasi *</label>
+                        <select id="metode" name="metode" required>
+                            <option value="">Pilih Metode</option>
+                            <option value="online">Online (Zoom/Google Meet)</option>
+                            <option value="offline">Offline (Tatap Muka)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="minatBelajar"><span class="label-icon">🎯</span> Minat Belajar *</label>
+                        <select id="minatBelajar" name="minatBelajar" required>
+                            <option value="">Pilih Topik Minat</option>
+                            <option value="kompos">Pembuatan Kompos</option>
+                            <option value="daur-ulang">Kerajinan Daur Ulang</option>
+                            <option value="keduanya">Keduanya</option>
+                        </select>
+                    </div>
+
+                    <!-- Sertifikat Preview untuk Workshop -->
+                    <div class="certificate-section">
+                        <div class="certificate-section-header">
+                            <span class="icon-circle"></span>
+                            <h3>Sertifikat Digital</h3>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="sertifikat" name="sertifikat">
+                            <label for="sertifikat">Saya ingin menerima e-sertifikat setelah kegiatan selesai</label>
+                        </div>
+                        <div class="certificate-note">
+                            <span class="note-icon">📧</span>
+                            <span>E-sertifikat akan dikirim ke email Anda setelah menyelesaikan workshop</span>
+                        </div>
+                    </div>
+                <% } %>
+
+                <!-- Field Khusus: Adopsi Pohon -->
+                <% if (program.type === 'adopsi') { %>
+                    <div class="form-group">
+                        <label for="jumlahPohon"><span class="label-icon">🌳</span> Jumlah Pohon *</label>
+                        <input type="number" id="jumlahPohon" name="jumlahPohon" placeholder="Masukkan jumlah pohon" min="1" required>
+                        <div class="info-box">
+                            <span class="info-icon">💰</span>
+                            <span>Donasi: Rp 50.000 per pohon</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="namaSertifikat"><span class="label-icon">✍️</span> Nama untuk Sertifikat *</label>
+                        <input type="text" id="namaSertifikat" name="namaSertifikat" placeholder="Nama yang ingin dicetak di sertifikat" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label><span class="label-icon">💳</span> Metode Pembayaran *</label>
+                        <div class="payment-methods">
+                            <div class="payment-method" onclick="selectPayment(this, 'transfer-bank')">
+                                <div class="method-icon">🏦</div>
+                                <div class="method-name">Transfer Bank</div>
+                            </div>
+                            <div class="payment-method" onclick="selectPayment(this, 'ewallet')">
+                                <div class="method-icon">📱</div>
+                                <div class="method-name">E-Wallet</div>
+                            </div>
+                            <div class="payment-method" onclick="selectPayment(this, 'qris')">
+                                <div class="method-icon">📲</div>
+                                <div class="method-name">QRIS</div>
+                            </div>
+                        </div>
+                        <input type="hidden" id="metodePembayaran" name="metodePembayaran" required>
+                        <div class="error-message" id="paymentError">Pilih metode pembayaran</div>
+                    </div>
+
+                    <!-- Info Box untuk Adopsi -->
+                    <div class="adoption-info-box">
+                        <div class="tree-icon">🌱</div>
+                        <p>Donasi kamu akan digunakan untuk menanam dan merawat pohon atas namamu!</p>
+                    </div>
+
+                    <!-- Sertifikat Preview untuk Adopsi -->
+                    <div class="certificate-section">
+                        <div class="certificate-section-header">
+                            <span class="icon-circle">📜</span>
+                            <h3>Sertifikat Adopsi</h3>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="sertifikat" name="sertifikat" checked>
+                            <label for="sertifikat">Saya ingin menerima e-sertifikat setelah kegiatan selesai</label>
+                        </div>
+                        <div class="certificate-note">
+                            <span class="note-icon">📧</span>
+                            <span>E-sertifikat adopsi akan dikirim ke email Anda setelah proses penanaman</span>
+                        </div>
+                    </div>
+                <% } %>
+
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    <i class="fas fa-paper-plane"></i> <%= program.submitText %>
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <!-- Notifikasi Sukses -->
+    <div id="successNotification" class="success-notification">
+        <div class="icon">🎉</div>
+        <div class="message">
+            <h3>Pendaftaran Berhasil!</h3>
+            <p>Terima kasih telah mendaftar. Tim kami akan menghubungi Anda segera.</p>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>&copy; 2026 Relawan Nusantara. Semua Hak Dilindungi.</p>
+    </footer>
+
+    <script src="/script.js"></script>
+    <script>
+        // Validasi Form
+        const form = document.getElementById('registrationForm');
+        const whatsappInput = document.getElementById('whatsapp');
+        const emailInput = document.getElementById('email');
+        const submitBtn = document.getElementById('submitBtn');
+        const programSlug = '<%= program.slug %>';
+        const programType = '<%= program.type %>';
+
+        // Validasi WhatsApp hanya angka dan minimal 10 digit
+        whatsappInput.addEventListener('input', function(e) {
+            this.value = this.value.replace(/[^0-9]/g, '');
+            validateWhatsApp();
+        });
+
+        function validateWhatsApp() {
+            const whatsappValue = whatsappInput.value;
+            if (whatsappValue && whatsappValue.length < 10) {
+                whatsappInput.parentElement.classList.add('error');
+                return false;
+            } else {
+                whatsappInput.parentElement.classList.remove('error');
+                return true;
+            }
+        }
+
+        // Validasi Email format
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        // Payment Method Selection (khusus Adopsi Pohon)
+        function selectPayment(element, method) {
+            // Remove selected class from all payment methods
+            document.querySelectorAll('.payment-method').forEach(el => {
+                el.classList.remove('selected');
+            });
+
+            // Add selected class to clicked element
+            element.classList.add('selected');
+
+            // Set hidden input value
+            document.getElementById('metodePembayaran').value = method;
+
+            // Remove error if present
+            document.getElementById('paymentError').style.display = 'none';
+        }
+
+        // Validasi saat submit
+        form.addEventListener('submit', function(e) {
+            let isValid = true;
+
+            // Validasi nama
+            const fullname = document.getElementById('fullname');
+            if (!fullname.value.trim()) {
+                fullname.parentElement.classList.add('error');
+                isValid = false;
+            } else {
+                fullname.parentElement.classList.remove('error');
+            }
+
+            // Validasi email
+            if (!isValidEmail(emailInput.value)) {
+                emailInput.parentElement.classList.add('error');
+                isValid = false;
+            } else {
+                emailInput.parentElement.classList.remove('error');
+            }
+
+            // Validasi WhatsApp (minimal 10 digit)
+            if (!validateWhatsApp()) {
+                isValid = false;
+            }
+
+            // Validasi khusus Aksi Lapangan
+            if (programType === 'aksi-lapangan') {
+                const alamat = document.getElementById('alamat');
+                if (!alamat.value.trim()) {
+                    alamat.parentElement.classList.add('error');
+                    isValid = false;
+                } else {
+                    alamat.parentElement.classList.remove('error');
+                }
+            }
+
+            // Validasi khusus Adopsi Pohon
+            if (programType === 'adopsi') {
+                const jumlahPohon = document.getElementById('jumlahPohon');
+                if (!jumlahPohon.value || parseInt(jumlahPohon.value) < 1) {
+                    jumlahPohon.parentElement.classList.add('error');
+                    isValid = false;
+                } else {
+                    jumlahPohon.parentElement.classList.remove('error');
+                }
+
+                const namaSertifikat = document.getElementById('namaSertifikat');
+                if (!namaSertifikat.value.trim()) {
+                    namaSertifikat.parentElement.classList.add('error');
+                    isValid = false;
+                } else {
+                    namaSertifikat.parentElement.classList.remove('error');
+                }
+
+                // Validasi metode pembayaran
+                const metodePembayaran = document.getElementById('metodePembayaran').value;
+                if (!metodePembayaran) {
+                    document.getElementById('paymentError').style.display = 'block';
+                    isValid = false;
+                } else {
+                    document.getElementById('paymentError').style.display = 'none';
+                }
+            }
+
+            if (!isValid) {
+                e.preventDefault();
+                return;
+            }
+        });
+
+        // Tampilkan notifikasi sukses dari URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('success') === 'true') {
+            const notification = document.getElementById('successNotification');
+            notification.classList.add('show');
+
+            // Hilangkan notifikasi setelah 5 detik
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 5000);
+
+            // Redirect ke halaman lingkungan setelah 3 detik
+            setTimeout(() => {
+                window.location.href = '/lingkungan';
+            }, 3000);
+        }
+    </script>
+
+</body>
+</html>
