@@ -100,6 +100,12 @@ app.get('/jadwal', (req, res) => res.render('jadwal', { user: req.session.user |
 app.post('/daftar', (req, res) => {
     const { fullname, email, password } = req.body;
     
+    // Validasi password minimal 6 karakter
+    if (!password || password.length < 6) {
+        req.session.message = '⚠️ Password minimal 6 karakter.';
+        return res.redirect('/registration-form');
+    }
+    
     // Simpan user ke session setelah pendaftaran berhasil
     req.session.user = {
         name: fullname,
