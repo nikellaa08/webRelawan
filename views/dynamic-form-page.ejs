@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar <%= programName.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') %></title>
+    <link rel="stylesheet" href="/style.css">
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <style>
+        .form-page-container {
+            padding-top: 100px; /* Adjust for fixed navbar */
+            padding-bottom: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Align to top, not center vertically */
+            min-height: 100vh;
+            background-color: var(--background-secondary); /* Match body background */
+            animation: fadeIn 0.7s ease-out; /* Light fade-in animation */
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-card {
+            background: var(--background-primary);
+            border-radius: 15px;
+            padding: 40px; /* Increased padding for form content */
+            box-shadow: 0 4px 20px var(--shadow-color); /* Slightly more prominent shadow */
+            width: 100%;
+            max-width: 600px; /* Max width for the card, can be adjusted */
+            margin: 20px; /* Margin around the card */
+            box-sizing: border-box; /* Include padding in width */
+        }
+
+        .form-card h2 {
+            font-size: 2rem;
+            color: var(--color-blue);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .form-section-title {
+            font-size: 1.3rem;
+            color: var(--text-primary);
+            margin-top: 30px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--background-secondary);
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .input-group input[type="text"],
+        .input-group input[type="email"],
+        .input-group input[type="tel"],
+        .input-group input[type="number"],
+        .input-group textarea,
+        .input-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: var(--font-family);
+            background-color: var(--background-secondary);
+            color: var(--text-primary);
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .input-group input[type="text"]:focus,
+        .input-group input[type="email"]:focus,
+        .input-group input[type="tel"]:focus,
+        .input-group input[type="number"]:focus,
+        .input-group textarea:focus,
+        .input-group select:focus {
+            outline: none;
+            border-color: var(--color-orange);
+            box-shadow: 0 0 0 3px rgba(251, 140, 0, 0.3);
+        }
+
+        .radio-group, .checkbox-group {
+            margin-bottom: 20px;
+        }
+
+        .radio-group label, .checkbox-group label {
+            font-weight: normal;
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        .radio-group input[type="radio"], .checkbox-group input[type="checkbox"] {
+            margin-right: 10px;
+            accent-color: var(--color-orange); /* Highlight color */
+            width: 18px;
+            height: 18px;
+        }
+        
+        .radio-group input[type="radio"]:focus, .checkbox-group input[type="checkbox"]:focus {
+            outline: 2px solid var(--color-blue);
+            outline-offset: 2px;
+        }
+
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--color-orange);
+            color: var(--color-white);
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+            box-shadow: 0 4px 15px rgba(251, 140, 0, 0.3);
+        }
+
+        .submit-btn:hover {
+            background-color: #e67e00;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(251, 140, 0, 0.4);
+        }
+
+        .submit-btn:active {
+            background-color: var(--color-orange);
+            transform: translateY(0);
+            box-shadow: 0 2px 10px rgba(251, 140, 0, 0.2);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .form-card {
+                padding: 25px;
+                margin: 10px;
+            }
+
+            .form-card h2 {
+                font-size: 1.7rem;
+            }
+
+            .form-section-title {
+                font-size: 1.1rem;
+            }
+
+            .input-group input,
+            .input-group select,
+            .input-group textarea {
+                padding: 10px;
+                font-size: 0.9rem;
+            }
+
+            .submit-btn {
+                padding: 12px;
+                font-size: 1rem;
+            }
+        }
+
+        /* Styling for SweetAlert2, if desired */
+        .swal2-popup {
+            border-radius: 15px !important;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15) !important;
+        }
+        .swal2-title {
+            color: var(--color-blue) !important;
+        }
+        .swal2-html-container {
+            color: var(--text-primary) !important;
+        }
+        .swal2-confirm {
+            background-color: var(--color-orange) !important;
+            border-radius: 8px !important;
+        }
+    </style>
+</head>
+<body>
+    <%- include('partials/header') %>
+
+    <div class="form-page-container">
+        <div class="form-card">
+            <% if (programName === 'mangrove') { %>
+                <h2>🌳 Aksi Tanam Mangrove</h2>
+                <form id="mangrove-form" action="/submit-form/mangrove" method="POST">
+                    <h3 class="form-section-title">Data Dasar Relawan</h3>
+                    <div class="input-group">
+                        <label for="namaLengkap">Nama Lengkap</label>
+                        <input type="text" id="namaLengkap" name="namaLengkap" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="whatsapp">Nomor WhatsApp</label>
+                        <input type="tel" id="whatsapp" name="whatsapp" required>
+                    </div>
+                    <div class="radio-group">
+                        <label>Jenis Kelamin</label>
+                        <label><input type="radio" name="jenisKelamin" value="Laki-laki" required> Laki-laki</label>
+                        <label><input type="radio" name="jenisKelamin" value="Perempuan"> Perempuan</label>
+                    </div>
+                    <div class="input-group">
+                        <label for="usia">Usia</label>
+                        <input type="number" id="usia" name="usia" min="17" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="domisili">Domisili</label>
+                        <input type="text" id="domisili" name="domisili" required>
+                    </div>
+
+                    <h3 class="form-section-title">Kesiapan & Komitmen</h3>
+                    <div class="radio-group">
+                        <label>Pernah ikut kegiatan lingkungan sebelumnya?</label>
+                        <label><input type="radio" name="pengalamanLingkungan" value="Ya" required> Ya</label>
+                        <label><input type="radio" name="pengalamanLingkungan" value="Tidak"> Tidak</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <label>
+                            <input type="checkbox" name="bersediaDatangTepatWaktu" value="true" required>
+                            Bersedia datang tepat waktu & mengikuti briefing?
+                        </label>
+                    </div>
+                    <div class="input-group">
+                        <label for="riwayatAlergi">Riwayat alergi / kondisi kesehatan tertentu? (Opsional)</label>
+                        <textarea id="riwayatAlergi" name="riwayatAlergi" rows="3"></textarea>
+                    </div>
+                    <div class="input-group">
+                        <label for="ukuranKaos">Ukuran kaos</label>
+                        <select id="ukuranKaos" name="ukuranKaos" required>
+                            <option value="">Pilih ukuran</option>
+                            <option value="S">S</option>
+                            <option value="M">M</option>
+                            <option value="L">L</option>
+                            <option value="XL">XL</option>
+                        </select>
+                    </div>
+
+                    <h3 class="form-section-title">Logistik</h3>
+                    <div class="radio-group">
+                        <label>Datang sendiri / butuh transport bersama?</label>
+                        <label><input type="radio" name="transportasi" value="Datang sendiri" required> Datang sendiri</label>
+                        <label><input type="radio" name="transportasi" value="Butuh transport bersama"> Butuh transport bersama</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <label>
+                            <input type="checkbox" name="bawaAlatPribadi" value="true" required>
+                            Bersedia membawa alat pribadi?
+                        </label>
+                    </div>
+
+                    <h3 class="form-section-title">Motivasi</h3>
+                    <div class="input-group">
+                        <label for="motivasiIkut">Kenapa ingin ikut kegiatan ini?</label>
+                        <textarea id="motivasiIkut" name="motivasiIkut" rows="4" required></textarea>
+                    </div>
+                    <div class="input-group">
+                        <label for="harapanKegiatan">Apa harapan kamu dari kegiatan ini?</label>
+                        <textarea id="harapanKegiatan" name="harapanKegiatan" rows="4" required></textarea>
+                    </div>
+
+                    <h3 class="form-section-title">Persetujuan</h3>
+                    <div class="checkbox-group">
+                        <label>
+                            <input type="checkbox" name="setujuAturan" value="true" required>
+                            Saya setuju mengikuti aturan kegiatan
+                        </label>
+                    </div>
+                    <div class="checkbox-group">
+                        <label>
+                            <input type="checkbox" name="bersediaDidokumentasikan" value="true" required>
+                            Bersedia didokumentasikan (foto/video)
+                        </label>
+                    </div>
+
+                    <button type="submit" class="submit-btn">KIRIM PENDAFTARAN</button>
+                </form>
+            <% } else if (programName === 'cleanup') { %>
+                <h2>🌊 Clean-Up Day</h2>
+                <form id="cleanup-form" action="/submit-form/cleanup" method="POST">
+                    <h3 class="form-section-title">Data Peserta</h3>
+                    <div class="input-group">
+                        <label for="namaLengkap">Nama Lengkap</label>
+                        <input type="text" id="namaLengkap" name="namaLengkap" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="whatsapp">Nomor WhatsApp</label>
+                        <input type="tel" id="whatsapp" name="whatsapp" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="domisili">Domisili</label>
+                        <input type="text" id="domisili" name="domisili" required>
+                    </div>
+
+                    <h3 class="form-section-title">Partisipasi</h3>
+                    <div class="radio-group">
+                        <label>Datang individu / kelompok?</label>
+                        <label><input type="radio" name="partisipasi" value="Individu" required> Individu</label>
+                        <label><input type="radio" name="partisipasi" value="Kelompok" id="partisipasi-kelompok"> Kelompok</label>
+                    </div>
+                    <div class="input-group" id="jumlahAnggotaGroup" style="display: none;">
+                        <label for="jumlahAnggota">Jika kelompok, jumlah anggota</label>
+                        <input type="number" id="jumlahAnggota" name="jumlahAnggota" min="2">
+                    </div>
+                    <div class="radio-group">
+                        <label>Pernah ikut clean-up sebelumnya?</label>
+                        <label><input type="radio" name="pengalamanCleanup" value="Ya" required> Ya</label>
+                        <label><input type="radio" name="pengalamanCleanup" value="Tidak"> Tidak</label>
+                    </div>
+
+                    <h3 class="form-section-title">Komitmen</h3>
+                    <div class="checkbox-group">
+                        <label>
+                            <input type="checkbox" name="bersediaMemilahSampah" value="true" required>
+                            Bersedia memilah sampah sesuai arahan?
+                        </label>
+                    </div>
+                    <div class="checkbox-group">
+                        <label>
+                            <input type="checkbox" name="siapSafetyBriefing" value="true" required>
+                            Siap mengikuti safety briefing?
+                        </label>
+                    </div>
+
+                    <h3 class="form-section-title">Dokumentasi</h3>
+                    <div class="checkbox-group">
+                        <label>
+                            <input type="checkbox" name="setujuDokumentasiCampaign" value="true" required>
+                            Setuju foto/video dipakai untuk campaign?
+                        </label>
+                    </div>
+
+                    <button type="submit" class="submit-btn">DAFTAR SEKARANG</button>
+                </form>
+            <% } else if (programName === 'workshop') { %>
+                <h2>♻️ Workshop Zero Waste</h2>
+                <form id="workshop-form" action="/submit-form/workshop" method="POST">
+                    <h3 class="form-section-title">Data Peserta</h3>
+                    <div class="input-group">
+                        <label for="namaLengkap">Nama Lengkap</label>
+                        <input type="text" id="namaLengkap" name="namaLengkap" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="whatsapp">Nomor WhatsApp</label>
+                        <input type="tel" id="whatsapp" name="whatsapp" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="statusPeserta">Status</label>
+                        <select id="statusPeserta" name="statusPeserta" required>
+                            <option value="">Pilih Status</option>
+                            <option value="Pelajar">Pelajar</option>
+                            <option value="Mahasiswa">Mahasiswa</option>
+                            <option value="Umum">Umum</option>
+                        </select>
+                    </div>
+
+                    <h3 class="form-section-title">Pengalaman</h3>
+                    <div class="radio-group">
+                        <label>Level pemahaman Zero Waste</label>
+                        <label><input type="radio" name="levelPemahaman" value="Pemula" required> Pemula</label>
+                        <label><input type="radio" name="levelPemahaman" value="Menengah"> Menengah</label>
+                        <label><input type="radio" name="levelPemahaman" value="Sudah praktik"> Sudah praktik</label>
+                    </div>
+
+                    <h3 class="form-section-title">Kondisi Rumah</h3>
+                    <div class="radio-group">
+                        <label>Sudah memilah sampah?</label>
+                        <label><input type="radio" name="memilahSampah" value="Ya" required> Ya</label>
+                        <label><input type="radio" name="memilahSampah" value="Tidak"> Tidak</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <label>Tertarik ke (bisa pilih lebih dari satu)</label>
+                        <label><input type="checkbox" name="tertarikKompos" value="true"> Kompos</label>
+                        <label><input type="checkbox" name="tertarikDaurUlang" value="true"> Kerajinan Daur Ulang</label>
+                    </div>
+
+                    <h3 class="form-section-title">Tujuan</h3>
+                    <div class="radio-group">
+                        <label>Tujuan mengikuti workshop</label>
+                        <label><input type="radio" name="tujuanWorkshop" value="Untuk diri sendiri" required> Untuk diri sendiri</label>
+                        <label><input type="radio" name="tujuanWorkshop" value="Untuk komunitas"> Untuk komunitas</label>
+                        <label><input type="radio" name="tujuanWorkshop" value="Untuk bisnis"> Untuk bisnis</label>
+                    </div>
+
+                    <h3 class="form-section-title">Konfirmasi</h3>
+                    <div class="radio-group">
+                        <label>Metode kehadiran</label>
+                        <label><input type="radio" name="metodeKehadiran" value="Offline" id="metode-offline" required> Offline</label>
+                        <label><input type="radio" name="metodeKehadiran" value="Online"> Online</label>
+                    </div>
+                    <div class="checkbox-group" id="konfirmasiHadirOfflineGroup" style="display: none;">
+                        <label>
+                            <input type="checkbox" name="konfirmasiHadirOffline" value="true">
+                            Konfirmasi hadir 100% (untuk offline)
+                        </label>
+                    </div>
+
+                    <button type="submit" class="submit-btn">KONFIRMASI KEHADIRAN</button>
+                </form>
+            <% } else if (programName === 'adopsi-pohon') { %>
+                <h2>🌱 Adopsi Pohon</h2>
+                <form id="adopsi-pohon-form" action="/submit-form/adopsi-pohon" method="POST">
+                    <h3 class="form-section-title">Data Donatur</h3>
+                    <div class="input-group">
+                        <label for="namaLengkap">Nama Lengkap</label>
+                        <input type="text" id="namaLengkap" name="namaLengkap" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="whatsapp">Nomor WhatsApp</label>
+                        <input type="tel" id="whatsapp" name="whatsapp" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="alamat">Alamat</label>
+                        <textarea id="alamat" name="alamat" rows="3" required></textarea>
+                    </div>
+
+                    <h3 class="form-section-title">Detail Adopsi</h3>
+                    <div class="input-group">
+                        <label for="jumlahPohon">Jumlah pohon</label>
+                        <input type="number" id="jumlahPohon" name="jumlahPohon" min="1" value="1" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="namaPohon">Ingin memberi nama pohon? (Opsional)</label>
+                        <input type="text" id="namaPohon" name="namaPohon">
+                    </div>
+                    <div class="input-group">
+                        <label for="lokasiAdopsi">Pilih lokasi</label>
+                        <select id="lokasiAdopsi" name="lokasiAdopsi" required>
+                            <option value="">Pilih lokasi adopsi</option>
+                            <option value="Hutan A">Hutan Lindung A</option>
+                            <option value="Hutan B">Area Konservasi B</option>
+                            <option value="Hutan C">Taman Nasional C</option>
+                        </select>
+                    </div>
+
+                    <h3 class="form-section-title">Sertifikat</h3>
+                    <div class="radio-group">
+                        <label>Jenis Sertifikat</label>
+                        <label><input type="radio" name="jenisSertifikat" value="Digital" required> Digital</label>
+                        <label><input type="radio" name="jenisSertifikat" value="Cetak"> Cetak</label>
+                    </div>
+                    <div class="input-group">
+                        <label for="namaPadaSertifikat">Nama pada sertifikat</label>
+                        <input type="text" id="namaPadaSertifikat" name="namaPadaSertifikat" required>
+                    </div>
+
+                    <h3 class="form-section-title">Metode Pembayaran</h3>
+                    <div class="radio-group">
+                        <label><input type="radio" name="metodePembayaran" value="Transfer Bank" required> Transfer Bank</label>
+                        <label><input type="radio" name="metodePembayaran" value="E-Wallet"> E-Wallet</label>
+                        <label><input type="radio" name="metodePembayaran" value="QRIS"> QRIS</label>
+                    </div>
+
+                    <h3 class="form-section-title">Persetujuan</h3>
+                    <div class="checkbox-group">
+                        <label>
+                            <input type="checkbox" name="setujuDonasiNonRefundable" value="true" required>
+                            Setuju donasi non-refundable
+                        </label>
+                    </div>
+                    <div class="checkbox-group">
+                        <label>
+                            <input type="checkbox" name="setujuUpdate" value="true" required>
+                            Setuju menerima update via WhatsApp/email
+                        </label>
+                    </div>
+
+                    <button type="submit" class="submit-btn">DAFTAR SEKARANG</button>
+                </form>
+            <% } else { %>
+                <div class="form-card">
+                    <h2>Program Tidak Ditemukan</h2>
+                    <p>Maaf, program yang Anda cari tidak tersedia.</p>
+                    <a href="/" class="submit-btn" style="display: block; text-align: center;">Kembali ke Beranda</a>
+                </div>
+            <% } %>
+        </div>
+    </div>
+
+    <%- include('partials/footer') %>
+
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const programName = "<%= programName %>";
+            const form = document.getElementById(programName + '-form');
+
+            // Dynamic fields for Clean-Up Day form
+            if (programName === 'cleanup') {
+                const partisipasiKelompok = document.getElementById('partisipasi-kelompok');
+                const jumlahAnggotaGroup = document.getElementById('jumlahAnggotaGroup');
+                const jumlahAnggotaInput = document.getElementById('jumlahAnggota');
+
+                const toggleJumlahAnggota = () => {
+                    if (partisipasiKelompok.checked) {
+                        jumlahAnggotaGroup.style.display = 'block';
+                        jumlahAnggotaInput.setAttribute('required', 'true');
+                    } else {
+                        jumlahAnggotaGroup.style.display = 'none';
+                        jumlahAnggotaInput.removeAttribute('required');
+                    }
+                };
+
+                // Add event listeners to all radio buttons with name "partisipasi"
+                document.querySelectorAll('input[name="partisipasi"]').forEach(radio => {
+                    radio.addEventListener('change', toggleJumlahAnggota);
+                });
+
+                // Initial check in case it's pre-selected (though not in this EJS)
+                toggleJumlahAnggota();
+            }
+
+            // Dynamic fields for Workshop Zero Waste form
+            if (programName === 'workshop') {
+                const metodeOffline = document.getElementById('metode-offline');
+                const konfirmasiHadirOfflineGroup = document.getElementById('konfirmasiHadirOfflineGroup');
+                const konfirmasiHadirOfflineCheckbox = konfirmasiHadirOfflineGroup.querySelector('input[name="konfirmasiHadirOffline"]');
+
+                const toggleKonfirmasiOffline = () => {
+                    if (metodeOffline.checked) {
+                        konfirmasiHadirOfflineGroup.style.display = 'block';
+                        konfirmasiHadirOfflineCheckbox.setAttribute('required', 'true');
+                    } else {
+                        konfirmasiHadirOfflineGroup.style.display = 'none';
+                        konfirmasiHadirOfflineCheckbox.removeAttribute('required');
+                    }
+                };
+                
+                // Add event listeners to all radio buttons with name "metodeKehadiran"
+                document.querySelectorAll('input[name="metodeKehadiran"]').forEach(radio => {
+                    radio.addEventListener('change', toggleKonfirmasiOffline);
+                });
+
+                toggleKonfirmasiOffline();
+            }
+
+            if (form) {
+                form.addEventListener('submit', function(event) {
+                    event.preventDefault(); // Prevent default form submission
+
+                    // Basic client-side validation
+                    if (!form.checkValidity()) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Validasi Gagal!',
+                            text: 'Mohon lengkapi semua kolom yang wajib diisi.',
+                            confirmButtonText: 'Oke'
+                        });
+                        // Trigger browser's native validation UI
+                        form.reportValidity();
+                        return;
+                    }
+
+                    // Collect form data
+                    const formData = new FormData(form);
+                    const data = {};
+                    for (let [key, value] of formData.entries()) {
+                        // For checkboxes, only add if checked
+                        if (form.elements[key] && form.elements[key].type === 'checkbox') {
+                            data[key] = form.elements[key].checked;
+                        } else {
+                            data[key] = value;
+                        }
+                    }
+
+                    // Simulate API call
+                    console.log(`Submitting form for ${programName}:`, data);
+
+                    // Replace with actual fetch to your backend
+                    fetch(form.action, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data),
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            return response.json(); // Or response.text() if your backend doesn't send JSON
+                        }
+                        throw new Error('Network response was not ok.');
+                    })
+                    .then(result => {
+                        // Display SweetAlert on success
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Pendaftaran Berhasil!',
+                            html: '<p>Terima kasih atas partisipasi Anda.</p><p>Anda akan diarahkan ke halaman konfirmasi.</p>',
+                            showConfirmButton: false,
+                            timer: 2500, // Redirect after 2.5 seconds
+                            timerProgressBar: true
+                        }).then(() => {
+                            window.location.href = '/terima-kasih'; // Redirect to thank you page
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error submitting form:', error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Terjadi Kesalahan!',
+                            text: 'Gagal mengirim pendaftaran. Mohon coba lagi.',
+                            confirmButtonText: 'Oke'
+                        });
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html>
