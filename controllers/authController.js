@@ -28,16 +28,13 @@ export const login = async (req, res) => {
     }
 
     // 4. Jika berhasil, set session.user dengan data dari database
-    // Akses session melalui req.session atau req.app.locals.session
-    // Karena menggunakan in-memory session di app.js, kita simpan ke app locals
-    req.app.locals.session = {
-      user: {
-        id: user.id,
-        email: user.email,
-        name: user.nama_lengkap || user.name
-      },
-      message: null
+    req.session.user = {
+      id: user.id,
+      email: user.email,
+      name: user.nama_lengkap || user.name
     };
+
+    req.session.message = `Selamat datang kembali, ${user.nama_lengkap || user.name}!`;
 
     // 5. Redirect ke halaman utama setelah login sukses
     res.redirect('/');

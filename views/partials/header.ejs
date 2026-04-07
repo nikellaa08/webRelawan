@@ -22,10 +22,22 @@
             <li class="nav-item"><a href="/sosial-kemanusiaan">Sosial & Kemanusiaan</a></li>
         </ul>
         <div class="nav-right">
-            <% if (user) { %>
-                <span class="nav-user">Halo, <%= user.name %>!</span>
+            <% if (typeof user !== 'undefined' && user) { %>
+                <!-- User sudah login - Tampilkan sapaan -->
+                <div class="nav-user-greeting">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Halo, <%= user.name %>!</span>
+                </div>
+                <a href="/logout" class="btn btn-logout nav-logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </a>
             <% } else { %>
-                <a href="/login" class="btn btn-secondary nav-login-btn">Login</a>
+                <!-- User belum login - Tampilkan tombol Login -->
+                <a href="/login" class="btn btn-secondary nav-login-btn">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Login
+                </a>
             <% } %>
             <div class="theme-switcher">
                 <svg id="theme-toggle-dark-icon" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>

@@ -191,6 +191,75 @@ body.fade-out {
     font-size: 0.9rem;
 }
 
+/* User Greeting - Tampilan nama user yang sudah login */
+.nav-user-greeting {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #ffffff;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.nav-user-greeting:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.nav-user-greeting i {
+    font-size: 1.2rem;
+    color: #FFD700;
+}
+
+/* Logout Button Styling */
+.btn-logout {
+    background-color: transparent;
+    color: #e74c3c;
+    border: 2px solid #e74c3c;
+    padding: 8px 20px;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.3s ease;
+}
+
+.btn-logout:hover {
+    background-color: #e74c3c;
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+}
+
+.btn-logout i {
+    font-size: 0.9rem;
+}
+
+/* Responsive untuk nav-user-greeting */
+@media (max-width: 768px) {
+    .nav-user-greeting {
+        font-size: 0.85rem;
+        padding: 6px 12px;
+    }
+    
+    .nav-user-greeting span {
+        max-width: 120px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    
+    .btn-logout {
+        padding: 6px 12px;
+        font-size: 0.85rem;
+    }
+}
+
 
 /* === JUMBOTRON === */
 .jumbotron {
