@@ -18,3 +18,28 @@ export async function getUserByEmail(email) {
     throw error;
   }
 }
+
+/**
+ * Mendaftarkan user baru ke database.
+ * @param {object} userData - Objek yang berisi data user (e.g., { name, email, password, skills, motivation }).
+ * @returns {object|null} - Objek user yang baru dibuat atau null jika gagal.
+ */
+export async function registerUser(userData) {
+  const { name, email, password, skills, motivation } = userData;
+  try {
+    const [result] = await db.execute(
+      'INSERT INTO users (nama_lengkap, email, password, skills, motivation) VALUES (?, ?, ?, ?, ?)',
+      [name, email, password, skills || null, motivation || null]
+    );
+    console.log(`User '${name}' berhasil didaftarkan dengan ID: ${result.insertId}`);
+    return { id: result.insertId, name, email };
+  } catch (error) {
+    // Jika error karena email sudah terdaftar (duplicate entry)
+    if (error.code === 'ER_DUP_ENTRY') {
+      console.log(`Email ${email} sudah terdaftar.`);
+      return null;
+    }
+    console.error('Gagal mendaftarkan user baru:', error.message);
+    throw error;
+  }
+}
