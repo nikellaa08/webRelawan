@@ -99,6 +99,89 @@ app.get('/jadwal', (req, res) => res.render('jadwal', { user: req.session.user |
 // Handle pendaftaran dari form - SIMPAN KE DATABASE
 app.post('/daftar', register);
 
+// Halaman form pendaftaran dinamis untuk program kesehatan
+app.get('/daftar/:program', (req, res) => {
+    const programSlug = req.params.program;
+    
+    // Data program untuk form dinamis
+    const programs = {
+        'pemeriksaan-gratis': {
+            slug: 'pemeriksaan-gratis',
+            title: 'Pemeriksaan Kesehatan Gratis',
+            emoji: '🩺',
+            description: 'Bergabunglah untuk memberikan pemeriksaan kesehatan gratis bagi masyarakat kurang mampu. Akses kesehatan dasar adalah hak semua.'
+        },
+        'donor-darah': {
+            slug: 'donor-darah',
+            title: 'Donor Darah Nasional',
+            emoji: '🩸',
+            description: 'Setetes darahmu menyelamatkan nyawa. Ikuti aksi donor darah rutin kami dan jadilah pahlawan!'
+        },
+        'gizi-anak': {
+            slug: 'gizi-anak',
+            title: 'Sosialisasi Gizi Anak',
+            emoji: '🍎',
+            description: 'Masa depan bangsa dimulai dari gizi yang baik. Edukasi orang tua tentang nutrisi untuk cegah stunting.'
+        },
+        'mental-health': {
+            slug: 'mental-health',
+            title: 'Support System Mental Health',
+            emoji: '🧠',
+            description: 'Mental yang sehat adalah pondasi kebahagiaan. Saling mendukung untuk kesehatan jiwa yang lebih baik.'
+        }
+    };
+
+    const program = programs[programSlug];
+
+    if (!program) {
+        req.session.message = '⚠️ Program tidak ditemukan.';
+        return res.redirect('/kesehatan');
+    }
+
+    res.render('form-pendaftaran', {
+        user: req.session.user || null,
+        message: req.session.message || null,
+        program: program
+    });
+    req.session.message = null;
+});
+
+// Handle submit form pendaftaran kesehatan
+app.post('/daftar/:program', (req, res) => {
+    const programSlug = req.params.program;
+    const { fullname, email, whatsapp } = req.body;
+
+    // Validasi input
+    if (!fullname || !email || !whatsapp) {
+        req.session.message = '⚠️ Semua field wajib diisi.';
+        return res.redirect(`/daftar/${programSlug}`);
+    }
+
+    // Validasi email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        req.session.message = '⚠️ Format email tidak valid.';
+        return res.redirect(`/daftar/${programSlug}`);
+    }
+
+    // Validasi WhatsApp hanya angka
+    if (!/^[0-9]+$/.test(whatsapp)) {
+        req.session.message = '⚠️ Nomor WhatsApp hanya boleh angka.';
+        return res.redirect(`/daftar/${programSlug}`);
+    }
+
+    // Simpan data pendaftaran (untuk sementara ke console, bisa dikembangkan ke database)
+    console.log(`✅ Pendaftaran ${programSlug}:`, {
+        fullname,
+        email,
+        whatsapp,
+        ...req.body
+    });
+
+    // Redirect dengan parameter success
+    res.redirect(`/daftar/${programSlug}?success=true`);
+});
+
 // Route logout
 app.get('/logout', (req, res) => {
     req.session.destroy((err) => {
