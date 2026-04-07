@@ -913,24 +913,44 @@ body.fade-out {
 .input-group input[type="text"],
 .input-group input[type="tel"],
 .input-group input[type="email"],
+.input-group input[type="password"],
 .input-group textarea {
-    padding: 12px;
+    padding: 14px 16px;
     border-radius: 8px;
-    border: 1px solid #ddd;
+    border: 2px solid #e0e0e0;
     font-family: 'Poppins', sans-serif;
     width: 100%;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    transition: all 0.3s ease;
     font-size: 1rem;
     background-color: #f9f9f9;
+}
+
+.input-group input[type="text"]::placeholder,
+.input-group input[type="tel"]::placeholder,
+.input-group input[type="email"]::placeholder,
+.input-group input[type="password"]::placeholder,
+.input-group textarea::placeholder {
+    color: #999;
+    opacity: 1;
 }
 
 .input-group input[type="text"]:focus,
 .input-group input[type="tel"]:focus,
 .input-group input[type="email"]:focus,
+.input-group input[type="password"]:focus,
 .input-group textarea:focus {
     outline: none;
-    border-color: #ff8c00;
-    box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.3);
+    border-color: #667eea;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+}
+
+.input-group input[type="text"]:hover,
+.input-group input[type="tel"]:hover,
+.input-group input[type="email"]:hover,
+.input-group input[type="password"]:hover,
+.input-group textarea:hover {
+    border-color: #bdbdbd;
 }
 
 .checkbox-group {
