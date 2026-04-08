@@ -205,6 +205,170 @@ app.post('/daftar/:program', (req, res) => {
 });
 
 // ============================================
+// ROUTES UNTUK FORM PENDAFTARAN PENDIDIKAN
+// ============================================
+
+// Halaman form pendaftaran dinamis untuk program pendidikan
+app.get('/daftar-pendidikan/:program', (req, res) => {
+    const programSlug = req.params.program;
+
+    // Data program untuk form dinamis pendidikan
+    const programs = {
+        'donasi-perlengkapan': {
+            slug: 'donasi-perlengkapan',
+            title: 'Donasi Perlengkapan Sekolah',
+            emoji: '🎒',
+            type: 'donasi',
+            description: 'Satu pensil, satu buku, satu harapan. Donasikan perlengkapan sekolah untuk anak-anak yang membutuhkan.'
+        },
+        'taman-baca-keliling': {
+            slug: 'taman-baca-keliling',
+            title: 'Taman Baca Keliling',
+            emoji: '🚌',
+            type: 'multi-role',
+            description: 'Membawa jendela dunia lebih dekat kepada mereka. Mari bergerak bersama untuk menebar minat baca di pelosok negeri.'
+        },
+        'bimbingan-belajar': {
+            slug: 'bimbingan-belajar',
+            title: 'Bimbingan Belajar Gratis',
+            emoji: '👩‍🏫',
+            type: 'bimbel',
+            description: 'Bantu anak-anak meraih cita-cita. Bergabunglah sebagai pengajar atau pendamping bimbingan belajar gratis.'
+        },
+        'renovasi-fasilitas': {
+            slug: 'renovasi-fasilitas',
+            title: 'Renovasi Fasilitas Pendidikan',
+            emoji: '🏗️',
+            type: 'multi-role',
+            description: 'Lingkungan belajar yang nyaman, semangat belajar pun meningkat. Bantu wujudkan fasilitas pendidikan yang layak.'
+        }
+    };
+
+    const program = programs[programSlug];
+
+    if (!program) {
+        req.session.message = '⚠️ Program tidak ditemukan.';
+        return res.redirect('/pendidikan');
+    }
+
+    res.render('form-pendidikan', {
+        user: req.session.user || null,
+        message: req.session.message || null,
+        program: program
+    });
+    req.session.message = null;
+});
+
+// Handle submit form pendaftaran pendidikan
+app.post('/daftar-pendidikan/:program', (req, res) => {
+    const programSlug = req.params.program;
+    const { fullname, email, whatsapp } = req.body;
+
+    // Validasi input umum
+    if (!fullname || !email || !whatsapp) {
+        req.session.message = '⚠️ Semua field wajib diisi.';
+        return res.redirect(`/daftar-pendidikan/${programSlug}`);
+    }
+
+    // Validasi email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        req.session.message = '⚠️ Format email tidak valid.';
+        return res.redirect(`/daftar-pendidikan/${programSlug}`);
+    }
+
+    // Validasi WhatsApp minimal 10 digit dan hanya angka
+    if (!/^[0-9]{10,}$/.test(whatsapp)) {
+        req.session.message = '⚠️ Nomor WhatsApp harus minimal 10 digit dan hanya angka.';
+        return res.redirect(`/daftar-pendidikan/${programSlug}`);
+    }
+
+    // Validasi khusus program multi-role (Taman Baca Keliling & Renovasi Fasilitas)
+    if (programSlug === 'taman-baca-keliling' || programSlug === 'renovasi-fasilitas') {
+        const { role } = req.body;
+
+        if (!role) {
+            req.session.message = '⚠️ Pilih peran Anda (Relawan atau Donatur).';
+            return res.redirect(`/daftar-pendidikan/${programSlug}`);
+        }
+
+        // Validasi field Relawan
+        if (role === 'relawan') {
+            const { jadwal, lokasi, keahlian } = req.body;
+            if (!jadwal || !lokasi || !keahlian) {
+                req.session.message = '⚠️ Semua field relawan wajib diisi (Jadwal, Lokasi, Keahlian).';
+                return res.redirect(`/daftar-pendidikan/${programSlug}`);
+            }
+
+            // Validasi khusus Renovasi: alasanRenovasi
+            if (programSlug === 'renovasi-fasilitas') {
+                const { alasanRenovasi } = req.body;
+                if (!alasanRenovasi || !alasanRenovasi.trim()) {
+                    req.session.message = '⚠️ Alasan ingin membantu renovasi wajib diisi.';
+                    return res.redirect(`/daftar-pendidikan/${programSlug}`);
+                }
+            }
+        }
+
+        // Validasi field Donatur
+        if (role === 'donatur') {
+            const { jenisDonasi, jumlahDonasi } = req.body;
+            if (!jenisDonasi || !jumlahDonasi) {
+                req.session.message = '⚠️ Semua field donatur wajib diisi (Jenis Donasi, Jumlah Donasi).';
+                return res.redirect(`/daftar-pendidikan/${programSlug}`);
+            }
+
+            if (parseInt(jumlahDonasi) < 1) {
+                req.session.message = '⚠️ Jumlah donasi minimal 1.';
+                return res.redirect(`/daftar-pendidikan/${programSlug}`);
+            }
+        }
+    }
+
+    // Validasi khusus Donasi Perlengkapan
+    if (programSlug === 'donasi-perlengkapan') {
+        const { jenisBarang, jumlahBarang, metodePengiriman } = req.body;
+        if (!jenisBarang || !jumlahBarang || !metodePengiriman) {
+            req.session.message = '⚠️ Semua field donasi wajib diisi (Jenis Barang, Jumlah Barang, Metode Pengiriman).';
+            return res.redirect(`/daftar-pendidikan/${programSlug}`);
+        }
+
+        if (parseInt(jumlahBarang) < 1) {
+            req.session.message = '⚠️ Jumlah barang minimal 1.';
+            return res.redirect(`/daftar-pendidikan/${programSlug}`);
+        }
+    }
+
+    // Validasi khusus Bimbingan Belajar
+    if (programSlug === 'bimbingan-belajar') {
+        const { mataPelajaran, jenjang } = req.body;
+        if (!mataPelajaran || !jenjang) {
+            req.session.message = '⚠️ Mata pelajaran dan jenjang wajib dipilih.';
+            return res.redirect(`/daftar-pendidikan/${programSlug}`);
+        }
+
+        // mataPelajaran bisa array dari checkbox, convert ke string
+        if (Array.isArray(mataPelajaran)) {
+            if (mataPelajaran.length === 0) {
+                req.session.message = '⚠️ Pilih minimal satu mata pelajaran.';
+                return res.redirect(`/daftar-pendidikan/${programSlug}`);
+            }
+        }
+    }
+
+    // Simpan data pendaftaran (untuk sementara ke console, bisa dikembangkan ke database)
+    console.log(`✅ Pendaftaran Pendidikan [${programSlug}]:`, {
+        fullname,
+        email,
+        whatsapp,
+        ...req.body
+    });
+
+    // Redirect dengan parameter success
+    res.redirect(`/daftar-pendidikan/${programSlug}?success=true`);
+});
+
+// ============================================
 // ROUTES UNTUK FORM PENDAFTARAN LINGKUNGAN
 // ============================================
 

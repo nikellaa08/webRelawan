@@ -29,7 +29,6 @@
         </ul>
         <div class="nav-right">
             <% if (typeof user !== 'undefined' && user) { %>
-                <!-- User sudah login - Tampilkan sapaan -->
                 <div class="nav-user-greeting">
                     <i class="fas fa-user-circle"></i>
                     <span>Halo, <%= user.name %>!</span>
@@ -39,7 +38,6 @@
                     Logout
                 </a>
             <% } else { %>
-                <!-- User belum login - Tampilkan tombol Login -->
                 <a href="/login" class="btn btn-secondary nav-login-btn">
                     <i class="fas fa-sign-in-alt"></i>
                     Login
@@ -58,7 +56,6 @@
     </nav>
 
     <style>
-        /* Scrollable main content */
         main {
             margin-top: 80px;
             min-height: calc(100vh - 80px);
@@ -66,7 +63,6 @@
             scroll-behavior: smooth;
         }
 
-        /* Custom scrollbar styling */
         main::-webkit-scrollbar {
             width: 8px;
         }
@@ -85,9 +81,45 @@
             background: linear-gradient(180deg, #FFD700, #FFA726);
         }
 
-        /* Smooth scrolling for the whole page */
         html {
             scroll-behavior: smooth;
+        }
+
+        /* Fade-in animation for cards */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .program-list .event-card {
+            animation: fadeInUp 0.6s ease-out;
+            animation-fill-mode: both;
+        }
+
+        .program-list .event-card:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .program-list .event-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .program-list .event-card:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .program-list .event-card:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        .program-list .event-card:hover {
+            animation-play-state: paused;
         }
     </style>
 
@@ -100,123 +132,88 @@
                     <p>Dari bimbingan belajar hingga penyediaan fasilitas, setiap kontribusimu adalah harapan. Mari gerakkan hati dan tangan untuk: <strong>mengajar, mendampingi, dan menginspirasi</strong>. Cerdaskan bangsa, sejahtera bersama!</p>
                 </div>
 
+                <%
+                const educationPrograms = [
+                    {
+                        emoji: "🎒",
+                        title: "Donasi Perlengkapan Sekolah",
+                        slug: "donasi-perlengkapan",
+                        cta: '"Satu pensil, satu buku, satu harapan. Donasikan perlengkapan sekolah untuk anak-anak yang membutuhkan."',
+                        schedule: "Sesuai jadwal pengumpulan",
+                        location: "Sekolah / Panti Asuhan",
+                        target: "Anak-anak SD, SMP, SMA",
+                        reward: "Koin + Lencana Donatur"
+                    },
+                    {
+                        emoji: "🚌",
+                        title: "Taman Baca Keliling",
+                        slug: "taman-baca-keliling",
+                        cta: '"Membawa jendela dunia lebih dekat kepada mereka. Mari bergerak bersama untuk menebar minat baca di pelosok negeri."',
+                        schedule: "Setiap minggu / sesuai rute",
+                        location: "Desa / Sekolah terpencil / Taman kota",
+                        target: "Anak-anak SD – SMP-SMA/SMK",
+                        reward: "Koin + Lencana Relawan Literasi"
+                    },
+                    {
+                        emoji: "👩‍🏫",
+                        title: "Bimbingan Belajar Gratis",
+                        slug: "bimbingan-belajar",
+                        cta: '"Bantu anak-anak meraih cita-cita. Bergabunglah sebagai pengajar atau pendamping bimbingan belajar gratis."',
+                        schedule: "Sesuai jadwal yang ditentukan",
+                        location: "Pusat Komunitas / Online",
+                        target: "Matematika, Bahasa Indonesia, IPA, IPS",
+                        reward: "Koin + Lencana Pengajar"
+                    },
+                    {
+                        emoji: "🏗️",
+                        title: "Renovasi Fasilitas Pendidikan",
+                        slug: "renovasi-fasilitas",
+                        cta: '"Lingkungan belajar yang nyaman, semangat belajar pun meningkat. Bantu wujudkan fasilitas pendidikan yang layak."',
+                        schedule: "Sesuai jadwal yang ditentukan",
+                        location: "Sekolah Rusak / Minim Fasilitas",
+                        target: "Tukang Bangunan, Umum",
+                        reward: "Koin + Lencana Pembangun"
+                    }
+                ];
+                %>
+
                 <div class="program-list grid">
-                    <!-- Card 1: Donasi Perlengkapan Sekolah -->
+                    <% educationPrograms.forEach(function(item, index) { %>
                     <div class="event-card">
                         <div class="card-body">
-                            <h3 class="card-title">🎒 Donasi Perlengkapan Sekolah</h3>
-                            <p class="call-to-action">"Satu pensil, satu buku, satu harapan. Donasikan perlengkapan sekolah untuk anak-anak yang membutuhkan."</p>
+                            <h3 class="card-title"><%= item.emoji %> <%= item.title %></h3>
+                            <p class="call-to-action"><%= item.cta %></p>
+
                             <div class="info-row">
                                 <span class="icon-circle">📅</span>
-                                <span class="info-label">Batas Waktu:</span>
-                                <span class="info-value">Sesuai jadwal pengumpulan</span>
+                                <span class="info-label"><%= item.slug === 'donasi-perlengkapan' ? 'Batas Waktu:' : 'Jadwal Kegiatan:' %></span>
+                                <span class="info-value"><%= item.schedule %></span>
                             </div>
+
                             <div class="info-row">
                                 <span class="icon-circle">📍</span>
-                                <span class="info-label">Lokasi Penyaluran:</span>
-                                <span class="info-value">Sekolah / Panti Asuhan</span>
+                                <span class="info-label"><%= item.slug === 'donasi-perlengkapan' ? 'Lokasi Penyaluran:' : 'Lokasi:' %></span>
+                                <span class="info-value"><%= item.location %></span>
                             </div>
+
                             <div class="info-row">
                                 <span class="icon-circle">👥</span>
-                                <span class="info-label">Tujuan Penerima:</span>
-                                <span class="info-value">Anak-anak SD, SMP, SMA</span>
+                                <span class="info-label"><%= item.slug === 'donasi-perlengkapan' ? 'Tujuan Penerima:' : (item.slug === 'bimbingan-belajar' ? 'Mata Pelajaran:' : (item.slug === 'renovasi-fasilitas' ? 'Relawan:' : 'Peserta:')) %></span>
+                                <span class="info-value"><%= item.target %></span>
                             </div>
+
                             <div class="info-row">
                                 <span class="icon-circle">🏅</span>
                                 <span class="info-label">Reward:</span>
-                                <span class="info-value">Koin + Lencana Donatur</span>
+                                <span class="info-value"><%= item.reward %></span>
                             </div>
-                            <a href="/donation-form" class="btn btn-primary btn-follow" style="margin-top: 1rem;">Ikuti Sekarang</a>
+
+                            <a href="/daftar-pendidikan/<%= item.slug %>" class="btn btn-primary btn-follow" style="margin-top: 1rem;">
+                                Ikuti Sekarang
+                            </a>
                         </div>
                     </div>
-
-                    <!-- Card 2: Donasi Buku -->
-                    <div class="event-card">
-                        <div class="card-body">
-                            <h3 class="card-title">📚 Donasi Buku</h3>
-                            <p class="call-to-action">"Buku yang tak lagi kau baca bisa membuka jendela dunia bagi anak-anak. Mari berbagi ilmu, wujudkan mimpi mereka bersama."</p>
-                            <div class="info-row">
-                                <span class="icon-circle">📅</span>
-                                <span class="info-label">Batas Waktu:</span>
-                                <span class="info-value">Sesuai jadwal pengumpulan</span>
-                            </div>
-                            <div class="info-row">
-                                <span class="icon-circle">📍</span>
-                                <span class="info-label">Lokasi Penyaluran:</span>
-                                <span class="info-value">Panti Asuhan / Sekolah Terpencil / Taman Baca</span>
-                            </div>
-                            <div class="info-row">
-                                <span class="icon-circle">👥</span>
-                                <span class="info-label">Usia Pembaca:</span>
-                                <span class="info-value">Anak-anak, Remaja</span>
-                            </div>
-                            <div class="info-row">
-                                <span class="icon-circle">🏅</span>
-                                <span class="info-label">Reward:</span>
-                                <span class="info-value">Koin + Lencana Donatur</span>
-                            </div>
-                            <a href="/donation-book-form" class="btn btn-primary btn-follow" style="margin-top: 1rem;">Ikut Sekarang</a>
-                        </div>
-                    </div>
-
-                    <!-- Card 3: Bimbingan Belajar Gratis -->
-                    <div class="event-card">
-                        <div class="card-body">
-                            <h3 class="card-title">👩‍🏫 Bimbingan Belajar Gratis</h3>
-                            <p class="call-to-action">"Bantu anak-anak meraih cita-cita. Bergabunglah sebagai pengajar atau pendamping bimbingan belajar gratis."</p>
-                            <div class="info-row">
-                                <span class="icon-circle">📅</span>
-                                <span class="info-label">Jadwal Bimbingan:</span>
-                                <span class="info-value">Sesuai jadwal yang ditentukan</span>
-                            </div>
-                            <div class="info-row">
-                                <span class="icon-circle">📍</span>
-                                <span class="info-label">Lokasi:</span>
-                                <span class="info-value">Pusat Komunitas / Online</span>
-                            </div>
-                            <div class="info-row">
-                                <span class="icon-circle">👥</span>
-                                <span class="info-label">Mata Pelajaran:</span>
-                                <span class="info-value">Matematika, Bahasa Indonesia, IPA, IPS</span>
-                            </div>
-                            <div class="info-row">
-                                <span class="icon-circle">🏅</span>
-                                <span class="info-label">Reward:</span>
-                                <span class="info-value">Koin + Lencana Pengajar</span>
-                            </div>
-                            <a href="/registration-form" class="btn btn-primary btn-follow" style="margin-top: 1rem;">Ikut Sekarang</a>
-                        </div>
-                    </div>
-
-                    <!-- Card 4: Pembangunan/Renovasi Fasilitas Pendidikan -->
-                    <div class="event-card">
-                        <div class="card-body">
-                            <h3 class="card-title">🏗️ Renovasi Fasilitas Pendidikan</h3>
-                            <p class="call-to-action">"Lingkungan belajar yang nyaman, semangat belajar pun meningkat. Bantu wujudkan fasilitas pendidikan yang layak."</p>
-                            <div class="info-row">
-                                <span class="icon-circle">📅</span>
-                                <span class="info-label">Jadwal Kegiatan:</span>
-                                <span class="info-value">Sesuai jadwal yang ditentukan</span>
-                            </div>
-                            <div class="info-row">
-                                <span class="icon-circle">📍</span>
-                                <span class="info-label">Lokasi:</span>
-                                <span class="info-value">Sekolah Rusak / Minim Fasilitas</span>
-                            </div>
-                            <div class="info-row">
-                                <span class="icon-circle">👥</span>
-                                <span class="info-label">Relawan:</span>
-                                <span class="info-value">Tukang Bangunan, Umum</span>
-                            </div>
-                            <div class="info-row">
-                                <span class="icon-circle">🏅</span>
-                                <span class="info-label">Reward:</span>
-                                <span class="info-value">Koin + Lencana Pembangun</span>
-                            </div>
-                            <a href="/registration-form" class="btn btn-primary btn-follow" style="margin-top: 1rem;">Ikut Sekarang</a>
-                        </div>
-                    </div>
-
+                    <% }); %>
                 </div>
 
             </div>
