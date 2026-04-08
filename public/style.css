@@ -361,6 +361,35 @@ body.fade-out {
     cursor: pointer;
 }
 
+/* Event Card - Program List Cards (Pendidikan, Lingkungan, Kesehatan, etc.) */
+.event-card {
+    background: var(--background-primary);
+    border-radius: 15px;
+    padding: 25px 25px 25px 30px; /* Extra left padding for accent line */
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08); /* Soft drop shadow */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    border-left: 6px solid #FF8C00; /* Vertical accent line - orange-yellow */
+}
+
+.event-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 100%;
+    background: linear-gradient(180deg, #FF8C00 0%, #FFA726 100%); /* Gradient accent line */
+    border-radius: 15px 0 0 15px;
+}
+
+.event-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12); /* Enhanced shadow on hover */
+}
+
 .info-card {
     text-align: left;
     font-size: 0.95rem;
@@ -612,6 +641,43 @@ body.fade-out {
 .program-list .card-body {
     position: relative;
     padding-bottom: 70px; /* Add padding to the bottom to avoid text overlap */
+}
+
+/* Info Row Styling - Consistent across all navbar pages */
+.info-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.info-row:last-child {
+    margin-bottom: 0;
+}
+
+.icon-circle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    background-color: rgba(255, 140, 0, 0.1);
+    border-radius: 50%;
+    margin-right: 10px;
+    font-size: 14px;
+}
+
+.info-row .info-label {
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-right: 5px;
+}
+
+.info-row .info-value {
+    color: var(--text-secondary);
+    font-weight: 400;
 }
 
     .btn-follow {
@@ -899,6 +965,258 @@ body.fade-out {
 
         }
 
+/* --- New Styles for Event Filtering and Cards --- */
+.filter-buttons-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.btn-category {
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    background-color: var(--background-primary);
+    color: var(--text-primary);
+    border: 1px solid var(--text-secondary);
+    transition: all 0.3s ease;
+}
+
+.btn-category:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px var(--shadow-color);
+    border-color: var(--color-blue);
+    color: var(--color-blue);
+}
+
+.btn-category.active {
+    background-color: var(--color-blue);
+    color: var(--color-white);
+    border-color: var(--color-blue);
+    box-shadow: 0 4px 10px rgba(30, 136, 229, 0.4);
+}
+
+.event-card {
+    display: flex;
+    flex-direction: column;
+    /* Existing card styles are good */
+}
+
+.event-card .card-content {
+    padding: 15px; /* Add padding inside the content area */
+    flex-grow: 1; /* Allow content to take available space */
+    display: flex;
+    flex-direction: column;
+}
+
+.event-card h3 {
+    font-size: 1.3rem; /* Slightly larger title */
+    margin-bottom: 8px;
+    color: var(--color-blue); /* Title color */
+}
+
+.event-card .event-category {
+    font-size: 0.85rem;
+    color: var(--color-green); /* Category name color */
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.event-card .event-info {
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping on small screens */
+    gap: 10px;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 15px;
+}
+
+.event-card .event-info span {
+    display: flex;
+    align-items: center;
+}
+
+.event-card .event-info i {
+    margin-right: 5px;
+    color: var(--color-orange); /* Icon color */
+}
+
+.event-card .event-description {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 20px;
+    flex-grow: 1; /* Allows description to push button to bottom */
+}
+
+.event-card .btn-sm {
+    padding: 8px 15px;
+    font-size: 0.85rem;
+    border-radius: 20px;
+    align-self: flex-start; /* Align button to start */
+}
+
+/* Messages for loading, error, no results */
+.loading-message,
+.error-message,
+.no-results-message {
+    text-align: center;
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    padding: 40px;
+    grid-column: 1 / -1; /* Span across all columns in grid */
+}
+
+.error-message {
+    color: #d32f2f; /* Red for errors */
+}
+
+@media (min-width: 768px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+@media (min-width: 1024px) {
+    .grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+@media (max-width: 767px) {
+    .filter-buttons-container {
+        justify-content: flex-start;
+    }
+    .event-card .card-content {
+        padding: 10px;
+    }
+    .event-card h3 {
+        font-size: 1.1rem;
+    }
+    .event-card .event-info {
+        flex-direction: column;
+        gap: 5px;
+    }
+}
+
+
         
 
-    
+    /* Registration Form Specific Styles */
+.registration-form-section {
+    padding-top: 40px; /* Add some padding to separate it from the previous section */
+}
+
+.form-container {
+    max-width: 500px;
+    margin: 40px auto;
+    padding: 40px;
+    background: var(--background-primary);
+    border-radius: 15px;
+    box-shadow: 0 5px 15px var(--shadow-color);
+}
+
+.form-container .section-title {
+    margin-bottom: 30px;
+    font-size: 2rem;
+    color: var(--color-blue);
+    text-align: center;
+}
+
+.form-container h3 {
+    font-size: 1.5rem;
+    color: var(--color-dark);
+    margin-top: 40px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--background-secondary);
+    padding-bottom: 10px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="tel"],
+.form-group input[type="number"],
+.form-group input[type="date"],
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-family: var(--font-family);
+    font-size: 1rem;
+    box-sizing: border-box; /* Ensures padding doesn't increase width */
+    background-color: var(--background-secondary);
+    color: var(--text-primary);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="email"]:focus,
+.form-group input[type="tel"]:focus,
+.form-group input[type="number"]:focus,
+.form-group input[type="date"]:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--color-blue);
+    box-shadow: 0 0 0 3px rgba(30, 136, 229, 0.3); /* Blue glowing effect */
+}
+
+.form-group textarea {
+    resize: vertical; /* Allow vertical resizing */
+}
+
+.radio-group, .checkbox-group {
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap */
+    gap: 20px; /* Space between radio/checkbox items */
+    margin-top: 10px;
+}
+
+.radio-group label, .checkbox-group label {
+    display: flex;
+    align-items: center;
+    font-weight: 400; /* Lighter font weight for options */
+    margin-bottom: 0; /* Remove bottom margin from individual labels */
+    cursor: pointer;
+}
+
+.radio-group input[type="radio"], .checkbox-group input[type="checkbox"] {
+    width: 1.2em;
+    height: 1.2em;
+    margin-right: 8px;
+    accent-color: var(--color-green); /* Green accent for checked state */
+}
+
+.form-container .btn-primary {
+    margin-top: 30px;
+    width: 100%;
+    padding: 15px;
+    font-size: 1.1rem;
+    background-color: var(--color-green); /* Use green for primary action */
+    color: var(--color-white);
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-container .btn-primary:hover {
+    background-color: #388e3c; /* Darker green on hover */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
