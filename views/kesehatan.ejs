@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="/style.css">
     <style>
         /* Scrollable main content */
@@ -180,7 +181,25 @@
             <li class="nav-item"><a href="/sosial-kemanusiaan">Sosial & Kemanusiaan</a></li>
         </ul>
         <div class="nav-right">
-            <a href="/login" class="btn btn-secondary nav-login-btn">Login</a>
+            <% if (typeof user !== 'undefined' && user) { %>
+                <div class="nav-user-greeting">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Halo, <%= user.name %>!</span>
+                </div>
+                <a href="/logout" class="btn btn-logout nav-logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </a>
+            <% } else { %>
+                <a href="/login" class="btn btn-secondary nav-login-btn">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Login
+                </a>
+            <% } %>
+            <div class="theme-switcher">
+                <svg id="theme-toggle-dark-icon" class="hidden" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                <svg id="theme-toggle-light-icon" class="hidden" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+            </div>
         </div>
         <div class="hamburger">
             <div class="bar1"></div>
@@ -202,6 +221,7 @@
                     const programs = [
                         {
                             emoji: "🩺", title: "Pemeriksaan Kesehatan Gratis",
+                            slug: "pemeriksaan-gratis",
                             cta: 'Akses kesehatan dasar adalah hak semua. Bergabunglah untuk memberikan pemeriksaan gratis bagi masyarakat kurang mampu.',
                             deadline: "Ditentukan kemudian",
                             location: "Posko Kesehatan / Puskesmas",
@@ -211,6 +231,7 @@
                         },
                         {
                             emoji: "🩸", title: "Donor Darah Nasional",
+                            slug: "donor-darah",
                             cta: 'Setetes darahmu menyelamatkan nyawa. Ikuti aksi donor darah rutin kami dan jadilah pahlawan!',
                             deadline: "Sesuai jadwal PMI",
                             location: "PMI Setempat / Area Publik",
@@ -220,6 +241,7 @@
                         },
                         {
                             emoji: "🍎", title: "Sosialisasi Gizi Anak",
+                            slug: "gizi-anak",
                             cta: 'Masa depan bangsa dimulai dari gizi yang baik. Edukasi orang tua tentang nutrisi untuk cegah stunting.',
                             deadline: "Setiap Akhir Bulan",
                             location: "Posyandu / Desa Binaan",
@@ -229,6 +251,7 @@
                         },
                         {
                             emoji: "🧠", title: "Support System Mental Health",
+                            slug: "mental-health",
                             cta: 'Mental yang sehat adalah pondasi kebahagiaan. Saling mendukung untuk kesehatan jiwa yang lebih baik.',
                             deadline: "Online / Terjadwal",
                             location: "Pusat Komunitas / Online",
@@ -272,7 +295,7 @@
                             </div>
 
                             <div class="card-actions">
-                                <a href="#" class="btn btn-primary btn-follow">Daftar Sekarang</a>
+                                <a href="/daftar/<%= item.slug %>" class="btn btn-primary btn-follow">Daftar Sekarang</a>
                             </div>
                         </div>
                     </div>
@@ -287,45 +310,7 @@
         <p>&copy; 2026 Relawan Nusantara. Semua Hak Dilindungi.</p>
     </footer>
 
-    <!-- Modal for Registration -->
-    <div id="registrationModal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn">&times;</span>
-            <div class="form-header">
-                <h2 id="targetProgram">Pendaftaran Program</h2>
-                <p>Silakan isi data diri Anda untuk bergabung sebagai relawan.</p>
-            </div>
-
-            <form id="healthForm">
-                <div class="input-group">
-                    <label>Nama Lengkap:</label>
-                    <input type="text" name="nama" placeholder="Contoh: Budi Santoso" required>
-                </div>
-                <div class="input-group">
-                    <label>Nomor WhatsApp:</label>
-                    <input type="tel" name="whatsapp" placeholder="08123456789" required>
-                </div>
-                <div class="input-group">
-                    <label>Profesi / Keahlian:</label>
-                    <select name="profesi" required>
-                        <option value="">Pilih Profesi</option>
-                        <option value="Dokter">Dokter</option>
-                        <option value="Perawat">Perawat</option>
-                        <option value="Mahasiswa Medis">Mahasiswa Medis</option>
-                        <option value="Umum">Relawan Umum</option>
-                    </select>
-                </div>
-                <div class="input-group">
-                    <label>Unggah Bukti Identitas (KTP/KTM/STR):</label>
-                    <input type="file" name="identitas" required>
-                </div>
-                <button type="submit" class="btn-submit">Daftarkan Sekarang</button>
-            </form>
-        </div>
-    </div>
-
     <script src="/script.js"></script>
-    <script src="/kesehatan.js"></script>
 
 </body>
 </html>

@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
@@ -27,7 +28,25 @@
             <li class="nav-item"><a href="/sosial-kemanusiaan">Sosial & Kemanusiaan</a></li>
         </ul>
         <div class="nav-right">
-            <a href="/login" class="btn btn-secondary nav-login-btn">Login</a>
+            <% if (typeof user !== 'undefined' && user) { %>
+                <div class="nav-user-greeting">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Halo, <%= user.name %>!</span>
+                </div>
+                <a href="/logout" class="btn btn-logout nav-logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </a>
+            <% } else { %>
+                <a href="/login" class="btn btn-secondary nav-login-btn">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Login
+                </a>
+            <% } %>
+            <div class="theme-switcher">
+                <svg id="theme-toggle-dark-icon" class="hidden" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                <svg id="theme-toggle-light-icon" class="hidden" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+            </div>
         </div>
         <div class="hamburger">
             <div class="bar1"></div>
@@ -47,137 +66,107 @@
                 </div>
 
                 <div class="program-list grid">
-                    <!-- Card 1: Aksi Tanam Mangrove -->
+                    <%
+                    const environmentPrograms = [
+                        {
+                            emoji: "🌳", title: "Aksi Tanam Mangrove",
+                            slug: "tanam-mangrove",
+                            cta: '"Satu mangrove yang kau tanam hari ini adalah perisai bagi pesisir di masa depan. Ayo, ikut lestarikan ekosistem laut kita!"',
+                            schedule: "Sesuai jadwal yang ditentukan",
+                            location: "Pesisir Pantai (ditentukan)",
+                            quota: "50 orang",
+                            activity: "Penanaman bibit mangrove, pembersihan area pesisir",
+                            reward: "Koin + Lencana Pelestari"
+                        },
+                        {
+                            emoji: "🌊", title: "Clean-Up Day (Bersih Pantai/Sungai)",
+                            slug: "clean-up-day",
+                            cta: '"Jangan biarkan sampah merusak keindahan alam kita. Pungut satu sampah, selamatkan ribuan biota laut."',
+                            schedule: "Sesuai jadwal yang ditentukan",
+                            location: "Pantai atau Tepi Sungai (ditentukan)",
+                            quota: "Terbuka",
+                            activity: "Memungut dan memilah sampah anorganik",
+                            reward: "Koin + Lencana Kebersihan"
+                        },
+                        {
+                            emoji: "♻️", title: "Workshop Zero Waste (Pengolahan Sampah)",
+                            slug: "workshop-zero-waste",
+                            cta: '"Ubah sampah jadi berkah. Belajar cara mengelola sampah rumah tangga menjadi barang berguna dan kompos."',
+                            schedule: "Sesuai jadwal yang ditentukan",
+                            location: "Balai Warga / Online",
+                            quota: "30 orang",
+                            activity: "Sesi edukasi, praktik membuat kompos dan kerajinan daur ulang",
+                            reward: "Koin + Lencana Daur Ulang"
+                        },
+                        {
+                            emoji: "🌱", title: "Adopsi Pohon",
+                            slug: "adopsi-pohon",
+                            cta: '"Miliki pohonmu sendiri dan pantau pertumbuhannya. Satu pohon darimu, investasi oksigen untuk masa depan."',
+                            donation: "Mulai dari Rp 50.000 per pohon",
+                            location: "Lahan Kritis (ditentukan)",
+                            benefit: "Sertifikat adopsi, update foto pertumbuhan pohon",
+                            reward: "Koin + Lencana Penghijauan"
+                        }
+                    ];
+                    %>
+
+                    <% environmentPrograms.forEach(function(item) { %>
                     <div class="event-card">
                         <div class="card-body">
-                            <h3 class="card-title">🌳 Aksi Tanam Mangrove</h3>
-                            <p class="call-to-action">"Satu mangrove yang kau tanam hari ini adalah perisai bagi pesisir di masa depan. Ayo, ikut lestarikan ekosistem laut kita!"</p>
-                            <div class="info-row">
-                                <span class="icon-circle">📅</span>
-                                <span class="info-label">Jadwal Kegiatan:</span>
-                                <span class="info-value">Sesuai jadwal yang ditentukan</span>
-                            </div>
-                            <div class="info-row">
-                                <span class="icon-circle">📍</span>
-                                <span class="info-label">Lokasi:</span>
-                                <span class="info-value">Pesisir Pantai (ditentukan)</span>
-                            </div>
-                            <div class="info-row">
-                                <span class="icon-circle">👥</span>
-                                <span class="info-label">Kuota Relawan:</span>
-                                <span class="info-value">50 orang</span>
-                            </div>
-                            <div class="info-row">
-                                <span class="icon-circle">❤️</span>
-                                <span class="info-label">Aktivitas:</span>
-                                <span class="info-value">Penanaman bibit mangrove, pembersihan area pesisir</span>
-                            </div>
+                            <h3 class="card-title"><%= item.emoji %> <%= item.title %></h3>
+                            <p class="call-to-action"><%= item.cta %></p>
+
+                            <% if (item.slug === 'adopsi-pohon') { %>
+                                <div class="info-row">
+                                    <span class="icon-circle">💰</span>
+                                    <span class="info-label">Donasi:</span>
+                                    <span class="info-value"><%= item.donation %></span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="icon-circle">📍</span>
+                                    <span class="info-label">Lokasi Penanaman:</span>
+                                    <span class="info-value"><%= item.location %></span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="icon-circle">❤️</span>
+                                    <span class="info-label">Benefit:</span>
+                                    <span class="info-value"><%= item.benefit %></span>
+                                </div>
+                            <% } else { %>
+                                <div class="info-row">
+                                    <span class="icon-circle">📅</span>
+                                    <span class="info-label">Jadwal Kegiatan:</span>
+                                    <span class="info-value"><%= item.schedule %></span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="icon-circle">📍</span>
+                                    <span class="info-label">Lokasi:</span>
+                                    <span class="info-value"><%= item.location %></span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="icon-circle">👥</span>
+                                    <span class="info-label"><%= item.slug === 'workshop-zero-waste' ? 'Kuota Peserta:' : 'Kuota Relawan:' %></span>
+                                    <span class="info-value"><%= item.quota %></span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="icon-circle">❤️</span>
+                                    <span class="info-label">Aktivitas:</span>
+                                    <span class="info-value"><%= item.activity %></span>
+                                </div>
+                            <% } %>
+
                             <div class="info-row">
                                 <span class="icon-circle">🏅</span>
                                 <span class="info-label">Reward:</span>
-                                <span class="info-value">Koin + Lencana Pelestari</span>
+                                <span class="info-value"><%= item.reward %></span>
                             </div>
-                            <a href="#" class="btn btn-primary btn-follow" style="margin-top: 1rem;">Daftar Sekarang</a>
+
+                            <a href="/daftar-lingkungan/<%= item.slug %>" class="btn btn-primary btn-follow" style="margin-top: 1rem;">
+                                <%= item.slug === 'adopsi-pohon' ? 'Adopsi Sekarang' : 'Daftar Sekarang' %>
+                            </a>
                         </div>
                     </div>
-
-                    <!-- Card 2: Clean-Up Day -->
-                    <div class="event-card">
-                        <div class="card-body">
-                            <h3 class="card-title">🌊 Clean-Up Day (Bersih Pantai/Sungai)</h3>
-                            <p class="call-to-action">"Jangan biarkan sampah merusak keindahan alam kita. Pungut satu sampah, selamatkan ribuan biota laut."</p>
-                            <div class="info-row">
-                                <span class="icon-circle">📅</span>
-                                <span class="info-label">Jadwal Kegiatan:</span>
-                                <span class="info-value">Sesuai jadwal yang ditentukan</span>
-                            </div>
-                            <div class="info-row">
-                                <span class="icon-circle">📍</span>
-                                <span class="info-label">Lokasi:</span>
-                                <span class="info-value">Pantai atau Tepi Sungai (ditentukan)</span>
-                            </div>
-                            <div class="info-row">
-                                <span class="icon-circle">👥</span>
-                                <span class="info-label">Kuota Relawan:</span>
-                                <span class="info-value">Terbuka</span>
-                            </div>
-                            <div class="info-row">
-                                <span class="icon-circle">❤️</span>
-                                <span class="info-label">Aktivitas:</span>
-                                <span class="info-value">Memungut dan memilah sampah anorganik</span>
-                            </div>
-                            <div class="info-row">
-                                <span class="icon-circle">🏅</span>
-                                <span class="info-label">Reward:</span>
-                                <span class="info-value">Koin + Lencana Kebersihan</span>
-                            </div>
-                            <a href="/clean-up-form" class="btn btn-primary btn-follow" style="margin-top: 1rem;">Daftar Sekarang</a>
-                        </div>
-                    </div>
-
-                    <!-- Card 3: Workshop Zero Waste -->
-                    <div class="event-card">
-                        <div class="card-body">
-                            <h3 class="card-title">♻️ Workshop Zero Waste (Pengolahan Sampah)</h3>
-                            <p class="call-to-action">"Ubah sampah jadi berkah. Belajar cara mengelola sampah rumah tangga menjadi barang berguna dan kompos."</p>
-                            <div class="info-row">
-                                <span class="icon-circle">📅</span>
-                                <span class="info-label">Jadwal Workshop:</span>
-                                <span class="info-value">Sesuai jadwal yang ditentukan</span>
-                            </div>
-                            <div class="info-row">
-                                <span class="icon-circle">📍</span>
-                                <span class="info-label">Lokasi:</span>
-                                <span class="info-value">Balai Warga / Online</span>
-                            </div>
-                            <div class="info-row">
-                                <span class="icon-circle">👥</span>
-                                <span class="info-label">Kuota Peserta:</span>
-                                <span class="info-value">30 orang</span>
-                            </div>
-                            <div class="info-row">
-                                <span class="icon-circle">❤️</span>
-                                <span class="info-label">Aktivitas:</span>
-                                <span class="info-value">Sesi edukasi, praktik membuat kompos dan kerajinan daur ulang</span>
-                            </div>
-                            <div class="info-row">
-                                <span class="icon-circle">🏅</span>
-                                <span class="info-label">Reward:</span>
-                                <span class="info-value">Koin + Lencana Daur Ulang</span>
-                            </div>
-                            <a href="#" class="btn btn-primary btn-follow" style="margin-top: 1rem;">Daftar Sekarang</a>
-                        </div>
-                    </div>
-
-                    <!-- Card 4: Adopsi Pohon -->
-                    <div class="event-card">
-                        <div class="card-body">
-                            <h3 class="card-title">🌱 Adopsi Pohon</h3>
-                            <p class="call-to-action">"Miliki pohonmu sendiri dan pantau pertumbuhannya. Satu pohon darimu, investasi oksigen untuk masa depan."</p>
-                            <div class="info-row">
-                                <span class="icon-circle">💰</span>
-                                <span class="info-label">Donasi:</span>
-                                <span class="info-value">Mulai dari Rp 50.000 per pohon</span>
-                            </div>
-                            <div class="info-row">
-                                <span class="icon-circle">📍</span>
-                                <span class="info-label">Lokasi Penanaman:</span>
-                                <span class="info-value">Lahan Kritis (ditentukan)</span>
-                            </div>
-                            <div class="info-row">
-                                <span class="icon-circle">❤️</span>
-                                <span class="info-label">Benefit:</span>
-                                <span class="info-value">Sertifikat adopsi, update foto pertumbuhan pohon</span>
-                            </div>
-                            <div class="info-row">
-                                <span class="icon-circle">🏅</span>
-                                <span class="info-label">Reward:</span>
-                                <span class="info-value">Koin + Lencana Penghijauan</span>
-                            </div>
-                            <a href="#" class="btn btn-primary btn-follow" style="margin-top: 1rem;">Adopsi Sekarang</a>
-                        </div>
-                    </div>
-
+                    <% }); %>
                 </div>
 
             </div>

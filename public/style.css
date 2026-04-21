@@ -2,6 +2,7 @@
     --color-blue: #1e88e5;
     --color-green: #43a047;
     --color-orange: #fb8c00;
+    --color-yellow: #FFD700;
     --color-dark: #333;
     --color-light: #f5f7fa;
     --color-white: #fff;
@@ -54,7 +55,7 @@ body.no-scroll {
 
 body.fade-out {
     opacity: 0;
-    transition: opacity 0.5s ease-out; /* Match this duration to the setTimeout in JS */
+    transition: opacity 0.5s ease-out;
 }
 
 
@@ -73,6 +74,27 @@ body.fade-out {
     backdrop-filter: blur(10px);
     box-shadow: 0 2px 10px var(--shadow-color);
     z-index: 1000;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-orange) var(--background-primary);
+}
+
+.navbar::-webkit-scrollbar {
+    height: 4px;
+}
+
+.navbar::-webkit-scrollbar-track {
+    background: var(--background-primary);
+    border-radius: 10px;
+}
+
+.navbar::-webkit-scrollbar-thumb {
+    background: var(--color-orange);
+    border-radius: 10px;
+}
+
+.navbar::-webkit-scrollbar-thumb:hover {
+    background: var(--color-yellow);
 }
 
 .navbar-left {
@@ -85,7 +107,7 @@ body.fade-out {
     font-weight: 700;
     color: var(--color-blue);
     text-decoration: none;
-    margin-left: 10px; /* Add space between back button and logo */
+    margin-left: 10px;
 }
 
 .nav-menu {
@@ -122,12 +144,34 @@ body.fade-out {
 .theme-switcher {
     margin: 0 20px;
     cursor: pointer;
+    position: relative;
 }
 
 .theme-switcher svg {
     width: 24px;
     height: 24px;
     color: var(--text-primary);
+    transition: filter 0.3s ease, transform 0.3s ease;
+}
+
+/* Efek glow pada ikon matahari (light mode icon) */
+.theme-switcher svg:not(.hidden) {
+    animation: sun-glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes sun-glow {
+    0% {
+        filter: drop-shadow(0 0 3px #FFA500) drop-shadow(0 0 6px #FFD700);
+        transform: scale(1);
+    }
+    100% {
+        filter: drop-shadow(0 0 8px #FFA500) drop-shadow(0 0 12px #FFD700) drop-shadow(0 0 16px #FF8C00);
+        transform: scale(1.1);
+    }
+}
+
+.theme-switcher:hover svg {
+    transform: rotate(20deg) scale(1.15);
 }
 
 .hidden {
@@ -145,6 +189,75 @@ body.fade-out {
 .nav-login-btn {
     padding: 8px 20px;
     font-size: 0.9rem;
+}
+
+/* User Greeting - Tampilan nama user yang sudah login */
+.nav-user-greeting {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #ffffff;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.nav-user-greeting:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.nav-user-greeting i {
+    font-size: 1.2rem;
+    color: #FFD700;
+}
+
+/* Logout Button Styling */
+.btn-logout {
+    background-color: transparent;
+    color: #e74c3c;
+    border: 2px solid #e74c3c;
+    padding: 8px 20px;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.3s ease;
+}
+
+.btn-logout:hover {
+    background-color: #e74c3c;
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+}
+
+.btn-logout i {
+    font-size: 0.9rem;
+}
+
+/* Responsive untuk nav-user-greeting */
+@media (max-width: 768px) {
+    .nav-user-greeting {
+        font-size: 0.85rem;
+        padding: 6px 12px;
+    }
+    
+    .nav-user-greeting span {
+        max-width: 120px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    
+    .btn-logout {
+        padding: 6px 12px;
+        font-size: 0.85rem;
+    }
 }
 
 
@@ -167,8 +280,6 @@ body.fade-out {
     left: 0;
     width: 100%;
     height: 100%;
-
-    /* Placeholder background. Ganti dengan ilustrasi yang sesuai */
     background: url('Foto Arte digital conceptual para la diversidad en todo el mundo [Fotografía] de Midjourney 6, Freepik.jpg') no-repeat center center;
     background-size: cover;
     z-index: -2;
@@ -210,20 +321,6 @@ body.fade-out {
     animation: blink 0.7s infinite;
 }
 
-/* === BUTTONS === */
-.btn {
-    padding: 15px 35px;
-    border-radius: 50px;
-    text-decoration: none;
-    font-weight: 700;
-    font-size: 1rem;
-    border: none;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-
 .cta-buttons .btn {
     margin: 0 10px;
 }
@@ -242,20 +339,6 @@ body.fade-out {
 
 @keyframes blink {
     50% { opacity: 0; }
-}
-
-/* === BUTTONS === */
-.btn {
-    padding: 15px 35px;
-    border-radius: 50px;
-    text-decoration: none;
-    font-weight: 700;
-    font-size: 1rem;
-    border: none;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-    transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .btn-primary {
@@ -310,8 +393,8 @@ body.fade-out {
     font-size: 2.5rem;
     margin-bottom: 50px;
     font-weight: 700;
-    position: relative; /* Added for pseudo-element positioning */
-    padding-bottom: 15px; /* Space for the decorative line */
+    position: relative;
+    padding-bottom: 15px;
 }
 
 .section-title::after {
@@ -320,23 +403,22 @@ body.fade-out {
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 80px; /* Width of the line */
-    height: 4px; /* Thickness of the line */
+    width: 80px;
+    height: 4px;
     background: linear-gradient(to right, var(--color-blue), var(--color-green));
     border-radius: 2px;
 }
 
-/* Specific styling for the main subtitle in sosial-kemanusiaan.html */
 .section .container .section-subtitle {
     margin-bottom: 40px;
-    line-height: 1.8; /* Changed from 1.6 to 1.8 */
+    line-height: 1.8;
     max-width: 800px;
     margin-left: auto;
     margin-right: auto;
     text-align: center;
     opacity: 0.9;
-    font-weight: normal; /* Added for lighter paragraph */
-    color: #4b5563; /* Changed from #555 to #4b5563 */
+    font-weight: normal;
+    color: #4b5563;
 }
 
 
@@ -356,22 +438,22 @@ body.fade-out {
     background: var(--background-primary);
     border-radius: 15px;
     padding: 25px;
-    box-shadow: 0 4px 12px var(--shadow-color); /* Softer shadow */
+    box-shadow: 0 4px 12px var(--shadow-color);
     transition: transform 0.3s, box-shadow 0.3s;
     cursor: pointer;
 }
 
-/* Event Card - Program List Cards (Pendidikan, Lingkungan, Kesehatan, etc.) */
+/* Event Card - Program List Cards */
 .event-card {
     background: var(--background-primary);
     border-radius: 15px;
-    padding: 25px 25px 25px 30px; /* Extra left padding for accent line */
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08); /* Soft drop shadow */
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    padding: 25px 25px 25px 30px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
     cursor: pointer;
     position: relative;
     overflow: hidden;
-    border-left: 6px solid #FF8C00; /* Vertical accent line - orange-yellow */
+    border-left: 6px solid #FF8C00;
 }
 
 .event-card::before {
@@ -381,13 +463,20 @@ body.fade-out {
     left: 0;
     width: 6px;
     height: 100%;
-    background: linear-gradient(180deg, #FF8C00 0%, #FFA726 100%); /* Gradient accent line */
+    background: linear-gradient(180deg, #FF8C00 0%, #FFA726 50%, #FFD700 100%);
     border-radius: 15px 0 0 15px;
+    box-shadow: 0 0 10px rgba(255, 140, 0, 0.5);
 }
 
 .event-card:hover {
     transform: translateY(-6px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12); /* Enhanced shadow on hover */
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), 0 0 15px rgba(255, 215, 0, 0.3);
+    border-left-color: #FFD700;
+}
+
+.event-card:hover::before {
+    background: linear-gradient(180deg, #FFD700 0%, #FFA726 50%, #FF8C00 100%);
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
 }
 
 .info-card {
@@ -397,8 +486,8 @@ body.fade-out {
 }
 
 .card:hover, .stat-card:hover, .event-card:hover, .info-card:hover {
-    transform: translateY(-5px); /* Move up by 5px */
-    box-shadow: 0 8px 18px var(--shadow-color); /* Slightly thicker shadow */
+    transform: translateY(-5px);
+    box-shadow: 0 8px 18px var(--shadow-color);
 }
 
 .info-card .icon {
@@ -640,10 +729,10 @@ body.fade-out {
 
 .program-list .card-body {
     position: relative;
-    padding-bottom: 70px; /* Add padding to the bottom to avoid text overlap */
+    padding-bottom: 70px;
 }
 
-/* Info Row Styling - Consistent across all navbar pages */
+/* Info Row Styling */
 .info-row {
     display: flex;
     align-items: center;
@@ -680,28 +769,28 @@ body.fade-out {
     font-weight: 400;
 }
 
-    .btn-follow {
-        position: absolute;
-        bottom: 20px;
-        right: 20px;
-        padding: 10px 20px !important; /* Make the button smaller */
-        font-size: 0.9rem !important; /* Make the font smaller */
-        margin-top: 0 !important;
-    }
+.btn-follow {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px 20px !important;
+    font-size: 0.9rem !important;
+    margin-top: 0 !important;
+}
 
 .back-button {
     background-color: var(--background-primary);
     color: var(--text-primary);
     border: 1px solid var(--text-primary);
-    padding: 6px 14px; /* Slightly smaller padding */
+    padding: 6px 14px;
     border-radius: 50px;
     cursor: pointer;
     display: flex;
     align-items: center;
     text-decoration: none;
-    font-size: 0.75rem; /* Slightly smaller font */
+    font-size: 0.75rem;
     font-weight: 600;
-    white-space: nowrap; /* Prevent text from wrapping */
+    white-space: nowrap;
     transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
     box-shadow: 0 2px 5px var(--shadow-color);
 }
@@ -721,7 +810,7 @@ body.fade-out {
 }
 
 .back-button svg {
-    margin-right: 6px; /* Adjust space */
+    margin-right: 6px;
     width: 18px;
     height: 18px;
     fill: currentColor;
@@ -745,14 +834,14 @@ body.fade-out {
 .back-link {
     display: inline-block;
     margin-bottom: 20px;
-    color: #1e88e5; /* Blue */
+    color: #1e88e5;
     text-decoration: none;
     font-weight: 500;
     transition: color 0.3s ease;
 }
 
 .back-link:hover {
-    color: #ff8c00; /* Orange on hover */
+    color: #ff8c00;
 }
 
 .registration-container {
@@ -772,11 +861,11 @@ body.fade-out {
 
 .form-header h1 {
     font-size: 2rem;
-    font-weight: 700; /* Make it bolder */
-    color: #000080; /* Navy */
+    font-weight: 700;
+    color: #000080;
     margin-bottom: 8px;
     position: relative;
-    padding-bottom: 15px; /* Space for the decorative line */
+    padding-bottom: 15px;
 }
 
 .form-header h1::after {
@@ -784,9 +873,9 @@ body.fade-out {
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 60px; /* Length of the line */
-    height: 3px; /* Thickness of the line */
-    background: linear-gradient(to right, #1e88e5, #43a047); /* Blue to Green gradient */
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(to right, #1e88e5, #43a047);
     border-radius: 2px;
 }
 
@@ -810,24 +899,44 @@ body.fade-out {
 .input-group input[type="text"],
 .input-group input[type="tel"],
 .input-group input[type="email"],
+.input-group input[type="password"],
 .input-group textarea {
-    padding: 12px;
+    padding: 14px 16px;
     border-radius: 8px;
-    border: 1px solid #ddd;
+    border: 2px solid #e0e0e0;
     font-family: 'Poppins', sans-serif;
     width: 100%;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    transition: all 0.3s ease;
     font-size: 1rem;
-    background-color: #f9f9f9; /* Subtle background color */
+    background-color: #f9f9f9;
+}
+
+.input-group input[type="text"]::placeholder,
+.input-group input[type="tel"]::placeholder,
+.input-group input[type="email"]::placeholder,
+.input-group input[type="password"]::placeholder,
+.input-group textarea::placeholder {
+    color: #999;
+    opacity: 1;
 }
 
 .input-group input[type="text"]:focus,
 .input-group input[type="tel"]:focus,
 .input-group input[type="email"]:focus,
+.input-group input[type="password"]:focus,
 .input-group textarea:focus {
     outline: none;
-    border-color: #ff8c00;
-    box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.3); /* Soft orange glowing effect */
+    border-color: #667eea;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+}
+
+.input-group input[type="text"]:hover,
+.input-group input[type="tel"]:hover,
+.input-group input[type="email"]:hover,
+.input-group input[type="password"]:hover,
+.input-group textarea:hover {
+    border-color: #bdbdbd;
 }
 
 .checkbox-group {
@@ -868,21 +977,21 @@ body.fade-out {
 }
 
 .submit-btn:active {
-    background-color: #ff8c00; /* Revert to original on active */
-    transform: translateY(0); /* Remove translateY on active */
-    box-shadow: none; /* Remove shadow on active */
+    background-color: #ff8c00;
+    transform: translateY(0);
+    box-shadow: none;
 }
 
 /* Summary Card Styling */
 .summary-card {
-    background-color: #f0f7ff; /* Very light blue background */
+    background-color: #f0f7ff;
     border-radius: 12px;
     padding: 30px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
     position: sticky;
     top: 40px;
     height: fit-content;
-    border-top: 4px solid #ff8c00; /* Thick orange top border */
+    border-top: 4px solid #ff8c00;
 }
 
 .summary-card h3 {
@@ -909,20 +1018,19 @@ body.fade-out {
 .detail-item .icon {
     font-size: 1.2rem;
     margin-top: 2px;
-    /* Basic icon styling */
 }
 
 /* Colored icons */
 .icon-calendar {
-    color: #00BFFF; /* Deep Sky Blue */
+    color: #00BFFF;
 }
 
 .icon-location {
-    color: #FF6347; /* Tomato / Coral */
+    color: #FF6347;
 }
 
 .icon-target {
-    color: #8A2BE2; /* Blue Violet / Purple */
+    color: #8A2BE2;
 }
 
 .summary-card .card-footer {
@@ -942,7 +1050,7 @@ body.fade-out {
     }
 
     .summary-card {
-        order: -1; /* Pindahkan ringkasan ke atas di tablet/mobile */
+        order: -1;
     }
 }
 
@@ -951,21 +1059,18 @@ body.fade-out {
         gap: 30px;
         margin-top: 20px;
     }
-    
+
     .summary-card {
-        position: static; /* Hapus sticky di mobile */
-        order: initial; /* Kembalikan urutan di mobile */
+        position: static;
+        order: initial;
     }
 
-            .form-wrapper {
+    .form-wrapper {
+        padding: 30px;
+    }
+}
 
-                padding: 30px;
-
-            }
-
-        }
-
-/* --- New Styles for Event Filtering and Cards --- */
+/* --- Event Filtering and Cards --- */
 .filter-buttons-container {
     display: flex;
     flex-wrap: wrap;
@@ -999,224 +1104,4 @@ body.fade-out {
     box-shadow: 0 4px 10px rgba(30, 136, 229, 0.4);
 }
 
-.event-card {
-    display: flex;
-    flex-direction: column;
-    /* Existing card styles are good */
-}
-
-.event-card .card-content {
-    padding: 15px; /* Add padding inside the content area */
-    flex-grow: 1; /* Allow content to take available space */
-    display: flex;
-    flex-direction: column;
-}
-
-.event-card h3 {
-    font-size: 1.3rem; /* Slightly larger title */
-    margin-bottom: 8px;
-    color: var(--color-blue); /* Title color */
-}
-
-.event-card .event-category {
-    font-size: 0.85rem;
-    color: var(--color-green); /* Category name color */
-    font-weight: 600;
-    margin-bottom: 10px;
-}
-
-.event-card .event-info {
-    display: flex;
-    flex-wrap: wrap; /* Allow wrapping on small screens */
-    gap: 10px;
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-    margin-bottom: 15px;
-}
-
-.event-card .event-info span {
-    display: flex;
-    align-items: center;
-}
-
-.event-card .event-info i {
-    margin-right: 5px;
-    color: var(--color-orange); /* Icon color */
-}
-
-.event-card .event-description {
-    font-size: 0.95rem;
-    color: var(--text-secondary);
-    line-height: 1.6;
-    margin-bottom: 20px;
-    flex-grow: 1; /* Allows description to push button to bottom */
-}
-
-.event-card .btn-sm {
-    padding: 8px 15px;
-    font-size: 0.85rem;
-    border-radius: 20px;
-    align-self: flex-start; /* Align button to start */
-}
-
-/* Messages for loading, error, no results */
-.loading-message,
-.error-message,
-.no-results-message {
-    text-align: center;
-    font-size: 1.2rem;
-    color: var(--text-secondary);
-    padding: 40px;
-    grid-column: 1 / -1; /* Span across all columns in grid */
-}
-
-.error-message {
-    color: #d32f2f; /* Red for errors */
-}
-
-@media (min-width: 768px) {
-    .grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-@media (min-width: 1024px) {
-    .grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-@media (max-width: 767px) {
-    .filter-buttons-container {
-        justify-content: flex-start;
-    }
-    .event-card .card-content {
-        padding: 10px;
-    }
-    .event-card h3 {
-        font-size: 1.1rem;
-    }
-    .event-card .event-info {
-        flex-direction: column;
-        gap: 5px;
-    }
-}
-
-
-        
-
-    /* Registration Form Specific Styles */
-.registration-form-section {
-    padding-top: 40px; /* Add some padding to separate it from the previous section */
-}
-
-.form-container {
-    max-width: 500px;
-    margin: 40px auto;
-    padding: 40px;
-    background: var(--background-primary);
-    border-radius: 15px;
-    box-shadow: 0 5px 15px var(--shadow-color);
-}
-
-.form-container .section-title {
-    margin-bottom: 30px;
-    font-size: 2rem;
-    color: var(--color-blue);
-    text-align: center;
-}
-
-.form-container h3 {
-    font-size: 1.5rem;
-    color: var(--color-dark);
-    margin-top: 40px;
-    margin-bottom: 20px;
-    border-bottom: 1px solid var(--background-secondary);
-    padding-bottom: 10px;
-}
-
-.form-group {
-    margin-bottom: 20px;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 600;
-    color: var(--text-primary);
-}
-
-.form-group input[type="text"],
-.form-group input[type="email"],
-.form-group input[type="tel"],
-.form-group input[type="number"],
-.form-group input[type="date"],
-.form-group select,
-.form-group textarea {
-    width: 100%;
-    padding: 12px;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-    font-family: var(--font-family);
-    font-size: 1rem;
-    box-sizing: border-box; /* Ensures padding doesn't increase width */
-    background-color: var(--background-secondary);
-    color: var(--text-primary);
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.form-group input[type="text"]:focus,
-.form-group input[type="email"]:focus,
-.form-group input[type="tel"]:focus,
-.form-group input[type="number"]:focus,
-.form-group input[type="date"]:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-    outline: none;
-    border-color: var(--color-blue);
-    box-shadow: 0 0 0 3px rgba(30, 136, 229, 0.3); /* Blue glowing effect */
-}
-
-.form-group textarea {
-    resize: vertical; /* Allow vertical resizing */
-}
-
-.radio-group, .checkbox-group {
-    display: flex;
-    flex-wrap: wrap; /* Allow items to wrap */
-    gap: 20px; /* Space between radio/checkbox items */
-    margin-top: 10px;
-}
-
-.radio-group label, .checkbox-group label {
-    display: flex;
-    align-items: center;
-    font-weight: 400; /* Lighter font weight for options */
-    margin-bottom: 0; /* Remove bottom margin from individual labels */
-    cursor: pointer;
-}
-
-.radio-group input[type="radio"], .checkbox-group input[type="checkbox"] {
-    width: 1.2em;
-    height: 1.2em;
-    margin-right: 8px;
-    accent-color: var(--color-green); /* Green accent for checked state */
-}
-
-.form-container .btn-primary {
-    margin-top: 30px;
-    width: 100%;
-    padding: 15px;
-    font-size: 1.1rem;
-    background-color: var(--color-green); /* Use green for primary action */
-    color: var(--color-white);
-    border: none;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.form-container .btn-primary:hover {
-    background-color: #388e3c; /* Darker green on hover */
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-}
+/* Update: Smooth scroll navbar & glow effect - 7 April 2026 */

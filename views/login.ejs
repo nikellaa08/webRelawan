@@ -1,24 +1,377 @@
 <%- include('partials/header') %>
 
-    <!-- PAGE HEADER -->
-    <section class="page-header section">
-        <h1 class="section-title">Login Relawan</h1>
-    </section>
+<style>
+    /* Login Page Styling */
+    .login-page {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 120px 20px 40px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
 
-    <section class="section">
-        <div class="login-container">
-            <% if (typeof message !== 'undefined' && message) { %>
-                <div style="color: #721c24; background-color: #f8d7da; border: 1px solid #f5c6cb; padding: 10px; border-radius: 8px; margin-bottom: 20px; text-align: center; font-size: 14px;">
-                    <%= message %>
-                </div>
-            <% } %>
+    .login-card {
+        background: white;
+        border-radius: 20px;
+        padding: 50px 40px;
+        width: 100%;
+        max-width: 450px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        animation: slideUp 0.6s ease-out;
+    }
 
-            <form method="POST" action="/api/login">
-                <input type="email" name="email" placeholder="Email" required>
-                <input type="password" name="password" placeholder="Password" required>
-                <button type="submit" class="btn btn-primary">Login</button>
-            </form>
+    @keyframes slideUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .login-back-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 25px;
+        padding: 8px 16px;
+        background: #f5f5f5;
+        border: 2px solid #e0e0e0;
+        border-radius: 25px;
+        color: #666;
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .login-back-btn:hover {
+        background: #667eea;
+        border-color: #667eea;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    }
+
+    .login-back-btn svg {
+        width: 18px;
+        height: 18px;
+        fill: currentColor;
+    }
+
+    .login-header {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .login-icon {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 20px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+    }
+
+    .login-icon svg {
+        width: 40px;
+        height: 40px;
+        fill: white;
+    }
+
+    .login-header h1 {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 10px;
+    }
+
+    .login-header p {
+        color: #666;
+        font-size: 0.95rem;
+    }
+
+    .login-form .input-group {
+        margin-bottom: 25px;
+        position: relative;
+    }
+
+    .login-form label {
+        display: block;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 8px;
+        font-size: 0.9rem;
+    }
+
+    .input-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+    .input-icon {
+        position: absolute;
+        left: 15px;
+        width: 20px;
+        height: 20px;
+        fill: #667eea;
+        pointer-events: none;
+    }
+
+    .login-form input[type="email"],
+    .login-form input[type="password"],
+    .login-form input[type="text"] {
+        width: 100%;
+        padding: 14px 45px 14px 50px;
+        border: 2px solid #e0e0e0;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-family: 'Poppins', sans-serif;
+        transition: all 0.3s ease;
+        background: #f9f9f9;
+    }
+
+    .login-form input[type="email"]::placeholder,
+    .login-form input[type="password"]::placeholder,
+    .login-form input[type="text"]::placeholder {
+        color: #999;
+        opacity: 1;
+    }
+
+    .login-form input[type="email"]:focus,
+    .login-form input[type="password"]:focus,
+    .login-form input[type="text"]:focus {
+        outline: none;
+        border-color: #667eea;
+        background: white;
+        box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+    }
+
+    .toggle-password {
+        position: absolute;
+        right: 15px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .toggle-password svg {
+        width: 20px;
+        height: 20px;
+        fill: #999;
+        transition: fill 0.3s ease;
+    }
+
+    .toggle-password:hover svg {
+        fill: #667eea;
+    }
+
+    .login-btn {
+        width: 100%;
+        padding: 15px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-size: 1.1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        margin-top: 10px;
+    }
+
+    .login-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.5);
+    }
+
+    .login-btn:active {
+        transform: translateY(0);
+    }
+
+    .divider {
+        text-align: center;
+        margin: 25px 0;
+        position: relative;
+    }
+
+    .divider::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: #e0e0e0;
+    }
+
+    .divider span {
+        background: white;
+        padding: 0 15px;
+        color: #999;
+        font-size: 0.9rem;
+        position: relative;
+    }
+
+    .register-link {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .register-link p {
+        color: #666;
+        font-size: 0.95rem;
+        margin-bottom: 10px;
+    }
+
+    .register-link a {
+        display: inline-block;
+        padding: 12px 30px;
+        background: transparent;
+        border: 2px solid #667eea;
+        color: #667eea;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .register-link a:hover {
+        background: #667eea;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .login-card {
+            padding: 40px 30px;
+        }
+
+        .login-header h1 {
+            font-size: 1.7rem;
+        }
+
+        .login-icon {
+            width: 70px;
+            height: 70px;
+        }
+
+        .login-icon svg {
+            width: 35px;
+            height: 35px;
+        }
+
+        .login-back-btn {
+            font-size: 0.85rem;
+            padding: 6px 12px;
+        }
+    }
+</style>
+
+<main class="login-page">
+    <div class="login-card">
+        <a href="/" class="login-back-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z"/>
+            </svg>
+            Kembali ke Beranda
+        </a>
+
+        <div class="login-header">
+            <div class="login-icon">
+                <!-- User Account Icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+                </svg>
+            </div>
+            <h1>Selamat Datang Kembali!</h1>
+            <p>Masuk ke akun Relawan Nusantara Anda</p>
         </div>
-    </section>
+
+        <% if (typeof message !== 'undefined' && message) { %>
+            <div style="color: #721c24; background-color: #f8d7da; border: 1px solid #f5c6cb; padding: 12px; border-radius: 8px; margin-bottom: 20px; text-align: center; font-size: 14px;">
+                <%= message %>
+            </div>
+        <% } %>
+
+        <form method="POST" action="/api/login" class="login-form">
+            <div class="input-group">
+                <label for="email">Email</label>
+                <div class="input-wrapper">
+                    <!-- Email Icon -->
+                    <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                    </svg>
+                    <input type="email" id="email" name="email" placeholder="Masukkan email Anda" required>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="password">Password</label>
+                <div class="input-wrapper">
+                    <!-- Lock Icon -->
+                    <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+                    </svg>
+                    <input type="password" id="password" name="password" placeholder="Masukkan password Anda" required>
+                    <!-- Toggle Password Visibility (Single Eye Icon) -->
+                    <button type="button" class="toggle-password" id="togglePassword" aria-label="Toggle password visibility">
+                        <svg id="eye-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <button type="submit" class="login-btn">
+                Masuk Sekarang
+            </button>
+        </form>
+
+        <div class="divider">
+            <span>ATAU</span>
+        </div>
+
+        <div class="register-link">
+            <p>Belum punya akun?</p>
+            <a href="/registration-form">Daftar Jadi Relawan</a>
+        </div>
+    </div>
+</main>
+
+<script>
+    // Toggle Password Visibility
+    const togglePassword = document.getElementById('togglePassword');
+    const passwordInput = document.getElementById('password');
+    const eyeIcon = document.getElementById('eye-icon');
+
+    togglePassword.addEventListener('click', function() {
+        const isPassword = passwordInput.getAttribute('type') === 'password';
+        passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+        
+        // Change icon path based on state
+        if (isPassword) {
+            // Show eye-off icon path
+            eyeIcon.innerHTML = '<path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.27l3.02 3.02c-.86.48-1.87.75-2.95.75-2.76 0-5-2.24-5-5 0-1.08.27-2.09.75-2.95z"/>';
+        } else {
+            // Show eye icon path
+            eyeIcon.innerHTML = '<path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>';
+        }
+    });
+</script>
 
 <%- include('partials/footer') %>

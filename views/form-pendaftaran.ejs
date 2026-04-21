@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Relawan - <%= program.title %></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/style.css">
+    <style>
+        /* Animasi Fade-in saat halaman dimuat */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .registration-form-page {
+            min-height: 100vh;
+            padding: 120px 20px 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .form-card {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            width: 100%;
+            max-width: 700px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Aksen Garis Oranye di sisi kiri */
+        .form-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 6px;
+            height: 100%;
+            background: linear-gradient(180deg, #FF8C00 0%, #FFA726 50%, #FFD700 100%);
+            border-radius: 16px 0 0 16px;
+        }
+
+        .form-header {
+            margin-bottom: 30px;
+            padding-left: 20px;
+        }
+
+        .form-header h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .form-header .program-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #FF8C00 0%, #FFD700 100%);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .form-header p {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Progress Bar Styles */
+        .progress-bar-container {
+            margin-bottom: 30px;
+            padding-left: 20px;
+        }
+
+        .progress-steps {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .progress-steps::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #e0e0e0;
+            z-index: 0;
+        }
+
+        .progress-line {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #FF8C00 0%, #FFA726 100%);
+            z-index: 1;
+            transition: width 0.4s ease;
+            width: 0%;
+        }
+
+        .progress-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+            flex: 1;
+        }
+
+        .step-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: white;
+            border: 3px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: #999;
+            transition: all 0.3s ease;
+            margin-bottom: 8px;
+        }
+
+        .progress-step.active .step-circle {
+            border-color: #FF8C00;
+            background: linear-gradient(135deg, #FF8C00 0%, #FFA726 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(255, 140, 0, 0.3);
+        }
+
+        .progress-step.completed .step-circle {
+            border-color: #FF8C00;
+            background: #FF8C00;
+            color: white;
+        }
+
+        .step-label {
+            font-size: 0.8rem;
+            color: #999;
+            font-weight: 600;
+            text-align: center;
+            transition: color 0.3s ease;
+        }
+
+        .progress-step.active .step-label,
+        .progress-step.completed .step-label {
+            color: #FF8C00;
+        }
+
+        /* Sticky Summary */
+        .sticky-summary {
+            position: sticky;
+            top: 80px;
+            z-index: 100;
+            background: white;
+            padding: 15px 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-left: 4px solid #FF8C00;
+            transition: all 0.3s ease;
+        }
+
+        .sticky-summary.scrolled {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+        }
+
+        .sticky-summary .program-emoji {
+            font-size: 2rem;
+        }
+
+        .sticky-summary .program-info h3 {
+            margin: 0;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .sticky-summary .program-info p {
+            margin: 0;
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .back-to-program {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+            padding: 8px 16px;
+            background: #f5f5f5;
+            border: 2px solid #e0e0e0;
+            border-radius: 25px;
+            color: #666;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .back-to-program:hover {
+            background: #FF8C00;
+            border-color: #FF8C00;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 140, 0, 0.3);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .form-group label .label-icon {
+            margin-right: 6px;
+            font-size: 1rem;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="tel"],
+        .form-group input[type="number"],
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            background: #f9f9f9;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #999;
+            opacity: 1;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #FF8C00;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(255, 140, 0, 0.1);
+        }
+
+        .form-group select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23666' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            padding-right: 40px;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* Input number - hide spinners */
+        .form-group input[type="number"]::-webkit-outer-spin-button,
+        .form-group input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .form-group input[type="number"] {
+            -moz-appearance: textfield;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: #FF8C00;
+            cursor: pointer;
+            margin-top: 2px;
+        }
+
+        .checkbox-group label {
+            font-weight: 400;
+            color: #555;
+            cursor: pointer;
+            margin-bottom: 0;
+        }
+
+        /* Section Kontak Darurat */
+        .emergency-section {
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 2px dashed #e0e0e0;
+            padding-left: 20px;
+        }
+
+        .emergency-section-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .emergency-section-header .icon-circle {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            min-width: 36px;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA726 100%);
+            border-radius: 50%;
+            font-size: 1.2rem;
+        }
+
+        .emergency-section-header h3 {
+            margin: 0;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .emergency-note {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            margin-top: 15px;
+            padding: 12px 15px;
+            background: #fff9e6;
+            border-left: 3px solid #FFD700;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .emergency-note .note-icon {
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .emergency-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #FF8C00 0%, #FFA726 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 25px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 140, 0, 0.4);
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 140, 0, 0.5);
+        }
+
+        .submit-btn:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        .submit-btn:disabled {
+            background: linear-gradient(135deg, #ccc 0%, #999 100%);
+            cursor: not-allowed;
+            box-shadow: none;
+            opacity: 0.7;
+        }
+
+        /* Notifikasi Sukses */
+        .success-notification {
+            display: none;
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: white;
+            padding: 20px 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            border-left: 4px solid #4CAF50;
+            z-index: 9999;
+            animation: slideInRight 0.5s ease-out;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .success-notification.show {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .success-notification .icon {
+            font-size: 2rem;
+        }
+
+        .success-notification .message h3 {
+            margin: 0 0 5px;
+            color: #4CAF50;
+            font-size: 1.1rem;
+        }
+
+        .success-notification .message p {
+            margin: 0;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Validasi Error */
+        .error-message {
+            color: #f44336;
+            font-size: 0.85rem;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .error-message.age-error {
+            color: #f44336;
+            font-weight: 600;
+            display: none;
+            padding: 8px 12px;
+            background: #ffebee;
+            border-radius: 6px;
+            border-left: 3px solid #f44336;
+        }
+
+        .error-message.age-error.show {
+            display: block;
+        }
+
+        .form-group.error input,
+        .form-group.error select,
+        .form-group.error textarea {
+            border-color: #f44336;
+        }
+
+        .form-group.error .error-message:not(.age-error) {
+            display: block;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .form-card {
+                padding: 30px 20px;
+            }
+
+            .form-header h1 {
+                font-size: 1.5rem;
+            }
+
+            .form-header {
+                padding-left: 10px;
+            }
+
+            .form-group {
+                padding-left: 10px;
+            }
+
+            .emergency-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .emergency-section {
+                padding-left: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="navbar-left">
+            <a href="/kesehatan" class="back-button">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z" fill="currentColor"></path></svg>
+                Kembali ke Program
+            </a>
+            <span class="nav-logo">Relawan Nusantara</span>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item"><a href="/pendidikan">Pendidikan</a></li>
+            <li class="nav-item"><a href="/lingkungan">Lingkungan</a></li>
+            <li class="nav-item"><a href="/kesehatan">Kesehatan</a></li>
+            <li class="nav-item"><a href="/sosial-kemanusiaan">Sosial & Kemanusiaan</a></li>
+        </ul>
+        <div class="nav-right">
+            <% if (typeof user !== 'undefined' && user) { %>
+                <div class="nav-user-greeting">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Halo, <%= user.name %>!</span>
+                </div>
+                <a href="/logout" class="btn btn-logout nav-logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </a>
+            <% } else { %>
+                <a href="/login" class="btn btn-secondary nav-login-btn">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Login
+                </a>
+            <% } %>
+            <div class="theme-switcher">
+                <svg id="theme-toggle-dark-icon" class="hidden" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                <svg id="theme-toggle-light-icon" class="hidden" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+            </div>
+        </div>
+        <div class="hamburger">
+            <div class="bar1"></div>
+            <div class="bar2"></div>
+            <div class="bar3"></div>
+        </div>
+    </nav>
+
+    <!-- FORM PENDAFTARAN -->
+    <main class="registration-form-page">
+        <div class="form-card">
+            <a href="/kesehatan" class="back-to-program">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z" fill="currentColor"></path></svg>
+                Kembali ke Program Kesehatan
+            </a>
+
+            <div class="form-header">
+                <div class="program-badge"><%= program.emoji %> <%= program.title %></div>
+                <h1>Form Pendaftaran Relawan</h1>
+                <p><%= program.description %></p>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="progress-bar-container">
+                <div class="progress-steps">
+                    <div class="progress-line" id="progressLine"></div>
+                    <div class="progress-step active" data-step="1">
+                        <div class="step-circle">1</div>
+                        <div class="step-label">Data Diri</div>
+                    </div>
+                    <div class="progress-step" data-step="2">
+                        <div class="step-circle">2</div>
+                        <div class="step-label">Data Program</div>
+                    </div>
+                    <div class="progress-step" data-step="3">
+                        <div class="step-circle">3</div>
+                        <div class="step-label">Selesai</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sticky Summary -->
+            <div class="sticky-summary" id="stickySummary">
+                <div class="program-emoji"><%= program.emoji %></div>
+                <div class="program-info">
+                    <h3><%= program.title %></h3>
+                    <p>Form Pendaftaran Relawan</p>
+                </div>
+            </div>
+
+            <% if (typeof message !== 'undefined' && message) { %>
+                <div style="padding: 15px; background: #fff3cd; border-left: 4px solid #ffc107; border-radius: 8px; margin-bottom: 20px;">
+                    <p style="margin: 0; color: #856404;"><%= message %></p>
+                </div>
+            <% } %>
+
+            <form id="registrationForm" action="/daftar/<%= program.slug %>" method="POST" novalidate>
+                <!-- Field Umum -->
+                <div class="form-group">
+                    <label for="fullname"><span class="label-icon">👤</span> Nama Lengkap *</label>
+                    <input type="text" id="fullname" name="fullname" placeholder="Masukkan nama lengkap Anda" required>
+                    <div class="error-message">Nama lengkap wajib diisi</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email"><span class="label-icon">📧</span> Alamat Email *</label>
+                    <input type="email" id="email" name="email" placeholder="Contoh: email@anda.com" required>
+                    <div class="error-message">Format email tidak valid</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="whatsapp"><span class="label-icon">📱</span> Nomor WhatsApp *</label>
+                    <input type="tel" id="whatsapp" name="whatsapp" placeholder="Contoh: 08123456789" required pattern="[0-9]+">
+                    <div class="error-message">Nomor WhatsApp hanya boleh angka</div>
+                </div>
+
+                <!-- Field Khusus: Donor Darah -->
+                <% if (program.slug === 'donor-darah') { %>
+                    <div class="form-group">
+                        <label for="umur"><span class="label-icon">🎂</span> Umur *</label>
+                        <input type="number" id="umur" name="umur" placeholder="Masukkan umur Anda" min="17" required>
+                        <div class="error-message age-error" id="ageError">
+                            ⚠️ Maaf, syarat minimal donor darah adalah 17 tahun
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="golongan-darah"><span class="label-icon">🩸</span> Golongan Darah *</label>
+                        <select id="golongan-darah" name="golonganDarah" required>
+                            <option value="">Pilih Golongan Darah</option>
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="AB">AB</option>
+                            <option value="O">O</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="syarat-donor" name="syaratDonor" required>
+                            <label for="syarat-donor">Saya menyatakan berat badan saya ≥ 45kg dan memenuhi syarat donor darah *</label>
+                        </div>
+                    </div>
+
+                    <!-- Section Kontak Darurat - Khusus Donor Darah -->
+                    <div class="emergency-section">
+                        <div class="emergency-section-header">
+                            <span class="icon-circle">🚨</span>
+                            <h3>Kontak Darurat</h3>
+                        </div>
+
+                        <div class="emergency-grid">
+                            <div class="form-group">
+                                <label for="emergencyName"><span class="label-icon">👤</span> Nama Kontak Darurat *</label>
+                                <input type="text" id="emergencyName" name="emergencyName" placeholder="Nama keluarga/teman" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="emergencyPhone"><span class="label-icon">📞</span> Nomor WhatsApp/Telepon *</label>
+                                <input type="tel" id="emergencyPhone" name="emergencyPhone" placeholder="Contoh: 08123456789" required pattern="[0-9]+">
+                            </div>
+                        </div>
+
+                        <div class="emergency-note">
+                            <span class="note-icon">ℹ️</span>
+                            <span>Data ini digunakan hanya jika terjadi keadaan darurat saat kegiatan berlangsung</span>
+                        </div>
+                    </div>
+                <% } %>
+
+                <!-- Field Khusus: Pemeriksaan Gratis -->
+                <% if (program.slug === 'pemeriksaan-gratis') { %>
+                    <div class="form-group">
+                        <label for="peran"><span class="label-icon">💼</span> Pilih Peran Anda *</label>
+                        <select id="peran" name="peran" required>
+                            <option value="">Pilih Peran</option>
+                            <option value="dokter">Dokter</option>
+                            <option value="perawat">Perawat</option>
+                            <option value="umum">Relawan Umum</option>
+                        </select>
+                    </div>
+                <% } %>
+
+                <!-- Field Khusus: Mental Health -->
+                <% if (program.slug === 'mental-health') { %>
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="kerahasiaan" name="kerahasiaan" required>
+                            <label for="kerahasiaan"> Saya bersedia menjaga kerahasiaan semua informasi yang dibagikan dalam program ini *</label>
+                        </div>
+                    </div>
+                <% } %>
+
+                <!-- Field Khusus: Gizi Anak -->
+                <% if (program.slug === 'gizi-anak') { %>
+                    <div class="form-group">
+                        <label for="motivasi"><span class="label-icon">💭</span> Kenapa ingin ikut program ini? *</label>
+                        <textarea id="motivasi" name="motivasi" rows="5" placeholder="Jelaskan motivasi dan alasan Anda ingin bergabung dalam program sosialisasi gizi anak..." required></textarea>
+                        <div class="error-message">Motivasi wajib diisi</div>
+                    </div>
+                <% } %>
+
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    <i class="fas fa-paper-plane"></i> Kirim Pendaftaran
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <!-- Notifikasi Sukses -->
+    <div id="successNotification" class="success-notification">
+        <div class="icon">🎉</div>
+        <div class="message">
+            <h3>Pendaftaran Berhasil!</h3>
+            <p>Terima kasih telah mendaftar. Tim kami akan menghubungi Anda segera.</p>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>&copy; 2026 Relawan Nusantara. Semua Hak Dilindungi.</p>
+    </footer>
+
+    <script src="/script.js"></script>
+    <script>
+        // Progress Bar & Sticky Summary Logic
+        const programSlug = '<%= program.slug %>';
+        
+        // Sticky Summary scroll effect
+        const stickySummary = document.getElementById('stickySummary');
+        
+        window.addEventListener('scroll', () => {
+            const currentScrollY = window.scrollY;
+            
+            if (currentScrollY > 100) {
+                stickySummary.classList.add('scrolled');
+            } else {
+                stickySummary.classList.remove('scrolled');
+            }
+        });
+
+        // Progress Bar Logic
+        function updateProgress(step) {
+            const steps = document.querySelectorAll('.progress-step');
+            const progressLine = document.getElementById('progressLine');
+            
+            steps.forEach((stepEl, index) => {
+                const stepNum = index + 1;
+                stepEl.classList.remove('active', 'completed');
+                
+                if (stepNum < step) {
+                    stepEl.classList.add('completed');
+                    stepEl.querySelector('.step-circle').innerHTML = '✓';
+                } else if (stepNum === step) {
+                    stepEl.classList.add('active');
+                } else {
+                    stepEl.querySelector('.step-circle').textContent = stepNum;
+                }
+            });
+            
+            // Update progress line
+            const progressPercentage = ((step - 1) / (steps.length - 1)) * 100;
+            progressLine.style.width = progressPercentage + '%';
+        }
+
+        // Track form completion to update progress
+        function checkFormProgress() {
+            const fullname = document.getElementById('fullname');
+            const email = document.getElementById('email');
+            const whatsapp = document.getElementById('whatsapp');
+            
+            // Step 1: Data Diri (fullname, email, whatsapp)
+            const step1Complete = fullname && fullname.value.trim() && 
+                                 email && email.value.trim() && 
+                                 whatsapp && whatsapp.value.trim();
+            
+            // Step 2: Data Program (depends on program)
+            let step2Complete = true;
+            
+            if (programSlug === 'donor-darah') {
+                const umur = document.getElementById('umur');
+                const golonganDarah = document.getElementById('golongan-darah');
+                const syaratDonor = document.getElementById('syarat-donor');
+                step2Complete = umur && umur.value && 
+                               golonganDarah && golonganDarah.value && 
+                               syaratDonor && syaratDonor.checked;
+            } else if (programSlug === 'pemeriksaan-gratis') {
+                const peran = document.getElementById('peran');
+                step2Complete = peran && peran.value;
+            } else if (programSlug === 'mental-health') {
+                const kerahasiaan = document.getElementById('kerahasiaan');
+                step2Complete = kerahasiaan && kerahasiaan.checked;
+            } else if (programSlug === 'gizi-anak') {
+                const motivasi = document.getElementById('motivasi');
+                step2Complete = motivasi && motivasi.value.trim();
+            }
+            
+            // Update progress
+            if (step2Complete) {
+                updateProgress(3); // Step 3: Selesai
+            } else if (step1Complete) {
+                updateProgress(2); // Step 2: Data Program
+            } else {
+                updateProgress(1); // Step 1: Data Diri
+            }
+        }
+
+        // Add event listeners to track form changes
+        document.getElementById('registrationForm').addEventListener('input', checkFormProgress);
+        document.getElementById('registrationForm').addEventListener('change', checkFormProgress);
+        
+        // Initialize progress
+        updateProgress(1);
+
+        // Validasi Form
+        const form = document.getElementById('registrationForm');
+        const whatsappInput = document.getElementById('whatsapp');
+        const emailInput = document.getElementById('email');
+        const submitBtn = document.getElementById('submitBtn');
+
+        // Validasi WhatsApp hanya angka
+        whatsappInput.addEventListener('input', function(e) {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+
+        // Validasi Email format
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        // Validasi Umur untuk Donor Darah
+        if (programSlug === 'donor-darah') {
+            const umurInput = document.getElementById('umur');
+            const ageError = document.getElementById('ageError');
+            const emergencyPhoneInput = document.getElementById('emergencyPhone');
+
+            // Validasi real-time saat user mengetik umur
+            umurInput.addEventListener('input', function() {
+                const umur = parseInt(this.value);
+
+                if (this.value && umur < 17) {
+                    ageError.classList.add('show');
+                    submitBtn.disabled = true;
+                    umur.parentElement.classList.add('error');
+                } else {
+                    ageError.classList.remove('show');
+                    umur.parentElement.classList.remove('error');
+                    // Hanya enable jika semua validasi lain juga pass
+                    checkAllValidations();
+                }
+            });
+
+            // Validasi nomor telepon darurat hanya angka
+            if (emergencyPhoneInput) {
+                emergencyPhoneInput.addEventListener('input', function(e) {
+                    this.value = this.value.replace(/[^0-9]/g, '');
+                });
+            }
+        }
+
+        // Cek semua validasi sebelum enable submit button
+        function checkAllValidations() {
+            if (programSlug !== 'donor-darah') {
+                submitBtn.disabled = false;
+                return;
+            }
+
+            const umurInput = document.getElementById('umur');
+            const umur = parseInt(umurInput.value);
+
+            // Enable jika umur valid (>= 17) atau kosong
+            if (!umurInput.value || umur >= 17) {
+                submitBtn.disabled = false;
+            }
+        }
+
+        // Validasi saat submit
+        form.addEventListener('submit', function(e) {
+            let isValid = true;
+
+            // Validasi nama
+            const fullname = document.getElementById('fullname');
+            if (!fullname.value.trim()) {
+                fullname.parentElement.classList.add('error');
+                isValid = false;
+            } else {
+                fullname.parentElement.classList.remove('error');
+            }
+
+            // Validasi email
+            if (!isValidEmail(emailInput.value)) {
+                emailInput.parentElement.classList.add('error');
+                isValid = false;
+            } else {
+                emailInput.parentElement.classList.remove('error');
+            }
+
+            // Validasi WhatsApp
+            if (!whatsappInput.value || !/^[0-9]+$/.test(whatsappInput.value)) {
+                whatsappInput.parentElement.classList.add('error');
+                isValid = false;
+            } else {
+                whatsappInput.parentElement.classList.remove('error');
+            }
+
+            // Validasi khusus Donor Darah
+            if (programSlug === 'donor-darah') {
+                const umurInput = document.getElementById('umur');
+                const umur = parseInt(umurInput.value);
+
+                if (!umurInput.value || umur < 17) {
+                    document.getElementById('ageError').classList.add('show');
+                    isValid = false;
+                }
+
+                // Validasi kontak darurat
+                const emergencyName = document.getElementById('emergencyName');
+                const emergencyPhone = document.getElementById('emergencyPhone');
+
+                if (emergencyName && !emergencyName.value.trim()) {
+                    emergencyName.parentElement.classList.add('error');
+                    isValid = false;
+                } else if (emergencyName) {
+                    emergencyName.parentElement.classList.remove('error');
+                }
+
+                if (emergencyPhone && (!emergencyPhone.value || !/^[0-9]+$/.test(emergencyPhone.value))) {
+                    emergencyPhone.parentElement.classList.add('error');
+                    isValid = false;
+                } else if (emergencyPhone) {
+                    emergencyPhone.parentElement.classList.remove('error');
+                }
+            }
+
+            if (!isValid) {
+                e.preventDefault();
+                return;
+            }
+        });
+
+        // Tampilkan notifikasi sukses dari URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('success') === 'true') {
+            const notification = document.getElementById('successNotification');
+            notification.classList.add('show');
+
+            // Hilangkan notifikasi setelah 5 detik
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 5000);
+
+            // Redirect ke halaman kesehatan setelah 3 detik
+            setTimeout(() => {
+                window.location.href = '/kesehatan';
+            }, 3000);
+        }
+    </script>
+
+</body>
+</html>

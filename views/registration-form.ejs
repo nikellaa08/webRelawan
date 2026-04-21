@@ -7,10 +7,10 @@
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z" fill="currentColor"></path></svg>
                     Kembali ke Beranda
                 </a>
-                <h1 id="display-program-title">Registrasi Program Relawan</h1>
-                <p>Isi data di bawah ini untuk menjadi bagian dari perubahan.</p>
+                <h1>Registrasi Akun</h1>
+                <p>Daftar sekarang untuk menjadi bagian dari gerakan perubahan. Isi data diri Anda di bawah ini.</p>
             </header>
-            
+
             <form action="/daftar" method="POST" class="registration-form">
                 <input type="hidden" id="selected-program-input" name="program_name" value="">
 
@@ -19,16 +19,19 @@
                     <input type="text" id="fullname" name="fullname" placeholder="Masukkan nama lengkap Anda" required>
                 </div>
                 <div class="input-group">
-                    <label for="whatsapp">No. WhatsApp</label>
-                    <input type="tel" id="whatsapp" name="whatsapp" placeholder="Contoh: 081234567890" required>
-                </div>
-                <div class="input-group">
                     <label for="email">Alamat Email</label>
                     <input type="email" id="email" name="email" placeholder="Contoh: email@anda.com" required>
                 </div>
-                <div class="input-group">
-                    <label for="experience">Pengalaman Organisasi</label>
-                    <textarea id="experience" name="experience" rows="4" placeholder="Ceritakan pengalaman organisasi Anda (jika ada)" required></textarea>
+                <div class="input-group" style="position: relative;">
+                    <label for="password">Password</label>
+                    <div style="position: relative;">
+                        <input type="password" id="password" name="password" placeholder="Contoh: 123456789" required style="padding-right: 45px;">
+                        <button type="button" id="togglePassword" aria-label="Toggle password visibility" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; padding: 5px; display: flex; align-items: center; justify-content: center; transition: opacity 0.3s ease;" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">
+                            <svg id="eye-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width: 20px; height: 20px; fill: #999; transition: fill 0.3s ease;">
+                                <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
                 <div class="input-group">
                     <label for="skills">Keahlian Khusus</label>
@@ -38,7 +41,7 @@
                     <label for="motivation">Kenapa tertarik bergabung?</label>
                     <textarea id="motivation" name="motivation" rows="4" placeholder="Jelaskan alasan dan motivasi Anda" required></textarea>
                 </div>
-                
+
                 <div class="input-group checkbox-group">
                     <input type="checkbox" id="commitment" name="commitment" required>
                     <label for="commitment">Saya bersedia mengikuti seluruh rangkaian kegiatan hingga selesai.</label>
@@ -49,48 +52,50 @@
         </div>
 
         <aside class="summary-card">
-            <h3>Ringkasan Aktivitas</h3>
-            <h4 id="summary-program-name">Memuat nama program...</h4>
-            
+            <h3>Ringkasan Pendaftaran</h3>
+            <h4>Bergabung Jadi Relawan Nusantara</h4>
+
             <div class="summary-details">
                 <p class="detail-item">
                     <span class="icon icon-calendar">📅</span>
-                    <strong>Jadwal:</strong> <span id="summary-schedule">Sesuai ketentuan program</span>
+                    <strong>Ketersediaan:</strong> Fleksibel, sesuai program yang diikuti
                 </p>
                 <p class="detail-item">
                     <span class="icon icon-location">📍</span>
-                    <strong>Lokasi:</strong> <span id="summary-location">Lokasi ditentukan admin</span>
+                    <strong>Lokasi:</strong> Berbagai lokasi di seluruh Indonesia
                 </p>
                 <p class="detail-item">
                     <span class="icon icon-target">🎯</span>
-                    <strong>Fokus Program:</strong> Aksi nyata untuk masyarakat Nusantara.
+                    <strong>Fokus:</strong> Aksi nyata untuk pendidikan, lingkungan, kesehatan, dan kemanusiaan.
                 </p>
             </div>
             <div class="card-footer">
-                <p>Kami sangat antusias menyambut Anda untuk bergabung dalam aksi nyata ini!</p>
+                <p>Setelah mendaftar, Anda akan mendapatkan akses ke semua program relawan. Kami sangat antusias menyambut Anda!</p>
             </div>
-        </aside>    
+        </aside>
     </main>
 
-<%- include('partials/footer') %>
-
 <script>
-    // Logika penangkap data dari LocalStorage agar tidak error
-    document.addEventListener('DOMContentLoaded', function() {
-        const savedProgram = localStorage.getItem('selectedProgram');
-        
-        if (savedProgram) {
-            // 1. Ubah Judul di Header Form
-            const displayTitle = document.getElementById('display-program-title');
-            if (displayTitle) displayTitle.innerText = "Registrasi: " + savedProgram;
+    // Toggle Password Visibility
+    const togglePassword = document.getElementById('togglePassword');
+    const passwordInput = document.getElementById('password');
+    const eyeIcon = document.getElementById('eye-icon');
 
-            // 2. Ubah Nama Program di Kolom Ringkasan (Kanan)
-            const summaryTitle = document.getElementById('summary-program-name');
-            if (summaryTitle) summaryTitle.innerText = savedProgram;
+    togglePassword.addEventListener('click', function() {
+        const isPassword = passwordInput.getAttribute('type') === 'password';
+        passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
 
-            // 3. Masukkan ke Input Hidden agar terkirim ke Backend saat Submit
-            const hiddenInput = document.getElementById('selected-program-input');
-            if (hiddenInput) hiddenInput.value = savedProgram;
+        // Change icon path based on state
+        if (isPassword) {
+            // Show eye-off icon path
+            eyeIcon.innerHTML = '<path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.27l3.02 3.02c-.86.48-1.87.75-2.95.75-2.76 0-5-2.24-5-5 0-1.08.27-2.09.75-2.95z"/>';
+            eyeIcon.style.fill = '#667eea';
+        } else {
+            // Show eye icon path
+            eyeIcon.innerHTML = '<path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>';
+            eyeIcon.style.fill = '#999';
         }
     });
 </script>
+
+<%- include('partials/footer') %>
