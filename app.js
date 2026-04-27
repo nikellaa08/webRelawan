@@ -3,777 +3,267 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { exec } from 'child_process';
 import os from 'os';
-import sessionMiddleware from 'express-session'; // Nama diubah agar tidak bentrok
+import session from 'express-session';
 
 // Import controllers
 import { login, register } from './controllers/authController.js';
 import { getCategories } from './controllers/categoryController.js';
 import { getEvents } from './controllers/eventController.js';
+import { 
+    adminLogin, getDashboard, getUsers, deleteUser, 
+    getEvents as adminGetEvents, deleteEvent, 
+    getCategories as adminGetCategories, addCategory, deleteCategory, 
+    adminLogout 
+} from './controllers/adminController.js';
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Konfigurasi __dirname untuk ES Modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// 2. View Engine & Middleware
+// --- Middleware ---
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-<<<<<<< HEAD
-// Session middleware
-app.use(sessionMiddleware({
-    secret: 'secret-key-relawan-nusantara',
-=======
-// Session configuration
 app.use(session({
     secret: 'relawan-nusantara-secret-key-2026',
->>>>>>> f525b70fcecadecb03bfc08622fae792f1fa47e0
     resave: false,
     saveUninitialized: false,
-    cookie: {
-        secure: false,
-        maxAge: 24 * 60 * 60 * 1000 // 24 jam
-    }
+    cookie: { secure: false, maxAge: 24 * 60 * 60 * 1000 }
 }));
 
-// Middleware untuk mengakses session di setiap route
 app.use((req, res, next) => {
     res.locals.user = req.session.user || null;
     res.locals.message = req.session.message || null;
     next();
 });
 
-<<<<<<< HEAD
-// --- Routes Halaman Utama ---
-=======
-// Middleware untuk proteksi halaman yang memerlukan login
-const requireAuth = (req, res, next) => {
-    if (!req.session.user) {
-        req.session.message = 'Maaf, Anda harus login terlebih dahulu untuk mengakses halaman ini. Silakan masuk atau daftar jika belum memiliki akun.';
-        return res.redirect('/login');
+// --- Middleware untuk proteksi halaman admin ---
+const isAdminLoggedIn = (req, res, next) => {
+    if (req.session.admin) {
+        next();
+    } else {
+        req.session.message = '⚠️ Silakan login sebagai admin terlebih dahulu.';
+        res.redirect('/admin/login');
     }
-    next();
 };
 
-// --- Routes ---
-
->>>>>>> f525b70fcecadecb03bfc08622fae792f1fa47e0
+// --- Routes Halaman Utama & Auth ---
 app.get('/', (req, res) => {
     const user = req.session.user || null;
     const message = req.session.message || null;
-    req.session.message = null; // Clear message after viewing
+    req.session.message = null;
     res.render('index', { user, message });
 });
 
 app.get(['/register', '/registration-form'], (req, res) => {
-    res.render('registration-form', { user: req.session.user || null, message: null });
+    res.render('registration-form', { message: null });
 });
 
 app.get('/login', (req, res) => {
-    res.render('login', { user: req.session.user || null, message: null });
+    res.render('login', { message: null });
 });
 
-<<<<<<< HEAD
-// --- KATEGORI PROGRAM ---
-app.get('/pendidikan', (req, res) => {
-    res.render('pendidikan', { user: req.session.user || null, message: null });
-});
-
-app.get('/lingkungan', (req, res) => {
-    res.render('lingkungan', { user: req.session.user || null, message: null });
-});
-
-app.get('/kesehatan', (req, res) => {
-    res.render('kesehatan', { user: req.session.user || null, message: null });
-});
-
-app.get('/sosial-kemanusiaan', (req, res) => {
-    res.render('sosial-kemanusiaan', { user: req.session.user || null, message: null });
-});
-
-// --- DETAIL MISI ---
-app.get('/pendidikan-detail/taman-baca', (req, res) => {
-    res.render('taman-baca', { user: req.session.user || null, message: null });
-});
-
-app.get('/pendidikan-detail/it', (req, res) => {
-    res.render('literasi-digital', { user: req.session.user || null, message: null });
-});
-
-app.get('/pendidikan-detail/seni', (req, res) => {
-    res.render('kelas-seni', { user: req.session.user || null, message: null });
-});
-
-app.get('/pendidikan-detail/english', (req, res) => {
-    res.render('english-day', { user: req.session.user || null, message: null });
-});
-
-app.get('/pendidikan-detail-view/:jenis', (req, res) => {
-    const jenis = req.params.jenis;
-    const dataMisi = {
-        'it': { title: 'Literasi Digital', img: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1000', desc: 'Bantu generasi muda melek teknologi!', jadwal: 'Kamis, 13:00 WIB', kuota: '10 Relawan', tugas: 'Workshop IT', reward: 350 },
-        'seni': { title: 'Kelas Seni Kreatif', img: 'https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?q=80&w=1000', desc: 'Eksplorasi bakat anak panti asuhan.', jadwal: 'Minggu, 10:00 WIB', kuota: '5 Relawan', tugas: 'Melukis Bersama', reward: 200 },
-        'english': { title: 'English Day', img: 'https://images.unsplash.com/photo-1543165796-5426273eaab3?q=80&w=1000', desc: 'Bantu anak-anak berani bicara bahasa Inggris.', jadwal: 'Jumat, 15:00 WIB', kuota: '12 Relawan', tugas: 'English Conversation', reward: 250 }
-    };
-    const detail = dataMisi[jenis] || dataMisi['it'];
-    res.render('pendidikan-detail', { detail, user: req.session.user || null, message: null });
-});
-
-// --- Detail & Form Pages ---
-const genericPages = [
-    'book-detail', 'pakaian-detail', 'sosial-anak-detail',
-    'donation-book-form', 'donation-form', 'kunjungan-panti-asuhan-form', 
-    'kunjungan-panti-jompo-form', 'jadwal'
-];
-
-genericPages.forEach(page => {
-    app.get(`/${page}`, (req, res) => {
-        res.render(page, { user: req.session.user || null, message: null });
-    });
-});
-
-app.get('/daftar/:programName', (req, res) => {
-    res.render('dynamic-form-page', { programName: req.params.programName, user: req.session.user || null, message: null });
-});
-
-app.post('/submit-form/:programName', (req, res) => {
-    res.json({ message: 'Form submitted successfully!' });
-});
-
-app.get('/terima-kasih', (req, res) => {
-    res.render('thank-you-page', { user: req.session.user || null, message: null });
-});
-
-// --- API & Auth Actions ---
-=======
-// API Endpoints
->>>>>>> f525b70fcecadecb03bfc08622fae792f1fa47e0
 app.post('/api/login', login);
-app.get('/api/categories', getCategories);
-app.get('/api/events', getEvents);
-
-<<<<<<< HEAD
-app.post('/daftar', (req, res) => {
-    const { fullname } = req.body;
-    req.session.user = { name: fullname };
-    req.session.message = `Selamat Datang ${fullname}!`;
-    res.redirect('/');
-});
-
-app.post('/register', async (req, res) => {
-    const { username, email, password } = req.body;
-    try {
-        const { db } = await import('./lib/db.js');
-        const query = "INSERT INTO users (nama_lengkap, email, password, role) VALUES (?, ?, ?, 'user')";
-        await db.execute(query, [username, email, password]);
-        res.redirect('/login?message=Registrasi Berhasil!');
-    } catch (err) {
-        res.redirect('/register?message=Terjadi kesalahan.');
-=======
-// --- Page Routes ---
-app.get('/pendidikan', (req, res) => res.render('pendidikan', { user: req.session.user || null }));
-app.get('/lingkungan', (req, res) => res.render('lingkungan', { user: req.session.user || null }));
-app.get('/kesehatan', (req, res) => res.render('kesehatan', { user: req.session.user || null }));
-app.get('/sosial-kemanusiaan', (req, res) => res.render('sosial-kemanusiaan', { user: req.session.user || null }));
-
-// --- Detail Pages ---
-app.get('/book-detail', (req, res) => res.render('book-detail', { user: req.session.user || null }));
-app.get('/pakaian-detail', (req, res) => res.render('pakaian-detail', { user: req.session.user || null }));
-app.get('/pendidikan-detail', (req, res) => res.render('pendidikan-detail', { user: req.session.user || null }));
-app.get('/sosial-anak-detail', (req, res) => res.render('sosial-anak-detail', { user: req.session.user || null }));
-
-// --- Form Pages ---
-app.get('/donation-book-form', (req, res) => res.render('donation-book-form', { user: req.session.user || null }));
-app.get('/donation-form', (req, res) => res.render('donation-form', { user: req.session.user || null }));
-app.get('/kunjungan-panti-asuhan-form', (req, res) => res.render('kunjungan-panti-asuhan-form', { user: req.session.user || null }));
-app.get('/kunjungan-panti-jompo-form', (req, res) => res.render('kunjungan-panti-jompo-form', { user: req.session.user || null }));
-app.get('/jadwal', (req, res) => res.render('jadwal', { user: req.session.user || null }));
-
-// Handle pendaftaran dari form - SIMPAN KE DATABASE
-app.post('/daftar', register);
-
-// Halaman form pendaftaran dinamis untuk program kesehatan
-app.get('/daftar/:program', (req, res) => {
-    const programSlug = req.params.program;
-    
-    // Data program untuk form dinamis
-    const programs = {
-        'pemeriksaan-gratis': {
-            slug: 'pemeriksaan-gratis',
-            title: 'Pemeriksaan Kesehatan Gratis',
-            emoji: '🩺',
-            description: 'Bergabunglah untuk memberikan pemeriksaan kesehatan gratis bagi masyarakat kurang mampu. Akses kesehatan dasar adalah hak semua.'
-        },
-        'donor-darah': {
-            slug: 'donor-darah',
-            title: 'Donor Darah Nasional',
-            emoji: '🩸',
-            description: 'Setetes darahmu menyelamatkan nyawa. Ikuti aksi donor darah rutin kami dan jadilah pahlawan!'
-        },
-        'gizi-anak': {
-            slug: 'gizi-anak',
-            title: 'Sosialisasi Gizi Anak',
-            emoji: '🍎',
-            description: 'Masa depan bangsa dimulai dari gizi yang baik. Edukasi orang tua tentang nutrisi untuk cegah stunting.'
-        },
-        'mental-health': {
-            slug: 'mental-health',
-            title: 'Support System Mental Health',
-            emoji: '🧠',
-            description: 'Mental yang sehat adalah pondasi kebahagiaan. Saling mendukung untuk kesehatan jiwa yang lebih baik.'
-        }
-    };
-
-    const program = programs[programSlug];
-
-    if (!program) {
-        req.session.message = '⚠️ Program tidak ditemukan.';
-        return res.redirect('/kesehatan');
->>>>>>> f525b70fcecadecb03bfc08622fae792f1fa47e0
-    }
-
-<<<<<<< HEAD
+app.post('/register', register); 
 app.all('/logout', (req, res) => {
     req.session.destroy(() => {
         res.clearCookie('connect.sid');
         res.redirect('/');
-=======
-    res.render('form-pendaftaran', {
-        user: req.session.user || null,
-        message: req.session.message || null,
-        program: program
->>>>>>> f525b70fcecadecb03bfc08622fae792f1fa47e0
     });
-    req.session.message = null;
 });
 
-<<<<<<< HEAD
-=======
-// Handle submit form pendaftaran kesehatan
+// ============================================
+// ADMIN ROUTES
+// ============================================
+app.get('/admin/login', (req, res) => {
+    if (req.session.admin) {
+        return res.redirect('/admin/dashboard');
+    }
+    const message = req.session.message || null;
+    req.session.message = null;
+    res.render('admin/login', { message });
+});
+
+app.post('/admin/api/login', adminLogin);
+
+app.get('/admin/dashboard', isAdminLoggedIn, getDashboard);
+
+app.get('/admin/users', isAdminLoggedIn, getUsers);
+app.get('/admin/users/delete/:id', isAdminLoggedIn, deleteUser);
+
+app.get('/admin/events', isAdminLoggedIn, adminGetEvents);
+app.get('/admin/events/delete/:id', isAdminLoggedIn, deleteEvent);
+
+app.get('/admin/categories', isAdminLoggedIn, adminGetCategories);
+app.post('/admin/categories/add', isAdminLoggedIn, addCategory);
+app.get('/admin/categories/delete/:id', isAdminLoggedIn, deleteCategory);
+
+app.all('/admin/logout', (req, res) => {
+    req.session.destroy(() => {
+        res.clearCookie('connect.sid');
+        res.redirect('/admin/login');
+    });
+});
+
+// --- Routes Kategori & Detail ---
+app.get('/pendidikan', (req, res) => res.render('pendidikan'));
+app.get('/lingkungan', (req, res) => res.render('lingkungan'));
+app.get('/kesehatan', (req, res) => res.render('kesehatan'));
+app.get('/sosial-kemanusiaan', (req, res) => res.render('sosial-kemanusiaan'));
+
+const detailPages = ['book-detail', 'pakaian-detail', 'pendidikan-detail', 'sosial-anak-detail', 'jadwal'];
+detailPages.forEach(page => {
+    app.get(`/${page}`, (req, res) => res.render(page));
+});
+
+// --- DETAIL MISI PENDIDIKAN ---
+app.get('/pendidikan-detail/taman-baca', (req, res) => res.render('taman-baca'));
+app.get('/pendidikan-detail/it', (req, res) => res.render('literasi-digital'));
+app.get('/pendidikan-detail/seni', (req, res) => res.render('kelas-seni'));
+app.get('/pendidikan-detail/english', (req, res) => res.render('english-day'));
+
+// ============================================
+// LOGIKA FORM PENDAFTARAN KESEHATAN (LENGKAP)
+// ============================================
+app.get('/daftar/:program', (req, res) => {
+    const programSlug = req.params.program;
+    const programs = {
+        'pemeriksaan-gratis': { slug: 'pemeriksaan-gratis', title: 'Pemeriksaan Kesehatan Gratis', emoji: '🩺', description: 'Akses kesehatan dasar adalah hak semua.' },
+        'donor-darah': { slug: 'donor-darah', title: 'Donor Darah Nasional', emoji: '🩸', description: 'Setetes darahmu menyelamatkan nyawa.' },
+        'gizi-anak': { slug: 'gizi-anak', title: 'Sosialisasi Gizi Anak', emoji: '🍎', description: 'Edukasi nutrisi untuk cegah stunting.' },
+        'mental-health': { slug: 'mental-health', title: 'Support System Mental Health', emoji: '🧠', description: 'Saling mendukung untuk kesehatan jiwa.' }
+    };
+    const program = programs[programSlug];
+    if (!program) {
+        req.session.message = '⚠️ Program tidak ditemukan.';
+        return res.redirect('/kesehatan');
+    }
+    res.render('form-pendaftaran', { program });
+});
+
 app.post('/daftar/:program', (req, res) => {
     const programSlug = req.params.program;
     const { fullname, email, whatsapp, umur, emergencyName, emergencyPhone } = req.body;
 
-    // Validasi input umum
     if (!fullname || !email || !whatsapp) {
         req.session.message = '⚠️ Semua field wajib diisi.';
         return res.redirect(`/daftar/${programSlug}`);
     }
 
-    // Validasi email
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-        req.session.message = '⚠️ Format email tidak valid.';
-        return res.redirect(`/daftar/${programSlug}`);
-    }
-
-    // Validasi WhatsApp hanya angka
-    if (!/^[0-9]+$/.test(whatsapp)) {
-        req.session.message = '⚠️ Nomor WhatsApp hanya boleh angka.';
-        return res.redirect(`/daftar/${programSlug}`);
-    }
-
-    // Validasi khusus Donor Darah
     if (programSlug === 'donor-darah') {
-        // Validasi umur minimal 17 tahun
         if (!umur || parseInt(umur) < 17) {
             req.session.message = '⚠️ Maaf, syarat minimal donor darah adalah 17 tahun.';
             return res.redirect(`/daftar/${programSlug}`);
         }
-
-        // Validasi kontak darurat
         if (!emergencyName || !emergencyPhone) {
-            req.session.message = '⚠️ Kontak darurat wajib diisi untuk program Donor Darah.';
-            return res.redirect(`/daftar/${programSlug}`);
-        }
-
-        // Validasi nomor telepon darurat hanya angka
-        if (!/^[0-9]+$/.test(emergencyPhone)) {
-            req.session.message = '⚠️ Nomor telepon darurat hanya boleh angka.';
+            req.session.message = '⚠️ Kontak darurat wajib diisi.';
             return res.redirect(`/daftar/${programSlug}`);
         }
     }
 
-    // Simpan data pendaftaran (untuk sementara ke console, bisa dikembangkan ke database)
-    console.log(`✅ Pendaftaran ${programSlug}:`, {
-        fullname,
-        email,
-        whatsapp,
-        ...(programSlug === 'donor-darah' && { umur, emergencyName, emergencyPhone }),
-        ...req.body
-    });
-
-    // Redirect dengan parameter success
+    console.log(`✅ Pendaftaran ${programSlug} Berhasil!`);
     res.redirect(`/daftar/${programSlug}?success=true`);
 });
 
 // ============================================
-// ROUTES UNTUK FORM PENDAFTARAN PENDIDIKAN
+// LOGIKA FORM PENDAFTARAN PENDIDIKAN (LENGKAP)
 // ============================================
-
-// Halaman form pendaftaran dinamis untuk program pendidikan
 app.get('/daftar-pendidikan/:program', (req, res) => {
     const programSlug = req.params.program;
-
-    // Data program untuk form dinamis pendidikan
     const programs = {
-        'donasi-perlengkapan': {
-            slug: 'donasi-perlengkapan',
-            title: 'Donasi Perlengkapan Sekolah',
-            emoji: '🎒',
-            type: 'donasi',
-            description: 'Satu pensil, satu buku, satu harapan. Donasikan perlengkapan sekolah untuk anak-anak yang membutuhkan.'
-        },
-        'taman-baca-keliling': {
-            slug: 'taman-baca-keliling',
-            title: 'Taman Baca Keliling',
-            emoji: '🚌',
-            type: 'multi-role',
-            description: 'Membawa jendela dunia lebih dekat kepada mereka. Mari bergerak bersama untuk menebar minat baca di pelosok negeri.'
-        },
-        'bimbingan-belajar': {
-            slug: 'bimbingan-belajar',
-            title: 'Bimbingan Belajar Gratis',
-            emoji: '👩‍🏫',
-            type: 'bimbel',
-            description: 'Bantu anak-anak meraih cita-cita. Bergabunglah sebagai pengajar atau pendamping bimbingan belajar gratis.'
-        },
-        'renovasi-fasilitas': {
-            slug: 'renovasi-fasilitas',
-            title: 'Renovasi Fasilitas Pendidikan',
-            emoji: '🏗️',
-            type: 'multi-role',
-            description: 'Lingkungan belajar yang nyaman, semangat belajar pun meningkat. Bantu wujudkan fasilitas pendidikan yang layak.'
-        }
+        'donasi-perlengkapan': { slug: 'donasi-perlengkapan', title: 'Donasi Perlengkapan Sekolah', emoji: '🎒', type: 'donasi', description: 'Donasikan perlengkapan sekolah.' },
+        'taman-baca-keliling': { slug: 'taman-baca-keliling', title: 'Taman Baca Keliling', emoji: '🚌', type: 'multi-role', description: 'Menebar minat baca.' },
+        'bimbingan-belajar': { slug: 'bimbingan-belajar', title: 'Bimbingan Belajar Gratis', emoji: '👩‍🏫', type: 'bimbel', description: 'Bantu anak meraih cita-cita.' },
+        'renovasi-fasilitas': { slug: 'renovasi-fasilitas', title: 'Renovasi Fasilitas Pendidikan', emoji: '🏗️', type: 'multi-role', description: 'Wujudkan fasilitas layak.' }
     };
-
     const program = programs[programSlug];
-
-    if (!program) {
-        req.session.message = '⚠️ Program tidak ditemukan.';
-        return res.redirect('/pendidikan');
-    }
-
-    res.render('form-pendidikan', {
-        user: req.session.user || null,
-        message: req.session.message || null,
-        program: program
-    });
-    req.session.message = null;
+    if (!program) return res.redirect('/pendidikan');
+    res.render('form-pendidikan', { program });
 });
 
-// Handle submit form pendaftaran pendidikan
 app.post('/daftar-pendidikan/:program', (req, res) => {
     const programSlug = req.params.program;
     const { fullname, email, whatsapp } = req.body;
 
-    // Validasi input umum
     if (!fullname || !email || !whatsapp) {
-        req.session.message = '⚠️ Semua field wajib diisi.';
+        req.session.message = '⚠️ Field wajib diisi.';
         return res.redirect(`/daftar-pendidikan/${programSlug}`);
     }
 
-    // Validasi email
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-        req.session.message = '⚠️ Format email tidak valid.';
-        return res.redirect(`/daftar-pendidikan/${programSlug}`);
-    }
-
-    // Validasi WhatsApp minimal 10 digit dan hanya angka
     if (!/^[0-9]{10,}$/.test(whatsapp)) {
-        req.session.message = '⚠️ Nomor WhatsApp harus minimal 10 digit dan hanya angka.';
+        req.session.message = '⚠️ Nomor WhatsApp tidak valid.';
         return res.redirect(`/daftar-pendidikan/${programSlug}`);
     }
 
-    // Validasi khusus program multi-role (Taman Baca Keliling & Renovasi Fasilitas)
-    if (programSlug === 'taman-baca-keliling' || programSlug === 'renovasi-fasilitas') {
-        const { role } = req.body;
-
-        if (!role) {
-            req.session.message = '⚠️ Pilih peran Anda (Relawan atau Donatur).';
-            return res.redirect(`/daftar-pendidikan/${programSlug}`);
-        }
-
-        // Validasi field Relawan
-        if (role === 'relawan') {
-            const { jadwal, lokasi, keahlian } = req.body;
-            if (!jadwal || !lokasi || !keahlian) {
-                req.session.message = '⚠️ Semua field relawan wajib diisi (Jadwal, Lokasi, Keahlian).';
-                return res.redirect(`/daftar-pendidikan/${programSlug}`);
-            }
-
-            // Validasi khusus Renovasi: alasanRenovasi
-            if (programSlug === 'renovasi-fasilitas') {
-                const { alasanRenovasi } = req.body;
-                if (!alasanRenovasi || !alasanRenovasi.trim()) {
-                    req.session.message = '⚠️ Alasan ingin membantu renovasi wajib diisi.';
-                    return res.redirect(`/daftar-pendidikan/${programSlug}`);
-                }
-            }
-        }
-
-        // Validasi field Donatur
-        if (role === 'donatur') {
-            const { jenisDonasi, jumlahDonasi } = req.body;
-            if (!jenisDonasi || !jumlahDonasi) {
-                req.session.message = '⚠️ Semua field donatur wajib diisi (Jenis Donasi, Jumlah Donasi).';
-                return res.redirect(`/daftar-pendidikan/${programSlug}`);
-            }
-
-            if (parseInt(jumlahDonasi) < 1) {
-                req.session.message = '⚠️ Jumlah donasi minimal 1.';
-                return res.redirect(`/daftar-pendidikan/${programSlug}`);
-            }
-        }
-    }
-
-    // Validasi khusus Donasi Perlengkapan
-    if (programSlug === 'donasi-perlengkapan') {
-        const { jenisBarang, jumlahBarang, metodePengiriman } = req.body;
-        if (!jenisBarang || !jumlahBarang || !metodePengiriman) {
-            req.session.message = '⚠️ Semua field donasi wajib diisi (Jenis Barang, Jumlah Barang, Metode Pengiriman).';
-            return res.redirect(`/daftar-pendidikan/${programSlug}`);
-        }
-
-        if (parseInt(jumlahBarang) < 1) {
-            req.session.message = '⚠️ Jumlah barang minimal 1.';
-            return res.redirect(`/daftar-pendidikan/${programSlug}`);
-        }
-    }
-
-    // Validasi khusus Bimbingan Belajar
-    if (programSlug === 'bimbingan-belajar') {
-        const { mataPelajaran, jenjang } = req.body;
-        if (!mataPelajaran || !jenjang) {
-            req.session.message = '⚠️ Mata pelajaran dan jenjang wajib dipilih.';
-            return res.redirect(`/daftar-pendidikan/${programSlug}`);
-        }
-
-        // mataPelajaran bisa array dari checkbox, convert ke string
-        if (Array.isArray(mataPelajaran)) {
-            if (mataPelajaran.length === 0) {
-                req.session.message = '⚠️ Pilih minimal satu mata pelajaran.';
-                return res.redirect(`/daftar-pendidikan/${programSlug}`);
-            }
-        }
-    }
-
-    // Simpan data pendaftaran (untuk sementara ke console, bisa dikembangkan ke database)
-    console.log(`✅ Pendaftaran Pendidikan [${programSlug}]:`, {
-        fullname,
-        email,
-        whatsapp,
-        ...req.body
-    });
-
-    // Redirect dengan parameter success
+    console.log(`✅ Pendaftaran Pendidikan ${programSlug} Berhasil!`);
     res.redirect(`/daftar-pendidikan/${programSlug}?success=true`);
 });
 
 // ============================================
-// ROUTES UNTUK FORM PENDAFTARAN LINGKUNGAN
+// LOGIKA FORM PENDAFTARAN LINGKUNGAN (LENGKAP)
 // ============================================
-
-// Halaman form pendaftaran dinamis untuk program lingkungan
 app.get('/daftar-lingkungan/:program', (req, res) => {
     const programSlug = req.params.program;
-
-    // Data program untuk form dinamis lingkungan
     const programs = {
-        'tanam-mangrove': {
-            slug: 'tanam-mangrove',
-            title: 'Aksi Tanam Mangrove',
-            emoji: '🌳',
-            type: 'aksi-lapangan',
-            description: 'Bersama kita lestarikan ekosistem pesisir dengan menanam mangrove. Satu pohon yang kau tanam hari ini adalah perisai bagi pesisir di masa depan!',
-            submitText: 'Daftar Sekarang'
-        },
-        'clean-up-day': {
-            slug: 'clean-up-day',
-            title: 'Clean-Up Day',
-            emoji: '🌊',
-            type: 'aksi-lapangan',
-            description: 'Jangan biarkan sampah merusak keindahan alam kita. Pungut satu sampah, selamatkan ribuan biota laut!',
-            submitText: 'Daftar Sekarang'
-        },
-        'workshop-zero-waste': {
-            slug: 'workshop-zero-waste',
-            title: 'Workshop Zero Waste',
-            emoji: '♻️',
-            type: 'workshop',
-            description: 'Ubah sampah jadi berkah. Belajar cara mengelola sampah rumah tangga menjadi barang berguna dan kompos.',
-            submitText: 'Daftar Workshop'
-        },
-        'adopsi-pohon': {
-            slug: 'adopsi-pohon',
-            title: 'Adopsi Pohon',
-            emoji: '🌱',
-            type: 'adopsi',
-            description: 'Miliki pohonmu sendiri dan pantau pertumbuhannya. Satu pohon darimu, investasi oksigen untuk masa depan.',
-            submitText: 'Adopsi Sekarang'
-        }
+        'tanam-mangrove': { slug: 'tanam-mangrove', title: 'Aksi Tanam Mangrove', emoji: '🌳', type: 'aksi-lapangan', description: 'Lestarikan pesisir.' },
+        'clean-up-day': { slug: 'clean-up-day', title: 'Clean-Up Day', emoji: '🌊', type: 'aksi-lapangan', description: 'Pungut sampah laut.' },
+        'workshop-zero-waste': { slug: 'workshop-zero-waste', title: 'Workshop Zero Waste', emoji: '♻️', type: 'workshop', description: 'Ubah sampah jadi berkah.' },
+        'adopsi-pohon': { slug: 'adopsi-pohon', title: 'Adopsi Pohon', emoji: '🌱', type: 'adopsi', description: 'Investasi oksigen.' }
     };
-
     const program = programs[programSlug];
-
-    if (!program) {
-        req.session.message = '⚠️ Program tidak ditemukan.';
-        return res.redirect('/lingkungan');
-    }
-
-    res.render('form-lingkungan', {
-        user: req.session.user || null,
-        message: req.session.message || null,
-        program: program
-    });
-    req.session.message = null;
+    if (!program) return res.redirect('/lingkungan');
+    res.render('form-lingkungan', { program });
 });
 
-// Handle submit form pendaftaran lingkungan
 app.post('/daftar-lingkungan/:program', (req, res) => {
     const programSlug = req.params.program;
     const { fullname, email, whatsapp } = req.body;
 
-    // Validasi input umum
-    if (!fullname || !email || !whatsapp) {
-        req.session.message = '⚠️ Semua field wajib diisi.';
+    if (programSlug === 'adopsi-pohon' && (!req.body.jumlahPohon || req.body.jumlahPohon < 1)) {
+        req.session.message = '⚠️ Jumlah pohon minimal 1.';
         return res.redirect(`/daftar-lingkungan/${programSlug}`);
     }
 
-    // Validasi email
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-        req.session.message = '⚠️ Format email tidak valid.';
-        return res.redirect(`/daftar-lingkungan/${programSlug}`);
-    }
-
-    // Validasi WhatsApp minimal 10 digit dan hanya angka
-    if (!/^[0-9]{10,}$/.test(whatsapp)) {
-        req.session.message = '⚠️ Nomor WhatsApp harus minimal 10 digit dan hanya angka.';
-        return res.redirect(`/daftar-lingkungan/${programSlug}`);
-    }
-
-    // Validasi khusus Aksi Lapangan
-    if (programSlug === 'tanam-mangrove' || programSlug === 'clean-up-day') {
-        const { alamat, transportasi } = req.body;
-        if (!alamat || !transportasi) {
-            req.session.message = '⚠️ Alamat domisili dan transportasi wajib diisi.';
-            return res.redirect(`/daftar-lingkungan/${programSlug}`);
-        }
-    }
-
-    // Validasi khusus Workshop
-    if (programSlug === 'workshop-zero-waste') {
-        const { metode, minatBelajar } = req.body;
-        if (!metode || !minatBelajar) {
-            req.session.message = '⚠️ Metode partisipasi dan minat belajar wajib dipilih.';
-            return res.redirect(`/daftar-lingkungan/${programSlug}`);
-        }
-    }
-
-    // Validasi khusus Adopsi Pohon
-    if (programSlug === 'adopsi-pohon') {
-        const { jumlahPohon, namaSertifikat, metodePembayaran } = req.body;
-
-        if (!jumlahPohon || parseInt(jumlahPohon) < 1) {
-            req.session.message = '⚠️ Jumlah pohon minimal 1.';
-            return res.redirect(`/daftar-lingkungan/${programSlug}`);
-        }
-
-        if (!namaSertifikat) {
-            req.session.message = '⚠️ Nama untuk sertifikat wajib diisi.';
-            return res.redirect(`/daftar-lingkungan/${programSlug}`);
-        }
-
-        if (!metodePembayaran) {
-            req.session.message = '⚠️ Metode pembayaran wajib dipilih.';
-            return res.redirect(`/daftar-lingkungan/${programSlug}`);
-        }
-    }
-
-    // Simpan data pendaftaran (untuk sementara ke console, bisa dikembangkan ke database)
-    console.log(`✅ Pendaftaran Lingkungan [${programSlug}]:`, {
-        fullname,
-        email,
-        whatsapp,
-        ...req.body
-    });
-
-    // Redirect dengan parameter success
+    console.log(`✅ Pendaftaran Lingkungan ${programSlug} Berhasil!`);
     res.redirect(`/daftar-lingkungan/${programSlug}?success=true`);
 });
 
 // ============================================
-// ROUTES UNTUK FORM PENDAFTARAN SOSIAL & KEMANUSIAAN
+// LOGIKA FORM PENDAFTARAN SOSIAL (LENGKAP)
 // ============================================
-
-// Halaman form pendaftaran dinamis untuk program sosial
 app.get('/daftar-sosial/:program', (req, res) => {
     const programSlug = req.params.program;
-
-    // Data program untuk form dinamis sosial
     const programs = {
-        'donasi-pakaian': {
-            slug: 'donasi-pakaian',
-            title: 'Donasi Pakaian',
-            emoji: '👕',
-            type: 'donasi-pakaian',
-            description: 'Satu pakaian layak pakai darimu bisa menghangatkan harapan mereka. Mari berbagi kepedulian.'
-        },
-        'donasi-buku': {
-            slug: 'donasi-buku',
-            title: 'Donasi Buku',
-            emoji: '📚',
-            type: 'donasi-buku',
-            description: 'Buku yang tak lagi kau baca bisa membuka jendela dunia bagi anak-anak. Mari berbagi ilmu.'
-        },
-        'kunjungan-panti-asuhan': {
-            slug: 'kunjungan-panti-asuhan',
-            title: 'Kunjungan Panti Asuhan',
-            emoji: '🏠',
-            type: 'kunjungan-panti-asuhan',
-            description: 'Kehadiranmu adalah hadiah terindah bagi mereka. Jadilah kakak, sahabat, dan sumber semangat.'
-        },
-        'kunjungan-panti-jompo': {
-            slug: 'kunjungan-panti-jompo',
-            title: 'Kunjungan Panti Jompo',
-            emoji: '👴',
-            type: 'kunjungan-panti-jompo',
-            description: 'Mereka tak butuh kemewahan, hanya waktu dan perhatian. Hadirmu adalah kebahagiaan yang tak ternilai.'
-        }
+        'donasi-pakaian': { slug: 'donasi-pakaian', title: 'Donasi Pakaian', emoji: '👕', type: 'donasi-pakaian' },
+        'donasi-buku': { slug: 'donasi-buku', title: 'Donasi Buku', emoji: '📚', type: 'donasi-buku' },
+        'kunjungan-panti-asuhan': { slug: 'kunjungan-panti-asuhan', title: 'Kunjungan Panti Asuhan', emoji: '🏠', type: 'kunjungan-panti-asuhan' },
+        'kunjungan-panti-jompo': { slug: 'kunjungan-panti-jompo', title: 'Kunjungan Panti Jompo', emoji: '👴', type: 'kunjungan-panti-jompo' }
     };
-
     const program = programs[programSlug];
-
-    if (!program) {
-        req.session.message = '⚠️ Program tidak ditemukan.';
-        return res.redirect('/sosial-kemanusiaan');
-    }
-
-    res.render('form-sosial', {
-        user: req.session.user || null,
-        message: req.session.message || null,
-        program: program
-    });
-    req.session.message = null;
+    if (!program) return res.redirect('/sosial-kemanusiaan');
+    res.render('form-sosial', { program });
 });
 
-// Handle submit form pendaftaran sosial
 app.post('/daftar-sosial/:program', (req, res) => {
-    const programSlug = req.params.program;
-    const { fullname, email, whatsapp } = req.body;
-
-    // Validasi input umum
-    if (!fullname || !email || !whatsapp) {
-        req.session.message = '⚠️ Semua field wajib diisi.';
-        return res.redirect(`/daftar-sosial/${programSlug}`);
-    }
-
-    // Validasi email
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-        req.session.message = '⚠️ Format email tidak valid.';
-        return res.redirect(`/daftar-sosial/${programSlug}`);
-    }
-
-    // Validasi WhatsApp minimal 10 digit dan hanya angka
-    if (!/^[0-9]{10,}$/.test(whatsapp)) {
-        req.session.message = '⚠️ Nomor WhatsApp harus minimal 10 digit dan hanya angka.';
-        return res.redirect(`/daftar-sosial/${programSlug}`);
-    }
-
-    // Validasi khusus Donasi Pakaian
-    if (programSlug === 'donasi-pakaian') {
-        const { jenisPakaian, jumlahPakaian, metodePengiriman } = req.body;
-        if (!jenisPakaian || !jumlahPakaian || !metodePengiriman) {
-            req.session.message = '⚠️ Semua field donasi pakaian wajib diisi.';
-            return res.redirect(`/daftar-sosial/${programSlug}`);
-        }
-
-        if (parseInt(jumlahPakaian) < 1) {
-            req.session.message = '⚠️ Jumlah pakaian minimal 1.';
-            return res.redirect(`/daftar-sosial/${programSlug}`);
-        }
-    }
-
-    // Validasi khusus Donasi Buku
-    if (programSlug === 'donasi-buku') {
-        const { jenisBuku, jumlahBuku, metodePengiriman } = req.body;
-        if (!jenisBuku || !jumlahBuku || !metodePengiriman) {
-            req.session.message = '⚠️ Semua field donasi buku wajib diisi.';
-            return res.redirect(`/daftar-sosial/${programSlug}`);
-        }
-
-        if (parseInt(jumlahBuku) < 1) {
-            req.session.message = '⚠️ Jumlah buku minimal 1.';
-            return res.redirect(`/daftar-sosial/${programSlug}`);
-        }
-    }
-
-    // Validasi khusus Kunjungan
-    if (programSlug === 'kunjungan-panti-asuhan' || programSlug === 'kunjungan-panti-jompo') {
-        const { tanggalKunjungan, aktivitas, jumlahPeserta } = req.body;
-        if (!tanggalKunjungan || !aktivitas || !jumlahPeserta) {
-            req.session.message = '⚠️ Semua field kunjungan wajib diisi.';
-            return res.redirect(`/daftar-sosial/${programSlug}`);
-        }
-
-        if (parseInt(jumlahPeserta) < 1) {
-            req.session.message = '⚠️ Jumlah peserta minimal 1.';
-            return res.redirect(`/daftar-sosial/${programSlug}`);
-        }
-    }
-
-    // Simpan data pendaftaran (untuk sementara ke console, bisa dikembangkan ke database)
-    console.log(`✅ Pendaftaran Sosial [${programSlug}]:`, {
-        fullname,
-        email,
-        whatsapp,
-        ...req.body
-    });
-
-    // Redirect dengan parameter success
-    res.redirect(`/daftar-sosial/${programSlug}?success=true`);
+    console.log(`✅ Pendaftaran Sosial ${req.params.program} Berhasil!`);
+    res.redirect(`/daftar-sosial/${req.params.program}?success=true`);
 });
 
-// Route logout
-app.get('/logout', (req, res) => {
-    req.session.destroy((err) => {
-        if (err) {
-            console.error('Error saat logout:', err);
-        }
-        res.redirect('/');
-    });
-});
+// API & Global Handler
+app.get('/api/categories', getCategories);
+app.get('/api/events', getEvents);
+app.get('/terima-kasih', (req, res) => res.render('thank-you-page'));
 
-// Function to open browser automatically
-function openBrowser(url) {
-    const platform = os.platform();
-
-    if (platform === 'win32') {
-        exec(`start ${url}`);
-    } else if (platform === 'darwin') {
-        exec(`open ${url}`);
-    } else {
-        exec(`xdg-open ${url}`);
-    }
-}
-
->>>>>>> f525b70fcecadecb03bfc08622fae792f1fa47e0
-// Start server
+// --- Start Server ---
 app.listen(port, () => {
     const url = `http://localhost:${port}`;
     console.log(`🚀 Server running at ${url}`);
-    
-    // Auto open browser
-    const platform = os.platform();
-    if (platform === 'win32') exec(`start ${url}`);
-    else if (platform === 'darwin') exec(`open ${url}`);
+    if (os.platform() === 'win32') exec(`start ${url}`);
+    else if (os.platform() === 'darwin') exec(`open ${url}`);
     else exec(`xdg-open ${url}`);
 });
