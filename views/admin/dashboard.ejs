@@ -3,258 +3,246 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Admin - Web Relawan</title>
+    <title>Premium Dashboard Admin - Relawan Nusantara</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --sidebar-width: 260px;
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --bg-light: #f8f9fc;
+            --dark-blue: #2c3e50;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f5f7fa;
-            color: #333;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-light);
+            overflow-x: hidden;
         }
 
-        .navbar {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        /* Sidebar Styling */
+        .sidebar {
+            width: var(--sidebar-width);
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            background: var(--dark-blue);
             color: white;
-            padding: 20px 30px;
+            z-index: 1000;
+            transition: all 0.3s;
+            box-shadow: 4px 0 10px rgba(0,0,0,0.1);
+        }
+
+        .sidebar-header {
+            padding: 25px;
+            text-align: center;
+            background: rgba(0,0,0,0.2);
+        }
+
+        .nav-link {
+            color: #bdc3c7;
+            padding: 15px 25px;
+            display: flex;
+            align-items: center;
+            transition: 0.3s;
+            border-left: 4px solid transparent;
+            text-decoration: none;
+        }
+
+        .nav-link i { font-size: 1.2rem; margin-right: 15px; }
+
+        .nav-link:hover, .nav-link.active {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 30px;
+            min-height: 100vh;
+        }
+
+        .top-navbar {
+            background: white;
+            padding: 15px 30px;
+            border-radius: 15px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .navbar h1 {
-            font-size: 24px;
-        }
-
-        .navbar-right {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .admin-info {
-            font-size: 14px;
-        }
-
-        .logout-btn {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: 1px solid white;
-            padding: 8px 16px;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-            transition: background 0.3s;
-        }
-
-        .logout-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 30px;
-        }
-
-        .message {
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            font-size: 14px;
-        }
-
-        .message.success {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-
-        .message.error {
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-
-        .message.warning {
-            background-color: #fff3cd;
-            color: #856404;
-            border: 1px solid #ffeaa7;
-        }
-
-        .dashboard-header {
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
             margin-bottom: 30px;
         }
 
-        .dashboard-header h2 {
-            font-size: 28px;
-            margin-bottom: 10px;
-        }
-
-        .dashboard-header p {
-            color: #666;
-            font-size: 14px;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-
-        .stat-card {
-            background: white;
+        /* Stats Cards */
+        .card-stat {
+            border: none;
+            border-radius: 15px;
             padding: 25px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            transition: transform 0.3s, box-shadow 0.3s;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s;
         }
 
-        .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+        .card-stat:hover { transform: translateY(-10px); }
+
+        .bg-gradient-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .bg-gradient-success { background: linear-gradient(135deg, #2dce89 0%, #2dcecc 100%); }
+        .bg-gradient-info { background: linear-gradient(135deg, #11cdef 0%, #1171ef 100%); }
+        .bg-gradient-warning { background: linear-gradient(135deg, #fb6340 0%, #fbb140 100%); }
+
+        .card-stat i {
+            position: absolute;
+            right: -10px;
+            bottom: -10px;
+            font-size: 5rem;
+            opacity: 0.2;
         }
 
-        .stat-icon {
-            font-size: 40px;
-            margin-bottom: 10px;
+        /* Section Styling */
+        .section-title {
+            font-weight: 700;
+            color: var(--dark-blue);
+            margin-bottom: 25px;
+            position: relative;
+            padding-left: 15px;
         }
 
-        .stat-number {
-            font-size: 32px;
-            font-weight: bold;
-            color: #667eea;
-            margin-bottom: 5px;
+        .section-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 5px;
+            height: 20px;
+            width: 5px;
+            background: var(--primary-color);
+            border-radius: 10px;
         }
 
-        .stat-label {
-            color: #666;
-            font-size: 14px;
-        }
-
-        .menu-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-        }
-
-        .menu-card {
+        .menu-card-modern {
             background: white;
-            padding: 25px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border: none;
+            border-radius: 15px;
+            padding: 30px;
             text-align: center;
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: all 0.3s;
             text-decoration: none;
-            color: #333;
+            color: var(--dark-blue);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            display: block;
         }
 
-        .menu-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
-            color: #667eea;
+        .menu-card-modern:hover {
+            background: var(--primary-color);
+            color: white !important;
+            transform: scale(1.05);
         }
 
-        .menu-icon {
-            font-size: 40px;
-            margin-bottom: 10px;
+        .menu-card-modern i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            display: block;
         }
 
-        .menu-title {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        .menu-desc {
-            font-size: 12px;
-            color: #999;
+        .alert-modern {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
     </style>
 </head>
 <body>
-    <div class="navbar">
-        <h1>🎯 Admin Dashboard - Web Relawan</h1>
-        <div class="navbar-right">
-            <div class="admin-info">
-                👤 <%= admin.name %> (<%= admin.email %>)
-            </div>
-            <a href="/admin/logout" class="logout-btn">Logout</a>
+
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h4><i class="bi bi-shield-check"></i> AdminPanel</h4>
         </div>
+        <nav class="mt-4">
+            <a href="/admin/dashboard" class="nav-link active"><i class="bi bi-grid-1x2-fill"></i> Dashboard</a>
+            <a href="/admin/users" class="nav-link"><i class="bi bi-people"></i> Kelola User</a>
+            <a href="/admin/events" class="nav-link"><i class="bi bi-calendar-event"></i> Manajemen Misi</a>
+            <a href="/admin/categories" class="nav-link"><i class="bi bi-folder2-open"></i> Kategori</a>
+            <hr class="mx-3 opacity-25">
+            <a href="/" class="nav-link"><i class="bi bi-house"></i> View Website</a>
+            <a href="/admin/logout" class="nav-link text-danger"><i class="bi bi-box-arrow-left"></i> Logout</a>
+        </nav>
     </div>
 
-    <div class="container">
+    <div class="main-content">
+        
+        <div class="top-navbar">
+            <h4 class="mb-0">Overview System</h4>
+            <div class="d-flex align-items-center">
+                <div class="text-end me-3 d-none d-md-block">
+                    <small class="text-muted d-block">Role: Administrator</small>
+                    <span class="fw-bold"><%= admin.name %></span>
+                </div>
+                <img src="https://ui-avatars.com/api/?name=<%= admin.name %>&background=667eea&color=fff" class="rounded-circle" width="45" alt="profile">
+            </div>
+        </div>
+
         <% if (message) { %>
-            <div class="message <%= message.includes('✅') ? 'success' : message.includes('❌') ? 'error' : 'warning' %>">
-                <%= message %>
+            <div class="alert alert-success alert-modern alert-dismissible fade show" role="alert">
+                <i class="bi bi-check-circle-fill me-2"></i> <%= message %>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
         <% } %>
 
         <% if (!dbConnected) { %>
-            <div class="message warning">
-                ⚠️ Database tidak tersedia - Menampilkan data demo untuk testing
+            <div class="alert alert-warning alert-modern">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i> <strong>Mode Demo:</strong> Database tidak terdeteksi.
             </div>
         <% } %>
 
-        <div class="dashboard-header">
-            <h2>Selamat Datang, <%= admin.name %>! 👋</h2>
-            <p>Kelola semua data aplikasi Web Relawan dari sini</p>
+        <h3 class="section-title">Statistik Real-time</h3>
+        <div class="row g-4 mb-5">
+            <div class="col-md-3">
+                <div class="card-stat bg-gradient-primary">
+                    <h6>TOTAL RELAWAN</h6>
+                    <h2><%= stats.users %></h2>
+                    <small>User Terdaftar</small>
+                    <i class="bi bi-people"></i>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card-stat bg-gradient-success">
+                    <h6>MISI AKTIF</h6>
+                    <h2><%= stats.events %></h2>
+                    <small>Aksi Berjalan</small>
+                    <i class="bi bi-flag"></i>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card-stat bg-gradient-info">
+                    <h6>TOTAL DONASI</h6>
+                    <h2><%= stats.donations %></h2>
+                    <small>Transaksi Berhasil</small>
+                    <i class="bi bi-heart"></i>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card-stat bg-gradient-warning">
+                    <h6>KATEGORI</h6>
+                    <h2><%= stats.categories %></h2>
+                    <small>Bidang Sosial</small>
+                    <i class="bi bi-tag"></i>
+                </div>
+            </div>
         </div>
 
-        <h3 style="margin-bottom: 20px; color: #667eea;">📊 Statistik</h3>
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-icon">👥</div>
-                <div class="stat-number"><%= stats.users %></div>
-                <div class="stat-label">Total Pengguna</div>
+        <h3 class="section-title">Aksi Cepat Manajemen</h3>
+        <div class="row g-4 mb-5">
+            <div class="col-6 col-md-3">
+                <a href="/admin/users" class="menu-card-modern">
+                    <i class="bi bi-person-gear text-primary"></i>
+                    <div class="menu-title">Kontrol User</div>
+                    <small class="text-muted">Edit & Reward Koin</small>
+                </a>
             </div>
-            <div class="stat-card">
-                <div class="stat-icon">📅</div>
-                <div class="stat-number"><%= stats.events %></div>
-                <div class="stat-label">Total Event</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">💝</div>
-                <div class="stat-number"><%= stats.donations %></div>
-                <div class="stat-label">Total Donasi</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">📂</div>
-                <div class="stat-number"><%= stats.categories %></div>
-                <div class="stat-label">Kategori</div>
-            </div>
-        </div>
-
-        <h3 style="margin-bottom: 20px; color: #667eea;">⚙️ Menu Manajemen</h3>
-        <div class="menu-grid">
-            <a href="/admin/users" class="menu-card">
-                <div class="menu-icon">👥</div>
-                <div class="menu-title">Kelola Pengguna</div>
-                <div class="menu-desc">Lihat, edit, atau hapus pengguna</div>
-            </a>
-            <a href="/admin/events" class="menu-card">
-                <div class="menu-icon">📅</div>
-                <div class="menu-title">Kelola Event</div>
-                <div class="menu-desc">Kelola semua aktivitas dan event</div>
-            </a>
-            <a href="/admin/categories" class="menu-card">
-                <div class="menu-icon">📂</div>
-                <div class="menu-title">Kelola Kategori</div>
-                <div class="menu-desc">Tambah atau hapus kategori</div>
-            </a>
-            <a href="/" class="menu-card">
-                <div class="menu-icon">🏠</div>
-                <div class="menu-title">Kembali ke Halaman Utama</div>
-                <div class="menu-desc">Likhat halaman publik</div>
-            </a>
-        </div>
-    </div>
-</body>
-</html>
+            <div class="col-6 col-

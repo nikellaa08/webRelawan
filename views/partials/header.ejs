@@ -4,45 +4,150 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Relawan Nusantara - Platform Relawan & Donasi</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="/style.css">
-</head>
-<body class="">
+    
+    <style>
+        /* CSS Tambahan Langsung di Header untuk Kecepatan */
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --admin-gold: #ffc107;
+        }
 
-    <!-- NAVBAR -->
+        .navbar {
+            background: white;
+            padding: 15px 5%;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: #764ba2;
+            text-decoration: none;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-item a {
+            text-decoration: none;
+            color: #444;
+            font-weight: 500;
+            transition: 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .nav-item a:hover { color: #667eea; }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* Badge Admin Khusus */
+        .btn-admin-panel {
+            background: var(--admin-gold);
+            color: #000 !important;
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-decoration: none;
+            box-shadow: 0 4px 10px rgba(255, 193, 7, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.3s;
+        }
+
+        .btn-admin-panel:hover {
+            transform: translateY(-2px);
+            background: #e0a800;
+        }
+
+        .nav-user-greeting {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            color: #555;
+            padding: 5px 12px;
+            background: #f0f2f5;
+            border-radius: 30px;
+        }
+
+        .btn-login-modern {
+            background: var(--primary-gradient);
+            color: white !important;
+            padding: 10px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .btn-logout-minimal {
+            color: #dc3545;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
     <nav class="navbar">
-        <a href="/" class="nav-logo">Relawan Nusantara</a>
+        <a href="/" class="nav-logo">
+            <i class="fas fa-hand-holding-heart"></i> Relawan Nusantara
+        </a>
+
         <ul class="nav-menu">
             <li class="nav-item"><a href="/pendidikan">Pendidikan</a></li>
             <li class="nav-item"><a href="/lingkungan">Lingkungan</a></li>
             <li class="nav-item"><a href="/kesehatan">Kesehatan</a></li>
-            <li class="nav-item"><a href="/sosial-kemanusiaan">Sosial & Kemanusiaan</a></li>
+            <li class="nav-item"><a href="/sosial-kemanusiaan">Sosial</a></li>
         </ul>
+
         <div class="nav-right">
-            <% if (typeof user !== 'undefined' && user) { %>
-                <!-- User sudah login - Tampilkan sapaan -->
-                <div class="nav-user-greeting">
-                    <i class="fas fa-user-circle"></i>
-                    <span>Halo, <%= user.name %>!</span>
-                </div>
-                <a href="/logout" class="btn btn-logout nav-logout-btn">
-                    <i class="fas fa-sign-out-alt"></i>
-                    Logout
+            <% if (typeof session !== 'undefined' && session.admin) { %>
+                <a href="/admin/dashboard" class="btn-admin-panel">
+                    <i class="fas fa-user-shield"></i> Dashboard Admin
                 </a>
-            <% } else { %>
-                <!-- User belum login - Tampilkan tombol Login -->
-                <a href="/login" class="btn btn-secondary nav-login-btn">
-                    <i class="fas fa-sign-in-alt"></i>
+            <% } %>
+
+            <% if (typeof user !== 'undefined' && user) { %>
+                <div class="nav-user-greeting">
+                    <i class="fas fa-user-circle text-primary"></i>
+                    <span>Hi, <%= user.name %>!</span>
+                </div>
+                <a href="/logout" class="btn-logout-minimal">
+                    <i class="fas fa-power-off"></i>
+                </a>
+            <% } else if (!(typeof session !== 'undefined' && session.admin)) { %>
+                <a href="/login" class="btn-login-modern">
                     Login
                 </a>
             <% } %>
         </div>
-        <div class="hamburger">
-            <div class="bar1"></div>
-            <div class="bar2"></div>
-            <div class="bar3"></div>
+
+        <div class="hamburger d-lg-none">
+            <i class="fas fa-bars"></i>
         </div>
     </nav>

@@ -3,102 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<<<<<<< HEAD
-    <title>Pendidikan - Relawan Nusantara</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
-    <style>
-        :root { --bg: #010409; --primary: #00f2ff; --secondary: #7000ff; --accent: #0066ff; --gold: #ffda44; --glass: rgba(255, 255, 255, 0.03); }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background-color: var(--bg); color: white; font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; }
-        
-        .bg-wrapper { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: radial-gradient(circle at 50% 50%, #0a1120 0%, #010409 100%); }
-        .particle { position: absolute; background: white; border-radius: 50%; opacity: 0.3; animation: float 20s infinite linear; }
-        @keyframes float {
-            0% { transform: translateY(100vh) scale(0); opacity: 0; }
-            50% { opacity: 0.5; }
-            100% { transform: translateY(-10vh) scale(1); opacity: 0; }
-        }
-
-        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 20px 8%; position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(25px); background: rgba(1, 4, 9, 0.7); border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .nav-logo { font-weight: 800; font-size: 1.5rem; background: linear-gradient(90deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-decoration: none; }
-        .nav-menu { display: flex; list-style: none; gap: 30px; }
-        .nav-menu a { text-decoration: none; color: #8b949e; font-size: 0.9rem; font-weight: 600; transition: 0.4s; }
-        .nav-menu a:hover, .nav-menu a.active { color: var(--primary); text-shadow: 0 0 15px var(--primary); }
-        .koin-btn { background: rgba(255, 218, 68, 0.1); border: 1px solid var(--gold); padding: 8px 16px; border-radius: 12px; color: var(--gold); font-weight: 800; }
-        
-        .hero { text-align: center; padding: 120px 20px 60px; }
-        .hero h1 { font-size: 4rem; font-weight: 800; margin-bottom: 20px; letter-spacing: -2px; }
-        .hero span { background: linear-gradient(90deg, #fff, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .hero p { color: #8b949e; font-size: 1.1rem; max-width: 600px; margin: 0 auto; line-height: 1.8; }
-
-        .container { max-width: 1200px; margin: 0 auto; padding-bottom: 100px; }
-        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 35px; }
-        
-        .card { 
-            background: var(--glass); border: 1px solid rgba(255,255,255,0.05); border-radius: 40px; padding: 50px; 
-            display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden; transition: 0.6s cubic-bezier(0.23, 1, 0.32, 1); 
-        }
-        .card:hover { transform: translateY(-15px); border-color: var(--primary); background: rgba(255, 255, 255, 0.07); box-shadow: 0 30px 60px rgba(0,0,0,0.5); }
-        .card-glow { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at var(--x) var(--y), rgba(0, 242, 255, 0.15), transparent 50%); opacity: 0; transition: 0.3s; pointer-events: none; }
-        .card:hover .card-glow { opacity: 1; }
-
-        .icon-box { width: 60px; height: 60px; background: linear-gradient(135deg, var(--primary), var(--accent)); border-radius: 18px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; margin-bottom: 25px; box-shadow: 0 10px 20px rgba(0, 242, 255, 0.2); }
-        .card h3 { font-size: 1.8rem; font-weight: 800; margin-bottom: 15px; }
-        .card p { color: #8b949e; line-height: 1.6; margin-bottom: 30px; }
-
-        .btn-misi { display: block; width: 100%; padding: 18px; border-radius: 18px; background: white; color: black; font-weight: 800; text-align: center; text-decoration: none; transition: 0.3s; }
-        .btn-misi:hover { background: var(--primary); color: white; box-shadow: 0 0 20px var(--primary); }
-
-        @media (max-width: 850px) { .grid { grid-template-columns: 1fr; } .hero h1 { font-size: 3rem; } }
-    </style>
-</head>
-<body>
-    <div class="bg-wrapper" id="bg"></div>
-    
-    <nav class="navbar">
-        <a href="/" class="nav-logo">Relawan Nusantara</a>
-        <ul class="nav-menu">
-            <li><a href="/">Beranda</a></li>
-            <li><a href="/pendidikan" class="active">Pendidikan</a></li>
-            <li><a href="/lingkungan">Lingkungan</a></li>
-            <li><a href="/kesehatan">Kesehatan</a></li>
-            <li><a href="/sosial-kemanusiaan">Sosial</a></li>
-        </ul>
-        <div class="nav-right">
-            <div class="koin-btn">🪙 <span id="userKoin">0</span></div>
-        </div>
-    </nav>
-
-    <header class="hero">
-        <h1>Program <span>Pendidikan</span></h1>
-        <p>Setiap kontribusi Anda adalah cahaya masa depan bagi mereka yang sedang berjuang.</p>
-    </header>
-
-    <main class="container">
-        <div class="grid">
-            <div class="card">
-                <div class="card-glow"></div>
-                <div><div class="icon-box">📖</div><h3>Taman Baca Desa</h3><p>Kelola perpustakaan kreatif di pelosok desa.</p></div>
-                <a href="/pendidikan-detail/taman-baca" class="btn-misi">Ambil Misi (150 Koin) →</a>
-            </div>
-            
-            <div class="card">
-                <div class="card-glow"></div>
-                <div><div class="icon-box">💻</div><h3>Literasi Digital</h3><p>Ajarkan coding dan desain grafis dasar.</p></div>
-                <a href="/pendidikan-detail/it" class="btn-misi">Ambil Misi (350 Koin) →</a>
-            </div>
-            
-            <div class="card">
-                <div class="card-glow"></div>
-                <div><div class="icon-box">🎨</div><h3>Kelas Seni</h3><p>Wadahi imajinasi anak lewat lukisan dan kerajinan.</p></div>
-                <a href="/pendidikan-detail/seni" class="btn-misi">Ambil Misi (200 Koin) →</a>
-            </div>
-            
-            <div class="card">
-                <div class="card-glow"></div>
-                <div><div class="icon-box">🌍</div><h3>English Day</h3><p>Bicara bahasa Inggris lewat metode game interaktif.</p></div>
-                <a href="/pendidikan-detail/english" class="btn-misi">Ambil Misi (250 Koin) →</a>
-=======
     <title>Program Relawan Pendidikan - Relawan Nusantara</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -312,37 +216,10 @@
                     <% }); %>
                 </div>
 
->>>>>>> 44d7981dc23e478c6d349a6e92a0df9d97d9f4c5
             </div>
         </section>
     </main>
 
-<<<<<<< HEAD
-    <script>
-        function updateCoinDisplay() {
-            document.getElementById('userKoin').innerText = localStorage.getItem('relawan_koin') || 0;
-        }
-        updateCoinDisplay();
-
-        const bg = document.getElementById('bg');
-        for (let i = 0; i < 30; i++) {
-            const p = document.createElement('div');
-            p.className = 'particle';
-            p.style.left = Math.random() * 100 + 'vw';
-            p.style.width = p.style.height = Math.random() * 3 + 'px';
-            p.style.animationDelay = Math.random() * 20 + 's';
-            bg.appendChild(p);
-        }
-
-        document.querySelectorAll('.card').forEach(card => {
-            card.onmousemove = e => {
-                const rect = card.getBoundingClientRect();
-                card.style.setProperty('--x', (e.clientX - rect.left) + 'px');
-                card.style.setProperty('--y', (e.clientY - rect.top) + 'px');
-            }
-        });
-    </script>
-=======
     <!-- FOOTER -->
     <footer class="footer">
         <p>&copy; 2026 Relawan Nusantara. Semua Hak Dilindungi.</p>
@@ -350,6 +227,5 @@
 
     <script src="/script.js"></script>
 
->>>>>>> 44d7981dc23e478c6d349a6e92a0df9d97d9f4c5
 </body>
 </html>

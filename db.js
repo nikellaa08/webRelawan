@@ -199,7 +199,7 @@ async function getAllCategories() {
 }
 
 
-// Ekspor fungsi-fungsi agar bisa digunakan di file lain
+// Ekspor fungsi-fungsi agar bisa digunakan di file lain (Named Export)
 export {
   createEvent,
   getAllEvents,
@@ -207,6 +207,9 @@ export {
   updateEvent,
   deleteEvent,
   getUserByEmail,
-  getAllCategories, // Export fungsi baru ini
+  getAllCategories,
   pool
 };
+
+// TAMBAHKAN BARIS INI DI PALING BAWAH:
+export default pool;

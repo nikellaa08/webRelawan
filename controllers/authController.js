@@ -32,7 +32,19 @@ export const login = async (req, res) => {
       return res.redirect('/login');
     }
 
-    // 4. Jika berhasil, set session.user dengan data dari database
+    // 4. Jika berhasil, cek apakah user adalah admin
+    if (user.is_admin === 1) {
+      // Set session admin
+      req.session.admin = {
+        id: user.id,
+        email: user.email,
+        name: user.nama_lengkap || user.name || email.split('@')[0]
+      };
+      req.session.message = `✅ Selamat datang Admin, ${req.session.admin.name}!`;
+      return res.redirect('/admin/dashboard');
+    }
+
+    // 5. Jika bukan admin, set session.user dengan data dari database
     req.session.user = {
       id: user.id,
       email: user.email,
@@ -41,7 +53,7 @@ export const login = async (req, res) => {
 
     req.session.message = `✅ Selamat datang kembali, ${req.session.user.name}!`;
 
-    // 5. Redirect ke halaman utama setelah login sukses
+    // 6. Redirect ke halaman utama setelah login sukses
     res.redirect('/');
 
   } catch (error) {
