@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -61,11 +62,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/register', (req, res) => {
-    res.render('registration-form', { user: req.session.user || null, message: null });
-});
-
-app.get('/registration-form', (req, res) => {
-    res.render('registration-form', { user: req.session.user || null, message: null });
+    res.render('register', { user: req.session.user || null, message: null });
 });
 
 app.get('/login', (req, res) => {
@@ -74,6 +71,7 @@ app.get('/login', (req, res) => {
 
 // API Endpoints
 app.post('/api/login', login);
+app.post('/api/register', register);
 app.get('/api/categories', getCategories);
 app.get('/api/events', getEvents);
 
