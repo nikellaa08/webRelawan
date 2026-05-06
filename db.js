@@ -5,7 +5,7 @@ const pool = mysql.createPool({
   host:     process.env.DB_HOST     || 'localhost',
   user:     process.env.DB_USER     || 'root',
   password: process.env.DB_PASSWORD || '',
-  database: 'web_relawan',
+  database: 'res_py', // Updated as per user instruction
   port:     3306,
   waitForConnections: true,
   connectionLimit: 10,
@@ -13,12 +13,13 @@ const pool = mysql.createPool({
 
 const db = pool.promise();
 
-// 2. Fungsi Tes Koneksi
+// Ganti fungsi testDbConnection yang lama dengan ini:
 async function testDbConnection() {
   try {
-    const connection = await pool.getConnection();
+    // Karena kita pakai pool.promise(), kita gunakan db.getConnection()
+    const connection = await db.getConnection(); 
     console.log('✅ Koneksi ke database berhasil!');
-    connection.release();
+    connection.release(); 
   } catch (error) {
     console.error('❌ Koneksi ke database gagal:', error.message);
   }

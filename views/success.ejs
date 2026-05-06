@@ -1,41 +1,46 @@
+
 <%- include('partials/header') %>
 
-<main class="success-page">
+<main class="main-container pt-32 pb-20 min-h-[80vh] flex items-center justify-center">
     <div class="success-card">
         <!-- Animated Success Icon -->
-        <div class="success-icon-container">
-            <i class="fas fa-check"></i>
+        <div class="w-20 h-20 bg-emerald-50 text-emerald-500 rounded-3xl flex items-center justify-center text-3xl mb-8 mx-auto">
+            <i class="fas fa-check-circle"></i>
         </div>
 
         <!-- Success Message -->
-        <h1 class="success-header">Langkah Awal Kebaikan Dimulai!</h1>
-        <p class="success-description">
-            Terima kasih telah bergabung. Pendaftaranmu telah kami terima dan tim Relawan Nusantara akan segera melakukan verifikasi.
+        <h1 class="success-header text-4xl lg:text-5xl font-black mb-6">Aksi Berhasil!</h1>
+        <p class="text-lg text-slate-600 mb-10 leading-relaxed">
+            Terima kasih telah bergabung. Pendaftaranmu telah kami terima dan tim <span class="text-emerald-500 font-bold">Relawan Nusantara</span> akan segera melakukan verifikasi melalui email Anda.
         </p>
 
         <!-- Registration Detail Box -->
-        <div class="registration-detail-box">
-            <div class="detail-item">
-                <span class="detail-label">Nama Program</span>
-                <span class="detail-value">
+        <div class="bg-slate-50 rounded-2xl p-6 mb-10 border border-slate-100 flex flex-wrap justify-center gap-8">
+            <div class="text-left">
+                <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Nama Program</span>
+                <span class="text-slate-900 font-bold">
                     <%= typeof program !== 'undefined' ? program : 'Program Relawan' %>
                 </span>
             </div>
-            <div class="detail-item">
-                <span class="detail-label">Tanggal Daftar</span>
-                <span class="detail-value" id="currentDate">
+            <div class="text-left">
+                <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Tanggal Daftar</span>
+                <span class="text-slate-900 font-bold" id="currentDate">
                     <!-- Date will be filled by JS -->
                 </span>
+            </div>
+            <div class="text-left">
+                <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Status</span>
+                <span class="px-2 py-0.5 bg-emerald-100 text-emerald-600 rounded-md text-[10px] font-bold">TERKONFIRMASI</span>
             </div>
         </div>
 
         <!-- Navigation Actions -->
-        <div class="success-actions">
-            <a href="/" class="btn-success-primary">
-                <i class="fas fa-home mr-2"></i> Kembali ke Beranda
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="/" class="btn-main btn-main-primary px-10">
+                <i class="fas fa-home mr-2"></i> Beranda
             </a>
-            <a href="/jadwal" class="btn-success-secondary">
-                <i class="fas fa-calendar-alt mr-2"></i> Lihat Jadwal Lainnya
+            <a href="/jadwal" class="btn-main border-2 border-slate-100 text-slate-600 hover:bg-slate-50 px-10">
+                <i class="fas fa-calendar-alt mr-2"></i> Jadwal Lain
             </a>
         </div>
     </div>
@@ -46,7 +51,8 @@
         // Set Current Date in Indonesian format
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
         const today = new Date().toLocaleDateString('id-ID', options);
-        document.getElementById('currentDate').textContent = today;
+        const dateEl = document.getElementById('currentDate');
+        if (dateEl) dateEl.textContent = today;
     });
 </script>
 

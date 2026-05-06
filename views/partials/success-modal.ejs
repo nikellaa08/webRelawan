@@ -1,0 +1,124 @@
+<!-- Dynamic Success Modal Component -->
+<div id="successModalOverlay" class="modal-overlay">
+    <div id="successModalContent" class="success-modal">
+        <!-- Icon -->
+        <div class="modal-check-icon">
+            <i class="fas fa-check"></i>
+        </div>
+
+        <!-- Dynamic Content -->
+        <h2 id="modalHeadline" class="modal-title"></h2>
+        <p id="modalMessage" class="modal-message"></p>
+
+        <!-- Program Details Box -->
+        <div class="modal-details">
+            <div class="detail-row">
+                <span class="detail-label">Kegiatan</span>
+                <span id="modalProgramName" class="detail-value"></span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Waktu</span>
+                <span id="modalProgramTime" class="detail-value"></span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Lokasi</span>
+                <span id="modalProgramLocation" class="detail-value"></span>
+            </div>
+        </div>
+
+        <!-- Action Button -->
+        <button id="modalOkBtn" class="btn-modal-ok">OK, Mengerti</button>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const isSuccess = urlParams.get('status') === 'success'; // Updated as per user instruction
+    
+    if (isSuccess) {
+        const category = urlParams.get('category'); // 'pendidikan', 'lingkungan', 'kesehatan', 'sosial'
+        const programName = urlParams.get('program') || 'Program Relawan';
+        const programTime = urlParams.get('time') || 'Sesuai Jadwal';
+        const programLoc = urlParams.get('location') || 'Lokasi Kegiatan';
+
+        const overlay = document.getElementById('successModalOverlay');
+        const content = document.getElementById('successModalContent');
+        const headline = document.getElementById('modalHeadline');
+        const message = document.getElementById('modalMessage');
+        const okBtn = document.getElementById('modalOkBtn');
+        
+        // Dynamic Fields
+        document.getElementById('modalProgramName').textContent = programName;
+        document.getElementById('modalProgramTime').textContent = programTime;
+        document.getElementById('modalProgramLocation').textContent = programLoc;
+
+        // Category Configuration Map
+        const configs = {
+            'pendidikan': {
+                theme: 'modal-theme-pendidikan',
+                iconColor: '#3b82f6',
+                iconBg: '#eff6ff',
+                headline: 'Pendaftaran Berhasil! Terang Ilmu Menanti.',
+                message: 'Terima kasih sudah memilih untuk menjadi pelita bagi pendidikan bangsa. Kontribusimu akan membantu anak-anak meraih cita-cita mereka.',
+                redirect: '/pendidikan'
+            },
+            'lingkungan': {
+                theme: 'modal-theme-lingkungan',
+                iconColor: '#10b981',
+                iconBg: '#ecfdf5',
+                headline: 'Pendaftaran Berhasil! Satu Aksi untuk Bumi.',
+                message: 'Terima kasih telah peduli pada kelestarian alam. Langkah kecilmu hari ini adalah nafas segar bagi masa depan lingkungan kita.',
+                redirect: '/lingkungan'
+            },
+            'kesehatan': {
+                theme: 'modal-theme-kesehatan',
+                iconColor: '#e11d48',
+                iconBg: '#fff1f2',
+                headline: 'Pendaftaran Berhasil! Sebar Harapan Sehat.',
+                message: 'Kepedulianmu sangat berarti. Terima kasih telah bersedia meluangkan waktu untuk meningkatkan kualitas kesehatan sesama.',
+                redirect: '/kesehatan'
+            },
+            'sosial': {
+                theme: 'modal-theme-sosial',
+                iconColor: '#8b5cf6',
+                iconBg: '#f5f3ff',
+                headline: 'Pendaftaran Berhasil! Uluran Tanganmu Diterima.',
+                message: 'Kehadiranmu adalah hadiah terindah. Terima kasih telah memilih untuk berbagi kebahagiaan dan menguatkan mereka yang membutuhkan.',
+                redirect: '/sosial-kemanusiaan'
+            }
+        };
+
+        const config = configs[category] || configs['pendidikan'];
+
+        // Apply Theme and Content
+        const iconContainer = document.querySelector('.modal-check-icon');
+        iconContainer.style.color = config.iconColor;
+        iconContainer.style.backgroundColor = config.iconBg;
+        
+        content.classList.add(config.theme);
+        headline.textContent = config.headline;
+        message.textContent = config.message;
+
+        // Show Modal
+        overlay.classList.add('active');
+
+        // Handle Click - Close and clean URL
+        okBtn.addEventListener('click', () => {
+            overlay.classList.remove('active');
+            // Clean URL without reloading
+            const newUrl = window.location.pathname;
+            window.history.pushState({}, '', newUrl);
+        });
+
+        // Close on overlay click
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) {
+                overlay.classList.remove('active');
+                const newUrl = window.location.pathname;
+                window.history.pushState({}, '', newUrl);
+            }
+        });
+    }
+});
+</script>

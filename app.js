@@ -200,13 +200,13 @@ app.post('/daftar/:program', async (req, res) => {
     }
 
     // Data program untuk mapping title (Fix ReferenceError)
-    const programs = {
-        'pemeriksaan-gratis': { title: 'Pemeriksaan Kesehatan Gratis' },
-        'donor-darah': { title: 'Donor Darah Nasional' },
-        'gizi-anak': { title: 'Sosialisasi Gizi Anak' },
-        'mental-health': { title: 'Support System Mental Health' }
+    const healthPrograms = {
+        'pemeriksaan-gratis': { title: 'Pemeriksaan Kesehatan Gratis', time: '09:00 - 15:00 WIB', location: 'Puskesmas Desa Binaan' },
+        'donor-darah': { title: 'Donor Darah Nasional', time: '08:00 - 14:00 WIB', location: 'PMI Cabang Pusat' },
+        'gizi-anak': { title: 'Sosialisasi Gizi Anak', time: '10:00 - 12:00 WIB', location: 'Posyandu Melati' },
+        'mental-health': { title: 'Support System Mental Health', time: '19:00 - 21:00 WIB', location: 'Zoom Meeting (Online)' }
     };
-    const program = programs[programSlug];
+    const program = healthPrograms[programSlug];
 
     // Simpan data pendaftaran ke database
     try {
@@ -218,8 +218,8 @@ app.post('/daftar/:program', async (req, res) => {
             details: req.body
         });
 
-        // Redirect ke halaman sukses
-        res.redirect(`/success?program=${encodeURIComponent(program.title)}`);
+        // Redirect ke halaman kesehatan dengan parameter sukses
+        res.redirect(`/kesehatan?status=success&category=kesehatan&program=${encodeURIComponent(program.title)}&time=${encodeURIComponent(program.time)}&location=${encodeURIComponent(program.location)}`);
     } catch (error) {
         req.session.message = '⚠️ Terjadi kesalahan saat menyimpan data.';
         res.redirect(`/daftar/${programSlug}`);
@@ -488,50 +488,28 @@ app.post('/daftar-lingkungan/:program', async (req, res) => {
         return res.redirect(`/daftar-lingkungan/${programSlug}`);
     }
 
-    // Validasi khusus Aksi Lapangan
-    if (programSlug === 'tanam-mangrove' || programSlug === 'clean-up-day') {
-        const { alamat, transportasi } = req.body;
-        if (!alamat || !transportasi) {
-            req.session.message = '⚠️ Alamat domisili dan transportasi wajib diisi.';
-            return res.redirect(`/daftar-lingkungan/${programSlug}`);
-        }
-    }
-
-    // Validasi khusus Workshop
-    if (programSlug === 'workshop-zero-waste') {
-        const { metode, minatBelajar } = req.body;
-        if (!metode || !minatBelajar) {
-            req.session.message = '⚠️ Metode partisipasi dan minat belajar wajib dipilih.';
-            return res.redirect(`/daftar-lingkungan/${programSlug}`);
-        }
-    }
-
-    // Validasi khusus Adopsi Pohon
-    if (programSlug === 'adopsi-pohon') {
-        const { jumlahPohon, namaSertifikat, metodePembayaran } = req.body;
-
-        if (!jumlahPohon || parseInt(jumlahPohon) < 1) {
-            req.session.message = '⚠️ Jumlah pohon minimal 1.';
-            return res.redirect(`/daftar-lingkungan/${programSlug}`);
-        }
-
-        if (!namaSertifikat) {
-            req.session.message = '⚠️ Nama untuk sertifikat wajib diisi.';
-            return res.redirect(`/daftar-lingkungan/${programSlug}`);
-        }
-
-        if (!metodePembayaran) {
-            req.session.message = '⚠️ Metode pembayaran wajib dipilih.';
-            return res.redirect(`/daftar-lingkungan/${programSlug}`);
-        }
-    }
-
-    // Data program untuk mapping title (Fix ReferenceError)
+    // Data program untuk mapping (Sync with Category & Modal)
     const programs = {
-        'tanam-mangrove': { title: 'Aksi Tanam Mangrove' },
-        'clean-up-day': { title: 'Clean-Up Day' },
-        'workshop-zero-waste': { title: 'Workshop Zero Waste' },
-        'adopsi-pohon': { title: 'Adopsi Pohon' }
+        'tanam-mangrove': { 
+            title: 'Aksi Tanam Mangrove', 
+            time: '08:00 - 12:00 WIB', 
+            location: 'Pesisir Utara, Jakarta' 
+        },
+        'clean-up-day': { 
+            title: 'Clean-Up Day', 
+            time: '07:30 - 10:30 WIB', 
+            location: 'Pantai Marunda' 
+        },
+        'workshop-zero-waste': { 
+            title: 'Workshop Zero Waste', 
+            time: '13:00 - 16:00 WIB', 
+            location: 'Balai Warga RW 05' 
+        },
+        'adopsi-pohon': { 
+            title: 'Adopsi Pohon', 
+            time: 'Donasi Terbuka', 
+            location: 'Lahan Kritis Hutan Bogor' 
+        }
     };
     const program = programs[programSlug];
 
@@ -545,9 +523,10 @@ app.post('/daftar-lingkungan/:program', async (req, res) => {
             details: req.body
         });
 
-        // Redirect ke halaman sukses
-        res.redirect(`/success?program=${encodeURIComponent(program.title)}`);
+        // Redirect kembali ke halaman lingkungan dengan parameter sukses
+        res.redirect(`/lingkungan?status=success&category=lingkungan&program=${encodeURIComponent(program.title)}&time=${encodeURIComponent(program.time)}&location=${encodeURIComponent(program.location)}`);
     } catch (error) {
+        console.error('Registration Error:', error);
         req.session.message = '⚠️ Terjadi kesalahan saat menyimpan data.';
         res.redirect(`/daftar-lingkungan/${programSlug}`);
     }
