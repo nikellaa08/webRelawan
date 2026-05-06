@@ -1,231 +1,78 @@
-// db.js
+import mysql from 'mysql2';
 
-import mysql from 'mysql2/promise';
-
-// Konfigurasi koneksi database
-const dbConfig = {
-  host: 'localhost', // Biasanya 'localhost' untuk XAMPP
-  user: 'root',      // User default XAMPP
-  password: '',      // Password default XAMPP (kosong)
-  database: 'relawan_nusantara',
+// 1. Konfigurasi Database
+const pool = mysql.createPool({
+  host:     process.env.DB_HOST     || 'localhost',
+  user:     process.env.DB_USER     || 'root',
+  password: process.env.DB_PASSWORD || '',
+  database: 'web_relawan',
+  port:     3306,
   waitForConnections: true,
   connectionLimit: 10,
-  queueLimit: 0
-};
+});
 
-// Buat connection pool untuk performa yang lebih baik
-const pool = mysql.createPool(dbConfig);
+const db = pool.promise();
 
-// Fungsi untuk menguji koneksi database
+// 2. Fungsi Tes Koneksi
 async function testDbConnection() {
   try {
     const connection = await pool.getConnection();
-    console.log('Koneksi ke database berhasil!');
-    connection.release(); // Lepaskan koneksi kembali ke pool
+    console.log('✅ Koneksi ke database berhasil!');
+    connection.release();
   } catch (error) {
-    console.error('Koneksi ke database gagal:', error.message);
-    // process.exit(1); // Nonaktifkan ini agar aplikasi tetap berjalan meski tanpa koneksi di awal pengembangan
+    console.error('❌ Koneksi ke database gagal:', error.message);
   }
 }
-
-// Panggil fungsi testDbConnection saat aplikasi dimulai
 testDbConnection();
 
-// --- Fungsi CRUD untuk tabel 'events' ---
+// 3. Fungsi-Fungsi CRUD (Gabungan)
 
-/**
- * Membuat event baru di database.
- * @param {object} eventData - Objek yang berisi data event (e.g., { name, location, date, description }).
- * @returns {object|null} - Objek event yang baru dibuat atau null jika gagal.
- */
-async function createEvent(eventData) {
-  const { name, location, date, description } = eventData;
+export const getAllCategories = async () => {
   try {
-    const [result] = await pool.execute(
-      'INSERT INTO events (name, location, date, description) VALUES (?, ?, ?, ?)',
-      [name, location, date, description]
-    );
-    console.log(`Event '${name}' berhasil ditambahkan dengan ID: ${result.insertId}`);
-    return { id: result.insertId, ...eventData };
-  } catch (error) {
-    console.error('Gagal membuat event baru:', error.message);
-    throw error;
-  }
-}
-
-/**
- * Mengambil semua event dari database, termasuk nama kategori.
- * @returns {Array<object>} - Array objek event.
- */
-async function getAllEvents() {
-  try {
-    const [rows] = await pool.execute(
-      `SELECT
-        e.id,
-        e.name,
-        e.location,
-        e.date,
-        e.description,
-        e.created_at,
-        e.category_id,
-        c.name AS category_name
-       FROM events e
-       LEFT JOIN categories c ON e.category_id = c.id
-       ORDER BY e.date DESC`
-    );
-    console.log('Semua event berhasil diambil.');
+    const [rows] = await db.query('SELECT * FROM categories ORDER BY name ASC');
     return rows;
   } catch (error) {
-    console.error('Gagal mengambil semua event:', error.message);
+    console.error('Gagal mengambil kategori:', error.message);
     throw error;
   }
-}
+};
 
-/**
- * Mengambil event berdasarkan ID.
- * @param {number} id - ID event yang ingin diambil.
- * @returns {object|null} - Objek event atau null jika tidak ditemukan.
- */
-async function getEventById(id) {
+export const getAllEvents = async () => {
   try {
-    const [rows] = await pool.execute(
-      `SELECT
-        e.id,
-        e.name,
-        e.location,
-        e.date,
-        e.description,
-        e.created_at,
-        e.category_id,
-        c.name AS category_name
-       FROM events e
-       LEFT JOIN categories c ON e.category_id = c.id
-       WHERE e.id = ?`,
-      [id]
-    );
-    if (rows.length === 0) {
-      console.log(`Event dengan ID ${id} tidak ditemukan.`);
-      return null;
-    }
-    console.log(`Event dengan ID ${id} berhasil diambil.`);
-    return rows[0];
-  } catch (error) {
-    console.error(`Gagal mengambil event dengan ID ${id}:`, error.message);
-    throw error;
-  }
-}
-
-/**
- * Memperbarui event berdasarkan ID.
- * @param {number} id - ID event yang ingin diperbarui.
- * @param {object} eventData - Objek yang berisi data event yang akan diperbarui.
- * @returns {boolean} - True jika berhasil diperbarui, false jika tidak.
- */
-async function updateEvent(id, eventData) {
-  // Asumsi eventData juga bisa punya category_id
-  const { name, location, date, description, category_id } = eventData;
-  try {
-    const [result] = await pool.execute(
-      'UPDATE events SET name = ?, location = ?, date = ?, description = ?, category_id = ? WHERE id = ?',
-      [name, location, date, description, category_id, id]
-    );
-    if (result.affectedRows === 0) {
-      console.log(`Event dengan ID ${id} tidak ditemukan untuk diperbarui.`);
-      return false;
-    }
-    console.log(`Event dengan ID ${id} berhasil diperbarui.`);
-    return true;
-  } catch (error) {
-    console.error(`Gagal memperbarui event dengan ID ${id}:`, error.message);
-    throw error;
-  }
-}
-
-/**
- * Menghapus event berdasarkan ID.
- * @param {number} id - ID event yang ingin dihapus.
- * @returns {boolean} - True jika berhasil dihapus, false jika tidak.
- */
-async function deleteEvent(id) {
-  try {
-    const [result] = await pool.execute('DELETE FROM events WHERE id = ?', [id]);
-    if (result.affectedRows === 0) {
-      console.log(`Event dengan ID ${id} tidak ditemukan untuk dihapus.`);
-      return false;
-    }
-    console.log(`Event dengan ID ${id} berhasil dihapus.`);
-    return true;
-  } catch (error) {
-    console.error(`Gagal menghapus event dengan ID ${id}:`, error.message);
-    throw error;
-  }
-}
-
-// --- Fungsi untuk tabel 'users' ---
-
-/**
- * Mengambil user berdasarkan email.
- * @param {string} email - Email user yang ingin diambil.
- * @returns {object|null} - Objek user atau null jika tidak ditemukan.
- */
-async function getUserByEmail(email) {
-  try {
-    const [rows] = await pool.execute('SELECT * FROM users WHERE email = ?', [email]);
-    if (rows.length === 0) {
-      return null;
-    }
-    return rows[0];
-  } catch (error) {
-    console.error(`Gagal mengambil user dengan email ${email}:`, error.message);
-    throw error;
-  }
-}
-
-// --- Fungsi untuk tabel 'categories' ---
-
-/**
- * Mengambil semua kategori dari database.
- * @returns {Array<object>} - Array objek kategori.
- */
-async function getAllCategories() {
-  try {
-    const [rows] = await pool.execute('SELECT * FROM categories ORDER BY name ASC');
-    console.log('Semua kategori berhasil diambil.');
+    // Sesuaikan nama tabel: 'programs' atau 'events'? 
+    // Saya pakai 'events' sesuai fungsi temanmu sebelumnya
+    const [rows] = await db.query(`
+      SELECT e.*, c.name AS category_name 
+      FROM events e 
+      LEFT JOIN categories c ON e.category_id = c.id 
+      ORDER BY e.date DESC
+    `);
     return rows;
   } catch (error) {
-    console.error('Gagal mengambil semua kategori:', error.message);
+    console.error('Gagal mengambil events:', error.message);
     throw error;
   }
-}
+};
 
-/**
- * Menyimpan data pendaftaran baru ke database.
- */
-async function createRegistration(regData) {
+export const createRegistration = async (regData) => {
   const { program_slug, fullname, email, whatsapp, details } = regData;
   try {
-    const [result] = await pool.execute(
+    const [result] = await db.execute(
       'INSERT INTO registrations (program_slug, fullname, email, whatsapp, details) VALUES (?, ?, ?, ?, ?)',
       [program_slug, fullname, email, whatsapp, JSON.stringify(details)]
     );
-    console.log(`✅ Pendaftaran berhasil disimpan dengan ID: ${result.insertId}`);
     return result.insertId;
   } catch (error) {
-    console.error('❌ Gagal menyimpan pendaftaran:', error.message);
+    console.error('Gagal pendaftaran:', error.message);
     throw error;
   }
-}
-
-
-// Ekspor fungsi-fungsi agar bisa digunakan di file lain
-export {
-  createEvent,
-  getAllEvents,
-  getEventById,
-  updateEvent,
-  deleteEvent,
-  getUserByEmail,
-  getAllCategories,
-  createRegistration, // Export fungsi baru ini
-  pool
 };
+
+export const getUserByEmail = async (email) => {
+  const [rows] = await db.execute('SELECT * FROM users WHERE email = ?', [email]);
+  return rows[0] || null;
+};
+
+// Ekspor default agar tidak error
+export { db, pool };
+export default db;
