@@ -1,82 +1,90 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Relawan Nusantara - Detail Program Sosial Anak</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+<%- include('partials/header') %>
 
-    <!-- NAVBAR -->
-    <nav class="navbar">
-        <div class="navbar-left">
-            <a href="/sosial-kemanusiaan" class="back-button" style="display: inline-flex;">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z" fill="currentColor"></path></svg>
-                Kembali
-            </a>
-            <a href="/" class="nav-logo">Relawan Nusantara</a>
-        </div>
-        <ul class="nav-menu">
-            <li class="nav-item"><a href="/pendidikan">Pendidikan</a></li>
-            <li class="nav-item"><a href="/lingkungan">Lingkungan</a></li>
-            <li class="nav-item"><a href="/kesehatan">Kesehatan</a></li>
-            <li class="nav-item"><a href="/sosial-kemanusiaan">Sosial & Kemanusiaan</a></li>
-            <li class="nav-item"><a href="/login">Login</a></li>
-        </ul>
-        <div class="hamburger">
-            <div class="bar1"></div>
-            <div class="bar2"></div>
-            <div class="bar3"></div>
-        </div>
-    </nav>
+    <style>
+        .container-sosial-detail {
+            max-width: 1000px;
+            margin: 120px auto 60px;
+            padding: 20px;
+        }
+        .detail-card-sosial {
+            background: white;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+        }
+        .detail-image-sosial {
+            width: 100%;
+            height: 450px;
+            object-fit: cover;
+        }
+        .detail-content-sosial {
+            padding: 50px;
+        }
+        .detail-info-grid-sosial {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin: 40px 0;
+        }
+        .detail-info-item-sosial {
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 20px;
+            border-left: 5px solid #764ba2;
+        }
+        .detail-info-item-sosial h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+        .detail-info-item-sosial p {
+            font-weight: 700;
+            color: #333;
+            margin: 0;
+        }
+        .btn-daftar-sosial {
+            display: block; width: 100%; padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white; border: none; border-radius: 15px;
+            font-weight: 800; font-size: 1.1rem; cursor: pointer; transition: 0.3s;
+        }
+        .btn-daftar-sosial:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(118, 75, 162, 0.4); }
+    </style>
 
-    <!-- PAGE HEADER -->
-    <section class="page-header section">
-        <h1 class="section-title">Detail Program</h1>
-    </section>
+    <div class="container-sosial-detail">
+        <div class="detail-card-sosial">
+            <img src="https://images.unsplash.com/photo-1505242768132-c958a4e4e601?q=80&w=2070&auto=format&fit=crop" alt="Kegiatan Sosial Anak" class="detail-image-sosial">
+            <div class="detail-content-sosial">
+                <h1>Kunjungan Panti Asuhan</h1>
+                <p style="color: #666; line-height: 1.8; margin-top: 20px;">Menghadirkan kehangatan keluarga melalui pendidikan, pendampingan, dan kasih sayang. Relawan berperan sebagai kakak dan guru bagi anak-anak panti.</p>
 
-    <!-- DETAIL SECTION -->
-    <section class="detail-section">
-        <img src="https://images.unsplash.com/photo-1505242768132-c958a4e4e601?q=80&w=2070&auto=format&fit=crop" alt="Kegiatan Sosial Anak" class="detail-image">
-        <div class="detail-content">
-            <h2>Kunjungan ke Panti Asuhan</h2>
-            <p>
-                Menghadirkan kehangatan keluarga melalui pendidikan, pendampingan, dan kasih sayang. Relawan berperan sebagai kakak, guru, dan sahabat bagi anak-anak panti untuk membangun masa depan yang lebih cerah, penuh harapan, dan percaya diri.
-            </p>
+                <div class="detail-info-grid-sosial">
+                    <div class="detail-info-item-sosial">
+                        <h4>Jadwal</h4>
+                        <p>Minggu, 09:00 - 11:00 WIB</p>
+                    </div>
+                    <div class="detail-info-item-sosial">
+                        <h4>Kuota</h4>
+                        <p>30 Relawan</p>
+                    </div>
+                    <div class="detail-info-item-sosial">
+                        <h4>Tugas</h4>
+                        <p>Mengajar & Bermain</p>
+                    </div>
+                    <div class="detail-info-item-sosial">
+                        <h4>Reward</h4>
+                        <p>35 Koin</p>
+                    </div>
+                </div>
 
-            <div class="detail-info-grid">
-                <div class="detail-info-item">
-                    <h4>Jadwal Mengajar</h4>
-                    <p>Setiap hari Minggu, pukul 09:00 - 11:00 WIB.</p>
-                </div>
-                <div class="detail-info-item">
-                    <h4>Tugas Relawan</h4>
-                    <p>Mendongeng, menggambar bersama, menyanyi, dan melakukan permainan edukatif lainnya.</p>
-                </div>
-                <div class="detail-info-item">
-                    <h4>Kuota Peserta</h4>
-                    <p>30 Relawan</p>
-                </div>
-                <div class="detail-info-item">
-                    <h4>Koin yang Diperoleh</h4>
-                    <p>35 Koin</p>
-                </div>
+                <button onclick="window.location.href='/kunjungan-panti-asuhan-form'" class="btn-daftar-sosial">Daftar Sekarang</button>
             </div>
-
-            <button id="registerBtn" class="btn btn-primary">Daftar Mengajar</button>
         </div>
-    </section>
+    </div>
 
-    <!-- FOOTER -->
     <footer class="footer">
         <p>&copy; 2026 Relawan Nusantara. Semua Hak Dilindungi.</p>
     </footer>
-
-    <script src="script.js"></script>
-
 </body>
 </html>

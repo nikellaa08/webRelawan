@@ -8,13 +8,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const applyTheme = (isDark) => {
         if (isDark) {
             document.documentElement.classList.add('dark-mode');
-            themeToggleLightIcon.classList.remove('hidden');
-            themeToggleDarkIcon.classList.add('hidden');
+            if (themeToggleLightIcon) themeToggleLightIcon.classList.remove('hidden');
+            if (themeToggleDarkIcon) themeToggleDarkIcon.classList.add('hidden');
             localStorage.setItem('color-theme', 'dark');
         } else {
             document.documentElement.classList.remove('dark-mode');
-            themeToggleDarkIcon.classList.remove('hidden');
-            themeToggleLightIcon.classList.add('hidden');
+            if (themeToggleDarkIcon) themeToggleDarkIcon.classList.remove('hidden');
+            if (themeToggleLightIcon) themeToggleLightIcon.classList.add('hidden');
             localStorage.setItem('color-theme', 'light');
         }
     };
@@ -249,7 +249,8 @@ document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.btn-category').forEach(button => {
             button.classList.remove('active');
         });
-        document.querySelector(`.btn-category[data-category-id="${categoryId}"]`).classList.add('active');
+        const activeBtn = document.querySelector(`.btn-category[data-category-id="${categoryId}"]`);
+        if (activeBtn) activeBtn.classList.add('active');
     }
 
     // Initialize event and category loading if containers exist

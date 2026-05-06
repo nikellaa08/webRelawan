@@ -1,136 +1,94 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form Donasi Pakaian - Relawan Nusantara</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+<%- include('partials/header') %>
+
     <style>
-        .form-container {
+        .form-container-donasi {
             max-width: 500px;
-            margin: 40px auto;
+            margin: 120px auto 60px;
             padding: 40px;
-            background: var(--color-white);
+            background: white;
             border-radius: 15px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
-        .form-container h1 {
+        .form-container-donasi h1 {
             text-align: center;
             margin-bottom: 30px;
-            color: var(--color-blue);
+            color: #764ba2;
         }
-        .form-group {
+        .form-group-donasi {
             margin-bottom: 20px;
         }
-        .form-group label {
+        .form-group-donasi label {
             display: block;
             margin-bottom: 8px;
             font-weight: 600;
-            color: var(--color-dark);
+            color: #333;
         }
-        .form-group input[type="text"],
-        .form-group input[type="email"],
-        .form-group input[type="tel"],
-        .form-group input[type="number"],
-        .form-group select,
-        .form-group textarea,
-        .form-group input[type="file"] {
+        .form-group-donasi input[type="text"],
+        .form-group-donasi input[type="email"],
+        .form-group-donasi input[type="tel"],
+        .form-group-donasi input[type="number"],
+        .form-group-donasi select,
+        .form-group-donasi textarea,
+        .form-group-donasi input[type="file"] {
             width: 100%;
             padding: 12px;
             border-radius: 8px;
             border: 1px solid #ddd;
-            font-family: var(--font-family);
+            font-family: inherit;
             font-size: 1rem;
             box-sizing: border-box;
         }
-        .form-group input[type="file"] {
-            padding-top: 8px;
-        }
-        .form-group textarea {
+        .form-group-donasi textarea {
             resize: vertical;
             min-height: 100px;
         }
-        .form-group .radio-group {
+        .form-group-donasi .radio-group-donasi {
             display: flex;
             gap: 15px;
             margin-top: 10px;
         }
-        .form-group .radio-group label {
+        .form-group-donasi .radio-group-donasi label {
             display: flex;
             align-items: center;
             font-weight: 400;
             margin-bottom: 0;
         }
-        .form-group .radio-group input[type="radio"] {
+        .form-group-donasi .radio-group-donasi input[type="radio"] {
             width: auto;
             margin-right: 8px;
         }
-        .form-container .btn-primary {
+        .btn-donasi-submit {
             width: 100%;
             padding: 15px;
-            background-color: var(--color-blue); /* Assuming var(--color-blue) is defined in style.css */
-            color: var(--color-white);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
             border: none;
             border-radius: 8px;
             font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: 0.3s;
         }
-        .form-container .btn-primary:hover {
-            background-color: var(--color-dark-blue); /* Assuming a darker blue is desired for hover */
+        .btn-donasi-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(118, 75, 162, 0.4);
         }
     </style>
-</head>
-<body>
-
-    <!-- NAVBAR -->
-    <nav class="navbar">
-        <div class="navbar-left">
-            <a href="/sosial-kemanusiaan" class="back-button" style="display: inline-flex;">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z" fill="currentColor"></path></svg>
-                Kembali
-            </a>
-            <a href="/" class="nav-logo">Relawan Nusantara</a>
-        </div>
-        <ul class="nav-menu">
-            <li class="nav-item"><a href="/pendidikan">Pendidikan</a></li>
-            <li class="nav-item"><a href="/lingkungan">Lingkungan</a></li>
-            <li class="nav-item"><a href="/kesehatan">Kesehatan</a></li>
-            <li class="nav-item"><a href="/sosial-kemanusiaan">Sosial & Kemanusiaan</a></li>
-        </ul>
-        <div class="nav-right">
-            <a href="/login" class="btn btn-secondary nav-login-btn">Login</a>
-        </div>
-        <div class="hamburger">
-            <div class="bar1"></div>
-            <div class="bar2"></div>
-            <div class="bar3"></div>
-        </div>
-    </nav>
-
-    <!-- PAGE HEADER -->
-    <section class="page-header section">
-        <h1 class="section-title">Form Donasi Pakaian</h1>
-    </section>
 
     <!-- DONATION FORM -->
     <section class="section">
-        <div class="form-container">
-            <h1 style="text-align: center;">Donasi Pakaian<br><small style="font-weight: 400;">untuk Memberi Kehangatan</small></h1>
+        <div class="form-container-donasi">
+            <h1>Donasi Pakaian<br><small style="font-weight: 400; font-size: 0.6em;">untuk Memberi Kehangatan</small></h1>
             <form id="clothDonationForm">
-                <div class="form-group">
+                <div class="form-group-donasi">
                     <label for="donorName">Nama Donatur:</label>
                     <input type="text" id="donorName" name="donorName" required>
                 </div>
-                <div class="form-group">
+                <div class="form-group-donasi">
                     <label for="contact">No. HP / Email:</label>
                     <input type="text" id="contact" name="contact" required>
                 </div>
-                <div class="form-group">
+                <div class="form-group-donasi">
                     <label for="clothType">Jenis Pakaian:</label>
                     <select id="clothType" name="clothType" required>
                         <option value="">Pilih Jenis Pakaian</option>
@@ -138,9 +96,8 @@
                         <option value="celana">Celana</option>
                         <option value="lainnya">Custom / Pilih Sendiri</option>
                     </select>
-                    <input type="text" id="otherClothType" name="otherClothType" placeholder="Tuliskan jenis pakaian" style="margin-top: 10px; display: none;">
                 </div>
-                <div class="form-group">
+                <div class="form-group-donasi">
                     <label for="clothSize">Ukuran:</label>
                     <select id="clothSize" name="clothSize" required>
                         <option value="">Pilih Ukuran</option>
@@ -151,11 +108,11 @@
                         <option value="campur">Campur</option>
                     </select>
                 </div>
-                <div class="form-group">
+                <div class="form-group-donasi">
                     <label for="quantity">Jumlah Pakaian:</label>
                     <input type="number" id="quantity" name="quantity" min="1" required>
                 </div>
-                <div class="form-group">
+                <div class="form-group-donasi">
                     <label for="condition">Kondisi:</label>
                     <select id="condition" name="condition" required>
                         <option value="">Pilih Kondisi</option>
@@ -164,98 +121,44 @@
                         <option value="cukup">Cukup</option>
                     </select>
                 </div>
-                <div class="form-group">
+                <div class="form-group-donasi">
                     <label for="clothPhoto">Foto Pakaian (Upload):</label>
                     <input type="file" id="clothPhoto" name="clothPhoto" accept="image/*">
                 </div>
-                <div class="form-group">
+                <div class="form-group-donasi">
                     <label>Pilih Metode:</label>
-                    <div class="radio-group">
+                    <div class="radio-group-donasi">
                         <label><input type="radio" name="deliveryMethod" value="dijemput"> Dijemput Relawan</label>
                         <label><input type="radio" name="deliveryMethod" value="drop_point"> Antar ke Drop Point</label>
                     </div>
                 </div>
-                <div class="form-group" id="pickupAddressGroup">
+                <div class="form-group-donasi">
                     <label for="pickupAddress">Alamat Penjemputan:</label>
                     <textarea id="pickupAddress" name="pickupAddress"></textarea>
                 </div>
-                <div class="form-group">
+                <div class="form-group-donasi">
                     <label for="notes">Catatan Tambahan:</label>
                     <textarea id="notes" name="notes"></textarea>
                 </div>
                 
-                <button type="submit" class="btn-primary">Donasikan Sekarang</button>
+                <button type="submit" class="btn-donasi-submit">Donasikan Sekarang</button>
             </form>
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    const clothTypeSelect = document.getElementById('clothType');
-                    const otherClothTypeInput = document.getElementById('otherClothType');
-                    
-                    clothTypeSelect.addEventListener('change', function() {
-                        if (this.value === 'lainnya') {
-                            otherClothTypeInput.style.display = 'block';
-                            otherClothTypeInput.setAttribute('required', 'required');
-                        } else {
-                            otherClothTypeInput.style.display = 'none';
-                            otherClothTypeInput.removeAttribute('required');
-                            otherClothTypeInput.value = '';
-                        }
-                    });
-
-                    // Initial call to set correct visibility for otherClothType
-                    if (clothTypeSelect.value === 'lainnya') {
-                        otherClothTypeInput.style.display = 'block';
-                        otherClothTypeInput.setAttribute('required', 'required');
-                    } else {
-                        otherClothTypeInput.style.display = 'none';
-                        otherClothTypeInput.removeAttribute('required');
-                    }
-
-                    const deliveryMethodRadios = document.querySelectorAll('input[name="deliveryMethod"]');
-                    const pickupAddressGroup = document.getElementById('pickupAddressGroup');
-                    const pickupAddressTextarea = document.getElementById('pickupAddress');
-
-                    function togglePickupAddress() {
-                        const selectedMethod = document.querySelector('input[name="deliveryMethod"]:checked');
-                        if (selectedMethod && selectedMethod.value === 'dijemput') {
-                            pickupAddressGroup.style.display = 'block';
-                            pickupAddressTextarea.setAttribute('required', 'required');
-                        } else {
-                            pickupAddressGroup.style.display = 'none';
-                            pickupAddressTextarea.removeAttribute('required');
-                        }
-                    }
-
-                    deliveryMethodRadios.forEach(radio => {
-                        radio.addEventListener('change', togglePickupAddress);
-                    });
-                    
-                    // Set initial state for pickup address
-                    togglePickupAddress();
-
-                    // Handle form submission
-                    const clothDonationForm = document.getElementById('clothDonationForm');
-                    clothDonationForm.addEventListener('submit', function(event) {
-                        event.preventDefault(); // Prevent default form submission
-                        
-                        document.body.classList.add('fade-out'); // Add fade-out class
-
-                        // Wait for the transition to complete, then redirect
-                        setTimeout(function() {
-                            window.location.href = '/sosial-kemanusiaan';
-                        }, 500); // Match this duration to the CSS transition duration
-                    });
-                });
-            </script>
         </div>
     </section>
 
-    <!-- FOOTER -->
     <footer class="footer">
         <p>&copy; 2026 Relawan Nusantara. Semua Hak Dilindungi.</p>
     </footer>
 
-    <script src="script.js"></script>
-
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('clothDonationForm');
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+                alert('Terima kasih! Donasi Anda telah tercatat.');
+                window.location.href = '/sosial-kemanusiaan';
+            });
+        });
+    </script>
 </body>
 </html>

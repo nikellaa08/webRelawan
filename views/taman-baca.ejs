@@ -1,10 +1,5 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detail Misi - Taman Baca Desa</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+<%- include('partials/header') %>
+
     <style>
         :root {
             --bg: #010409;
@@ -15,27 +10,25 @@
             --text-muted: #8b949e;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
             background: var(--bg); 
             color: white; 
             font-family: 'Plus Jakarta Sans', sans-serif; 
-            display: flex; justify-content: center; align-items: center; 
-            min-height: 100vh; padding: 40px 20px;
         }
 
-        .container {
+        .container-detail {
             background: var(--card-bg);
             border: 1px solid var(--border);
             border-radius: 32px;
             width: 100%;
             max-width: 600px;
+            margin: 120px auto 60px;
             overflow: hidden;
             box-shadow: 0 30px 60px rgba(0,0,0,0.6);
         }
 
         /* Banner Atas */
-        .banner {
+        .banner-detail {
             background: linear-gradient(135deg, var(--secondary), var(--primary));
             height: 200px;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -49,9 +42,9 @@
             padding: 6px 14px; border-radius: 50px; font-size: 0.7rem; font-weight: 800;
         }
 
-        .content { padding: 40px; }
+        .content-detail { padding: 40px; }
         
-        h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 12px; color: var(--primary); }
+        .content-detail h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 12px; color: var(--primary); }
         .description { color: var(--text-muted); line-height: 1.8; font-size: 1rem; margin-bottom: 30px; }
 
         /* Grid Info */
@@ -97,16 +90,14 @@
         }
         .btn-link:hover { color: white; }
     </style>
-</head>
-<body>
 
-    <div class="container">
-        <div class="banner">
+    <div class="container-detail">
+        <div class="banner-detail">
             <span class="status-pill">OPEN RECRUITMENT</span>
             <div class="banner-icon">📖</div>
         </div>
         
-        <div class="content">
+        <div class="content-detail">
             <h1>Taman Baca Desa</h1>
             <p class="description">Program pemberdayaan literasi untuk anak-anak di wilayah 3T guna membangun minat baca sejak dini melalui aktivitas kreatif.</p>
             
@@ -125,26 +116,11 @@
                 <li>Mendampingi sesi membaca nyaring (Read Aloud).</li>
             </ul>
 
-            <h4 class="section-title">Persyaratan</h4>
-            <ul class="list-item">
-                <li>Memiliki jiwa sosial dan sabar menghadapi anak-anak.</li>
-                <li>Berusia minimal 17 tahun.</li>
-                <li>Pecinta buku & mampu berkomunikasi dengan baik.</li>
-            </ul>
-
-            <h4 class="section-title">Benefit</h4>
-            <ul class="list-item">
-                <li>Sertifikat Relawan Nasional (E-Certificate).</li>
-                <li>150 Koin Kontribusi (Bisa ditukar Merchandise).</li>
-                <li>Networking dengan komunitas literasi nasional.</li>
-            </ul>
-
             <div class="btn-group">
                 <a href="#" class="btn-main" onclick="alert('Pendaftaran Berhasil! Admin akan segera menghubungi kamu.')">Daftar Sekarang</a>
                 <a href="/pendidikan" class="btn-link">← Kembali ke Daftar Program</a>
             </div>
         </div>
     </div>
-
 </body>
 </html>

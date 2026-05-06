@@ -1,101 +1,304 @@
-<%- include('partials/form-header') %>
+<%- include('partials/header') %>
 
-    <main class="registration-container">
-        <div class="form-wrapper">
-            <header class="form-header">
-                <a href="/" class="back-button" style="margin-bottom: 20px; display: inline-flex;">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z" fill="currentColor"></path></svg>
-                    Kembali ke Beranda
-                </a>
-                <h1>Registrasi Akun</h1>
-                <p>Daftar sekarang untuk menjadi bagian dari gerakan perubahan. Isi data diri Anda di bawah ini.</p>
-            </header>
-
-            <form action="/daftar" method="POST" class="registration-form">
-                <input type="hidden" id="selected-program-input" name="program_name" value="">
-
-                <div class="input-group">
-                    <label for="fullname">Nama Lengkap</label>
-                    <input type="text" id="fullname" name="fullname" placeholder="Masukkan nama lengkap Anda" required>
-                </div>
-                <div class="input-group">
-                    <label for="email">Alamat Email</label>
-                    <input type="email" id="email" name="email" placeholder="Contoh: email@anda.com" required>
-                </div>
-                <div class="input-group" style="position: relative;">
-                    <label for="password">Password</label>
-                    <div style="position: relative;">
-                        <input type="password" id="password" name="password" placeholder="Contoh: 123456789" required style="padding-right: 45px;">
-                        <button type="button" id="togglePassword" aria-label="Toggle password visibility" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; padding: 5px; display: flex; align-items: center; justify-content: center; transition: opacity 0.3s ease;" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">
-                            <svg id="eye-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width: 20px; height: 20px; fill: #999; transition: fill 0.3s ease;">
-                                <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-                <div class="input-group">
-                    <label for="skills">Keahlian Khusus</label>
-                    <input type="text" id="skills" name="skills" placeholder="Contoh: Desain grafis, public speaking, dll." required>
-                </div>
-                <div class="input-group">
-                    <label for="motivation">Kenapa tertarik bergabung?</label>
-                    <textarea id="motivation" name="motivation" rows="4" placeholder="Jelaskan alasan dan motivasi Anda" required></textarea>
-                </div>
-
-                <div class="input-group checkbox-group">
-                    <input type="checkbox" id="commitment" name="commitment" required>
-                    <label for="commitment">Saya bersedia mengikuti seluruh rangkaian kegiatan hingga selesai.</label>
-                </div>
-
-                <button type="submit" class="submit-btn">Kirim Pendaftaran</button>
-            </form>
-        </div>
-
-        <aside class="summary-card">
-            <h3>Ringkasan Pendaftaran</h3>
-            <h4>Bergabung Jadi Relawan Nusantara</h4>
-
-            <div class="summary-details">
-                <p class="detail-item">
-                    <span class="icon icon-calendar">📅</span>
-                    <strong>Ketersediaan:</strong> Fleksibel, sesuai program yang diikuti
-                </p>
-                <p class="detail-item">
-                    <span class="icon icon-location">📍</span>
-                    <strong>Lokasi:</strong> Berbagai lokasi di seluruh Indonesia
-                </p>
-                <p class="detail-item">
-                    <span class="icon icon-target">🎯</span>
-                    <strong>Fokus:</strong> Aksi nyata untuk pendidikan, lingkungan, kesehatan, dan kemanusiaan.
-                </p>
-            </div>
-            <div class="card-footer">
-                <p>Setelah mendaftar, Anda akan mendapatkan akses ke semua program relawan. Kami sangat antusias menyambut Anda!</p>
-            </div>
-        </aside>
-    </main>
-
-<script>
-    // Toggle Password Visibility
-    const togglePassword = document.getElementById('togglePassword');
-    const passwordInput = document.getElementById('password');
-    const eyeIcon = document.getElementById('eye-icon');
-
-    togglePassword.addEventListener('click', function() {
-        const isPassword = passwordInput.getAttribute('type') === 'password';
-        passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
-
-        // Change icon path based on state
-        if (isPassword) {
-            // Show eye-off icon path
-            eyeIcon.innerHTML = '<path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.27l3.02 3.02c-.86.48-1.87.75-2.95.75-2.76 0-5-2.24-5-5 0-1.08.27-2.09.75-2.95z"/>';
-            eyeIcon.style.fill = '#667eea';
-        } else {
-            // Show eye icon path
-            eyeIcon.innerHTML = '<path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>';
-            eyeIcon.style.fill = '#999';
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #a855f7;
+            --accent: #3b82f6;
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --text-main: #ffffff;
+            --text-dim: rgba(255, 255, 255, 0.7);
         }
-    });
-</script>
 
-<%- include('partials/footer') %>
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #312e81 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-x: hidden;
+            color: var(--text-main);
+            padding-top: 100px; /* Ruang untuk navbar fixed */
+        }
+
+        /* Ambient Background Blobs */
+        .blob {
+            position: fixed;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
+            filter: blur(80px);
+            opacity: 0.4;
+            z-index: -1;
+            animation: move 20s infinite alternate;
+        }
+
+        .blob-2 {
+            right: -100px;
+            top: -100px;
+            background: radial-gradient(circle, var(--secondary) 0%, transparent 70%);
+            animation-delay: -5s;
+        }
+
+        @keyframes move {
+            from { transform: translate(0, 0); }
+            to { transform: translate(100px, 100px); }
+        }
+
+        .container-premium {
+            width: 100%;
+            max-width: 500px;
+            z-index: 10;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .header-premium {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header-premium h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #fff, var(--text-dim));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+
+        .header-premium p {
+            color: var(--text-dim);
+            font-size: 0.95rem;
+        }
+
+        .form-group-premium {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .form-group-premium label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-dim);
+        }
+
+        .form-group-premium input, .form-group-premium textarea {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            color: #fff;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .form-group-premium input:focus, .form-group-premium textarea:focus {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2);
+        }
+
+        /* Admin Toggle Switch */
+        .switch-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 12px 16px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .switch-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 48px;
+            height: 24px;
+        }
+
+        .switch input { opacity: 0; width: 0; height: 0; }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(255,255,255,0.1);
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px; width: 18px;
+            left: 3px; bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider { background-color: var(--primary); }
+        input:checked + .slider:before { transform: translateX(24px); }
+
+        /* Admin Key Animation */
+        #admin-key-group {
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+        }
+
+        #admin-key-group.active {
+            max-height: 100px;
+            opacity: 1;
+            margin-bottom: 20px;
+        }
+
+        /* Submit Button */
+        .submit-btn-premium {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #6366f1 0%, #3b82f6 100%);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .submit-btn-premium:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px -10px rgba(99, 102, 241, 0.5);
+        }
+
+        .footer-text-premium {
+            text-align: center;
+            margin-top: 24px;
+            font-size: 0.9rem;
+            color: var(--text-dim);
+        }
+
+        .footer-text-premium a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .alert-premium {
+            padding: 12px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            color: #f87171;
+            text-align: center;
+        }
+    </style>
+
+    <div class="blob"></div>
+    <div class="blob blob-2"></div>
+
+    <div class="container-premium">
+        <div class="glass-card">
+            <div class="header-premium">
+                <h1>Bergabunglah</h1>
+                <p>Mulai perjalanan sosialmu hari ini</p>
+            </div>
+
+            <% if (locals.message) { %>
+                <div class="alert-premium"><%= message %></div>
+            <% } %>
+
+            <form action="/daftar" method="POST">
+                <div class="form-group-premium">
+                    <label for="username">Nama Lengkap</label>
+                    <input type="text" id="username" name="username" placeholder="John Doe" required>
+                </div>
+
+                <div class="form-group-premium">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="hello@example.com" required>
+                </div>
+
+                <div class="form-group-premium">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="••••••••" required>
+                </div>
+
+                <div class="switch-container">
+                    <span class="switch-label">Daftar sebagai Admin?</span>
+                    <label class="switch">
+                        <input type="checkbox" id="admin-toggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div id="admin-key-group" class="form-group-premium">
+                    <label for="admin_key">Admin Secret Key</label>
+                    <input type="password" id="admin_key" name="admin_key" placeholder="Masukkan kode akses admin">
+                </div>
+
+                <div class="form-group-premium">
+                    <label for="keahlian">Keahlian</label>
+                    <input type="text" id="keahlian" name="keahlian" placeholder="Contoh: Digital Marketing, Medis">
+                </div>
+
+                <button type="submit" class="submit-btn-premium">
+                    <span>Buat Akun Sekarang</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </button>
+            </form>
+
+            <p class="footer-text-premium">
+                Sudah punya akun? <a href="/login">Masuk di sini</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Admin Toggle Logic
+        const toggle = document.getElementById('admin-toggle');
+        const adminGroup = document.getElementById('admin-key-group');
+        const adminInput = document.getElementById('admin_key');
+
+        toggle.addEventListener('change', function() {
+            if(this.checked) {
+                adminGroup.classList.add('active');
+                adminInput.required = true;
+            } else {
+                adminGroup.classList.remove('active');
+                adminInput.required = false;
+                adminInput.value = '';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,46 +1,37 @@
--- Database: relawan_nusantara
+-- 1. Buat Database (Jika belum ada)
+CREATE DATABASE IF NOT EXISTS relawan_nusantara;
+USE relawan_nusantara;
 
--- Tabel users
+-- 2. Buat Tabel Users yang LENGKAP
 CREATE TABLE IF NOT EXISTS users (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  nama_lengkap VARCHAR(255) NOT NULL,
-  email VARCHAR(255) NOT NULL UNIQUE,
-  password VARCHAR(255) NOT NULL,
-  skills TEXT,
-  motivation TEXT,
-  koin INT DEFAULT 0,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    keahlian TEXT,
+    is_admin TINYINT DEFAULT 0,
+    koin INT DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Tabel categories
-CREATE TABLE IF NOT EXISTS categories (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(100) NOT NULL UNIQUE,
-  description TEXT,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+-- 3. Masukkan Akun Admin Default
+-- Email: admin@gmail.com
+-- Password: admin123 (Plain text untuk sementara, atau bisa di-hash nanti)
+INSERT INTO users (username, email, password, keahlian, is_admin, koin) 
+VALUES ('Administrator', 'admin@gmail.com', 'admin123', 'Manajemen Sistem', 1, 0)
+ON DUPLICATE KEY UPDATE is_admin = 1;
 
--- Tabel events
+-- 4. Tabel Pendukung Lainnya (Opsional namun disarankan)
 CREATE TABLE IF NOT EXISTS events (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(255) NOT NULL,
-  location VARCHAR(255),
-  date DATE,
-  description TEXT,
-  category_id INT,
-  reward_koin INT DEFAULT 50,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE SET NULL
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    description TEXT,
+    reward_koin INT DEFAULT 10,
+    date DATE
 );
 
--- Insert kategori default
-INSERT IGNORE INTO categories (name, description) VALUES
-('Pendidikan', 'Program relawan di bidang pendidikan'),
-('Lingkungan', 'Program relawan di bidang lingkungan hidup'),
-('Kesehatan', 'Program relawan di bidang kesehatan'),
-('Sosial', 'Program relawan di bidang sosial kemanusiaan');
-
-ALTER TABLE users ADD COLUMN koin INT DEFAULT 0;
-ALTER TABLE events ADD COLUMN reward_koin INT DEFAULT 50;
+CREATE TABLE IF NOT EXISTS categories (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL UNIQUE,
+    description TEXT
+);

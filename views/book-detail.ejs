@@ -1,118 +1,72 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detail Donasi Buku - Relawan Nusantara</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+<%- include('partials/header') %>
+
     <style>
-        .detail-container {
+        .detail-container-book {
             max-width: 800px;
-            margin: 40px auto;
+            margin: 120px auto 60px;
             padding: 40px;
-            background: var(--color-white);
+            background: white;
             border-radius: 15px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
-        .detail-container h1 {
+        .detail-container-book h1 {
             text-align: center;
             margin-bottom: 30px;
-            color: var(--color-blue);
+            color: #764ba2;
         }
-        .detail-item {
+        .detail-item-book {
             margin-bottom: 20px;
             font-size: 1.1rem;
-            color: var(--color-dark);
+            color: #333;
         }
-        .detail-item strong {
+        .detail-item-book strong {
             display: inline-block;
             min-width: 150px;
-            color: var(--color-blue);
+            color: #667eea;
         }
-        .detail-item span {
-            font-weight: 400;
-        }
-        .btn-back {
+        .btn-back-book {
             display: block;
             width: fit-content;
             margin: 30px auto 0;
-            padding: 10px 20px;
-            background-color: var(--color-blue);
-            color: var(--color-white);
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
+            padding: 10px 25px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50px;
             font-weight: 600;
-            cursor: pointer;
             text-decoration: none;
-            text-align: center;
-            transition: background-color 0.3s ease;
+            transition: 0.3s;
         }
-        .btn-back:hover {
-            background-color: var(--color-dark-blue);
+        .btn-back-book:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(118, 75, 162, 0.4);
         }
     </style>
-</head>
-<body>
 
-    <!-- NAVBAR -->
-    <nav class="navbar">
-        <div class="navbar-left">
-            <a href="/sosial-kemanusiaan" class="back-button" style="display: inline-flex;">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z" fill="currentColor"></path></svg>
-                Kembali
-            </a>
-            <a href="/" class="nav-logo">Relawan Nusantara</a>
+    <div class="detail-container-book">
+        <h1>Detail Program Donasi Buku</h1>
+        <div class="detail-item-book">
+            <strong>📍 Lokasi Penyaluran :</strong> <span>Panti Asuhan / Sekolah Terpencil / Taman Baca</span>
         </div>
-        <ul class="nav-menu">
-            <li class="nav-item"><a href="/pendidikan">Pendidikan</a></li>
-            <li class="nav-item"><a href="/lingkungan">Lingkungan</a></li>
-            <li class="nav-item"><a href="/kesehatan">Kesehatan</a></li>
-            <li class="nav-item"><a href="/sosial-kemanusiaan">Sosial & Kemanusiaan</a></li>
-        </ul>
-        <div class="nav-right">
-            <a href="/login" class="btn btn-secondary nav-login-btn">Login</a>
+        <div class="detail-item-book">
+            <strong>👥 Usia Pembaca :</strong> <span>Anak- Anak, Remaja</span>
         </div>
-        <div class="hamburger">
-            <div class="bar1"></div>
-            <div class="bar2"></div>
-            <div class="bar3"></div>
+        <div class="detail-item-book">
+            <strong>🏅 Reward:</strong> <span>Koin + Lencana Donatur</span>
         </div>
-    </nav>
+        <a href="/sosial-kemanusiaan" class="btn-back-book">← Kembali</a>
+    </div>
 
-    <!-- PAGE HEADER -->
-    <section class="page-header section">
-        <h1 class="section-title">Detail Program Donasi Buku</h1>
-    </section>
-
-    <!-- DETAIL CONTENT -->
-    <section class="section">
-        <div class="detail-container">
-            <h1>Detail Buku</h1>
-            <div class="detail-item">
-                <strong>📍 Lokasi Penyaluran :</strong> <span>Panti Asuhan / Sekolah Terpencil / Taman Baca</span>
-            </div>
-            <div class="detail-item">
-                <strong>👥 Usia Pembaca :</strong> <span>Anak- Anak, Remaja</span>
-            </div>
-            <div class="detail-item">
-                <strong>📅 Batas Waktu Donasi / Batas Pengumpulan</strong> <span></span>
-            </div>
-            <div class="detail-item">
-                <strong>🏅 Reward:</strong> <span>Koin + Lencana Donatur</span>
-            </div>
-            </div>
-        </section>
-
-    <!-- FOOTER -->
     <footer class="footer">
         <p>&copy; 2026 Relawan Nusantara. Semua Hak Dilindungi.</p>
     </footer>
+</body>
+</html>
+href="/sosial-kemanusiaan" class="btn-back-book">← Kembali ke Program</a>
+        </div>
+    </section>
 
-    <script src="script.js"></script>
-
+    <footer class="footer">
+        <p>&copy; 2026 Relawan Nusantara. Semua Hak Dilindungi.</p>
+    </footer>
 </body>
 </html>

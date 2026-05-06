@@ -9,22 +9,24 @@
     <link rel="stylesheet" href="/style.css">
     
     <style>
-        /* CSS Tambahan Langsung di Header untuk Kecepatan */
-        :root {
-            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --admin-gold: #ffc107;
-        }
-
+        /* CSS Navbar Tetap di Atas */
         .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
             background: white;
             padding: 15px 5%;
             box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-            position: sticky;
-            top: 0;
             z-index: 1000;
             display: flex;
             justify-content: space-between;
             align-items: center;
+        }
+
+        /* Berikan ruang agar konten tidak tertutup navbar fixed */
+        body {
+            padding-top: 80px; 
         }
 
         .nav-logo {
@@ -32,7 +34,7 @@
             font-size: 1.5rem;
             color: #764ba2;
             text-decoration: none;
-            background: var(--primary-gradient);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -61,16 +63,14 @@
             gap: 15px;
         }
 
-        /* Badge Admin Khusus */
         .btn-admin-panel {
-            background: var(--admin-gold);
+            background: #ffc107;
             color: #000 !important;
             padding: 8px 18px;
             border-radius: 50px;
             font-weight: 600;
             font-size: 0.85rem;
             text-decoration: none;
-            box-shadow: 0 4px 10px rgba(255, 193, 7, 0.3);
             display: flex;
             align-items: center;
             gap: 8px;
@@ -79,22 +79,11 @@
 
         .btn-admin-panel:hover {
             transform: translateY(-2px);
-            background: #e0a800;
-        }
-
-        .nav-user-greeting {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: 600;
-            color: #555;
-            padding: 5px 12px;
-            background: #f0f2f5;
-            border-radius: 30px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
         .btn-login-modern {
-            background: var(--primary-gradient);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white !important;
             padding: 10px 25px;
             border-radius: 50px;
@@ -103,11 +92,30 @@
             transition: 0.3s;
         }
 
-        .btn-logout-minimal {
-            color: #dc3545;
-            text-decoration: none;
-            font-size: 0.9rem;
+        .nav-user-greeting {
+            display: flex;
+            align-items: center;
+            gap: 8px;
             font-weight: 600;
+            color: #555;
+        }
+
+        .flash-message {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            padding: 15px 25px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            z-index: 2000;
+            animation: slideIn 0.5s ease-out;
+            border-left: 5px solid #667eea;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
     </style>
 </head>
@@ -126,28 +134,35 @@
         </ul>
 
         <div class="nav-right">
-            <% if (typeof session !== 'undefined' && session.admin) { %>
+            <% if (locals.admin) { %>
                 <a href="/admin/dashboard" class="btn-admin-panel">
                     <i class="fas fa-user-shield"></i> Dashboard Admin
                 </a>
             <% } %>
 
-            <% if (typeof user !== 'undefined' && user) { %>
+            <% if (locals.user) { %>
                 <div class="nav-user-greeting">
-                    <i class="fas fa-user-circle text-primary"></i>
                     <span>Hi, <%= user.name %>!</span>
                 </div>
-                <a href="/logout" class="btn-logout-minimal">
+                <a href="/logout" class="btn-logout-minimal" style="color: #dc3545; text-decoration: none; margin-left: 10px;">
                     <i class="fas fa-power-off"></i>
                 </a>
-            <% } else if (!(typeof session !== 'undefined' && session.admin)) { %>
+            <% } else if (!locals.admin) { %>
                 <a href="/login" class="btn-login-modern">
                     Login
                 </a>
             <% } %>
         </div>
-
-        <div class="hamburger d-lg-none">
-            <i class="fas fa-bars"></i>
-        </div>
     </nav>
+
+    <% if (locals.message) { %>
+        <div class="flash-message">
+            <i class="fas fa-info-circle"></i> <%= message %>
+        </div>
+        <script>
+            setTimeout(() => {
+                const msg = document.querySelector('.flash-message');
+                if (msg) msg.style.display = 'none';
+            }, 5000);
+        </script>
+    <% } %>

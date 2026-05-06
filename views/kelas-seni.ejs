@@ -1,10 +1,80 @@
-<div class="container">
-        <div class="banner" style="background: linear-gradient(135deg, #ff00cc, #7000ff);">
+<%- include('partials/header') %>
+
+    <style>
+        :root {
+            --bg: #010409;
+            --primary: #ff00cc;
+            --secondary: #7000ff;
+            --card-bg: #0d1117;
+            --border: #30363d;
+            --text-muted: #8b949e;
+        }
+
+        body { 
+            background: var(--bg); 
+            color: white; 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+        }
+
+        .container-seni {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 32px;
+            width: 100%;
+            max-width: 600px;
+            margin: 120px auto 60px;
+            overflow: hidden;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+        }
+
+        .banner-seni {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            height: 200px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            position: relative;
+        }
+        .banner-icon { font-size: 5rem; margin-bottom: 10px; }
+        .status-pill {
+            position: absolute; top: 20px; right: 20px;
+            background: rgba(0, 255, 0, 0.1);
+            color: #00ff00; border: 1px solid rgba(0, 255, 0, 0.3);
+            padding: 6px 14px; border-radius: 50px; font-size: 0.7rem; font-weight: 800;
+        }
+
+        .content-seni { padding: 40px; }
+        .content-seni h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 12px; color: var(--primary); }
+        .description { color: var(--text-muted); line-height: 1.8; font-size: 1rem; margin-bottom: 30px; }
+
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 35px; }
+        .info-box { 
+            background: rgba(255,255,255,0.02); 
+            padding: 15px 20px; border-radius: 18px; border: 1px solid var(--border);
+        }
+        .info-box .label { font-size: 0.65rem; color: var(--primary); font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
+        .info-box .val { display: block; font-size: 0.95rem; font-weight: 600; margin-top: 5px; }
+
+        .section-title { 
+            font-size: 1rem; color: white; font-weight: 800; 
+            margin-bottom: 15px; display: flex; align-items: center; gap: 10px;
+        }
+        .section-title::after { content: ""; height: 1px; flex: 1; background: var(--border); }
+        
+        .list-item { list-style: none; margin-bottom: 25px; }
+        .list-item li { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 10px; padding-left: 25px; position: relative; }
+        .list-item li::before { content: "✓"; position: absolute; left: 0; color: var(--primary); font-weight: 800; }
+
+        .btn-main { display: block; width: 100%; padding: 20px; background: var(--primary); color: white; border: none; border-radius: 20px; font-weight: 800; font-size: 1.1rem; cursor: pointer; text-align: center; text-decoration: none; transition: 0.3s; }
+        .btn-main:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(255, 0, 204, 0.3); }
+        .btn-link { display: block; text-align: center; margin-top: 20px; color: var(--text-muted); text-decoration: none; font-size: 0.9rem; }
+    </style>
+
+    <div class="container-seni">
+        <div class="banner-seni">
             <span class="status-pill">OPEN RECRUITMENT</span>
             <div class="banner-icon">🎨</div>
         </div>
         
-        <div class="content">
+        <div class="content-seni">
             <h1>Kelas Seni Kreatif</h1>
             <p class="description">Eksplorasi bakat anak panti asuhan. Wadahi imajinasi mereka lewat lukisan, kriya, dan kerajinan tangan.</p>
             
@@ -23,46 +93,10 @@
             </ul>
 
             <div class="btn-group">
-                <a href="#" class="btn-main" onclick="ambilMisi(200, 'Kelas Seni')">Daftar Sekarang</a>
+                <a href="#" class="btn-main" onclick="alert('Berhasil terdaftar!')">Daftar Sekarang</a>
                 <a href="/pendidikan" class="btn-link">← Kembali ke Daftar Program</a>
             </div>
         </div>
     </div>
-    ```
-
----
-
-### 3. Isi untuk `english-day.ejs`
-(Buka file `english-day.ejs`, hapus semua, lalu paste ini)
-
-```html
-    <div class="container">
-        <div class="banner" style="background: linear-gradient(135deg, #00f2ff, #0066ff);">
-            <span class="status-pill">OPEN RECRUITMENT</span>
-            <div class="banner-icon">🌍</div>
-        </div>
-        
-        <div class="content">
-            <h1>English Day</h1>
-            <p class="description">Bangun kepercayaan diri siswa SMP untuk bicara bahasa Inggris lewat metode game dan percakapan santai.</p>
-            
-            <div class="info-grid">
-                <div class="info-box"><span class="label">📅 Jadwal</span><span class="val">Jumat, 15:00 WIB</span></div>
-                <div class="info-box"><span class="label">📍 Lokasi</span><span class="val">SMP Harapan Desa</span></div>
-                <div class="info-box"><span class="label">👥 Kuota</span><span class="val">12 Slot Tersedia</span></div>
-                <div class="info-box"><span class="label">🪙 Reward</span><span class="val">250 Koin</span></div>
-            </div>
-
-            <h4 class="section-title">Job Description</h4>
-            <ul class="list-item">
-                <li>Memandu English Conversation Game.</li>
-                <li>Mengajarkan kosa kata baru lewat lagu/film.</li>
-                <li>Menjadi teman praktik bicara (Speaking Buddy).</li>
-            </ul>
-
-            <div class="btn-group">
-                <a href="#" class="btn-main" onclick="ambilMisi(250, 'English Day')">Daftar Sekarang</a>
-                <a href="/pendidikan" class="btn-link">← Kembali ke Daftar Program</a>
-            </div>
-        </div>
-    </div>
+</body>
+</html>

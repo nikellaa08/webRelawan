@@ -1,12 +1,5 @@
- <HEAD></HEAD>
-gid <!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<<<<<<< HEAD
-    <title><%= detail.title %> - Relawan Nusantara</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+<%- include('partials/header') %>
+
     <style>
         :root {
             --bg: #010409;
@@ -15,203 +8,88 @@ gid <!DOCTYPE html>
             --glass: rgba(255, 255, 255, 0.03);
         }
 
-        /* Light Mode Variables */
-        :root:not(.dark-mode) {
-            --bg: #f5f7fa;
-            --primary: #0066ff;
-            --secondary: #0044cc;
-            --glass: rgba(0, 0, 0, 0.05);
-        }
-
-        body { background: var(--bg); color: white; font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; transition: background 0.3s, color 0.3s; }
+        body { background: var(--bg); color: white; font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; }
         
-        /* Light mode text color */
-        :root:not(.dark-mode) body {
-            color: #333;
-        }
+        .container-edu { max-width: 900px; margin: 120px auto 60px; padding: 20px; }
+        .back-btn-edu { color: var(--primary); text-decoration: none; font-weight: 600; display: inline-block; margin-bottom: 20px; }
         
-        .container { max-width: 900px; margin: 50px auto; padding: 20px; }
-        .back-btn { color: var(--primary); text-decoration: none; font-weight: 600; display: inline-block; margin-bottom: 20px; }
-
-        /* Theme Switcher */
-        .theme-switcher {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .theme-switcher:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: var(--primary);
-        }
-        .theme-switcher svg {
-            width: 20px;
-            height: 20px;
-            fill: var(--primary);
-        }
-        .theme-switcher svg.hidden {
-            display: none;
-        }
-        
-        .hero-section {
+        .hero-section-edu {
             position: relative; border-radius: 30px; overflow: hidden;
             height: 400px; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
-        .hero-section img { width: 100%; height: 100%; object-fit: cover; }
-        .hero-overlay {
+        .hero-section-edu img { width: 100%; height: 100%; object-fit: cover; }
+        .hero-overlay-edu {
             position: absolute; bottom: 0; left: 0; width: 100%; padding: 40px;
             background: linear-gradient(to top, rgba(1,4,9,1), transparent);
         }
 
-        .content-card {
+        .content-card-edu {
             background: var(--glass); border: 1px solid rgba(255,255,255,0.05);
             padding: 40px; border-radius: 30px; margin-top: 20px; backdrop-filter: blur(10px);
         }
-        :root:not(.dark-mode) .content-card {
-            border: 1px solid rgba(0,0,0,0.1);
-        }
-        .info-grid {
+        .info-grid-edu {
             display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 30px;
         }
-        .info-item {
+        .info-item-edu {
             background: rgba(255,255,255,0.02); padding: 20px; border-radius: 20px;
             border-left: 4px solid var(--primary);
         }
-        :root:not(.dark-mode) .info-item {
-            background: rgba(0,0,0,0.03);
-        }
-        .info-item label { display: block; color: #8b949e; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 5px; }
-        :root:not(.dark-mode) .info-item label { color: #666; }
-        .info-item span { font-weight: 700; font-size: 1.1rem; }
+        .info-item-edu label { display: block; color: #8b949e; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 5px; }
+        .info-item-edu span { font-weight: 700; font-size: 1.1rem; }
 
-        .btn-action {
+        .btn-action-edu {
             display: block; width: 100%; padding: 20px; margin-top: 40px;
             border-radius: 20px; border: none; font-weight: 800; font-size: 1.1rem;
             cursor: pointer; transition: 0.3s;
             background: linear-gradient(90deg, var(--primary), var(--secondary));
             color: white; box-shadow: 0 10px 20px rgba(112, 0, 255, 0.3);
         }
-        .btn-action:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0, 242, 255, 0.4); }
+        .btn-action-edu:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0, 242, 255, 0.4); }
     </style>
-</head>
-<body>
 
-=======
-    <title>Relawan Nusantara - Detail Program Pendidikan</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+    <div class="container-edu">
+        <a href="/pendidikan" class="back-btn-edu">← Kembali ke Daftar Program</a>
 
-<%- include('partials/header') %>
-
->>>>>>> 44d7981dc23e478c6d349a6e92a0df9d97d9f4c5
-    <div class="container">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-            <a href="/pendidikan" class="back-btn">← Kembali ke Daftar Program</a>
-            <div class="theme-switcher">
-                <svg id="theme-toggle-dark-icon" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
-                <svg id="theme-toggle-light-icon" class="hidden" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.121-3.536a1 1 0 010 1.414l-.707.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM10 18a1 1 0 01-1-1v-1a1 1 0 112 0v1a1 1 0 01-1 1zM4.95 15.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707a1 1 0 001.414-1.414zM1.88 10.536a1 1 0 010-1.414l.707-.707a1 1 0 111.414 1.414l-.707-.707a1 1 0 01-1.414 0zM10 20a1 1 0 01-1-1v-1a1 1 0 112 0v1a1 1 0 01-1 1zM4.95 4.95a1 1 0 010-1.414l.707-.707a1 1 0 111.414 1.414l-.707-.707a1 1 0 01-1.414 0zM15.05 4.95a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707z"></path></svg>
-            </div>
-        </div>
-
-        <div class="hero-section">
+        <div class="hero-section-edu">
             <img src="<%= detail.img %>" alt="Hero Image">
-            <div class="hero-overlay">
+            <div class="hero-overlay-edu">
                 <h1 style="font-size: 2.5rem; font-weight: 800;"><%= detail.title %></h1>
             </div>
         </div>
 
-        <div class="content-card">
+        <div class="content-card-edu">
             <p style="color: #8b949e; line-height: 1.8; font-size: 1.1rem;"><%= detail.desc %></p>
 
-            <div class="info-grid">
-                <div class="info-item">
+            <div class="info-grid-edu">
+                <div class="info-item-edu">
                     <label>📅 Jadwal</label>
                     <span><%= detail.jadwal %></span>
                 </div>
-                <div class="info-item">
+                <div class="info-item-edu">
                     <label>👥 Kuota</label>
                     <span><%= detail.kuota %></span>
                 </div>
-                <div class="info-item">
+                <div class="info-item-edu">
                     <label>📝 Tugas</label>
                     <span><%= detail.tugas %></span>
                 </div>
-                <div class="info-item">
+                <div class="info-item-edu">
                     <label>🪙 Reward</label>
                     <span style="color: #ffda44;"><%= detail.reward %> Koin</span>
                 </div>
             </div>
 
-            <button id="btnAmbilMisi" class="btn-action">Daftar & Ambil Misi Sekarang</button>
+            <button id="btnAmbilMisi" class="btn-action-edu">Daftar & Ambil Misi Sekarang</button>
         </div>
     </div>
 
-<<<<<<< HEAD
     <script>
-        // Theme Toggle Functionality
-        const themeToggleBtn = document.querySelector('.theme-switcher');
-        const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
-        const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
-
-        const applyTheme = (isDark) => {
-            if (isDark) {
-                document.documentElement.classList.add('dark-mode');
-                themeToggleLightIcon.classList.remove('hidden');
-                themeToggleDarkIcon.classList.add('hidden');
-                localStorage.setItem('color-theme', 'dark');
-            } else {
-                document.documentElement.classList.remove('dark-mode');
-                themeToggleDarkIcon.classList.remove('hidden');
-                themeToggleLightIcon.classList.add('hidden');
-                localStorage.setItem('color-theme', 'light');
-            }
-        };
-
-        const savedTheme = localStorage.getItem('color-theme');
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const isInitialDark = savedTheme === 'dark' || (savedTheme === null && prefersDark);
-        applyTheme(isInitialDark);
-
-        if (themeToggleBtn) {
-            themeToggleBtn.addEventListener('click', () => {
-                const isCurrentlyDark = document.documentElement.classList.contains('dark-mode');
-                applyTheme(!isCurrentlyDark);
-            });
-        }
-
-        // Misi Button Functionality
         document.getElementById('btnAmbilMisi').addEventListener('click', function() {
-            // 1. Ambil data koin dari EJS (Server)
             const rewardMisi = parseInt("<%= detail.reward %>");
             const namaMisi = "<%= detail.title %>";
-
-            // 2. Ambil saldo koin sekarang dari LocalStorage
-            let currentCoins = parseInt(localStorage.getItem('relawan_koin')) || 0;
-
-            // 3. Tambahkan reward ke saldo
-            let newBalance = currentCoins + rewardMisi;
-            localStorage.setItem('relawan_koin', newBalance);
-
-            // 4. Notifikasi
             alert(`Selamat! 🎉\nKamu berhasil mendaftar misi: ${namaMisi}\nReward +${rewardMisi} Koin telah ditambahkan.`);
-
-            // 5. Redirect ke halaman pendidikan buat cek koin di navbar
             window.location.href = "/pendidikan";
         });
     </script>
-
 </body>
 </html>
-=======
-<%- include('partials/footer') %>
->>>>>>> 44d7981dc23e478c6d349a6e92a0df9d97d9f4c5

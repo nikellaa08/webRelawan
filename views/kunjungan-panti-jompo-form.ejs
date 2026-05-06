@@ -1,140 +1,73 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form Kunjungan Panti Jompo - Relawan Nusantara</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/style.css">
+<%- include('partials/header') %>
+
     <style>
-        .form-container {
+        .form-container-visit {
             max-width: 500px;
-            margin: 40px auto;
+            margin: 120px auto 60px;
             padding: 40px;
-            background: var(--color-white);
+            background: white;
             border-radius: 15px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
-        .form-container h1 {
+        .form-container-visit h1 {
             text-align: center;
             margin-bottom: 30px;
-            color: var(--color-blue);
+            color: #764ba2;
         }
-        .form-group {
+        .form-group-visit {
             margin-bottom: 20px;
         }
-        .form-group label {
+        .form-group-visit label {
             display: block;
             margin-bottom: 8px;
             font-weight: 600;
-            color: var(--color-dark);
+            color: #333;
         }
-        .form-group input[type="text"],
-        .form-group input[type="email"],
-        .form-group input[type="tel"],
-        .form-group input[type="number"],
-        .form-group input[type="date"],
-        .form-group select,
-        .form-group textarea {
+        .form-group-visit input, .form-group-visit select, .form-group-visit textarea {
             width: 100%;
             padding: 12px;
             border-radius: 8px;
             border: 1px solid #ddd;
-            font-family: var(--font-family);
-            font-size: 1rem;
-            box-sizing: border-box;
+            font-family: inherit;
         }
-        .form-group textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-        .form-group .checkbox-group {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 10px;
-        }
-        .form-group .checkbox-group input[type="checkbox"] {
-            width: auto;
-            margin: 0;
-        }
-        .form-group .checkbox-group label {
-            font-weight: 400;
-            margin: 0;
-        }
-        .form-container .btn-primary {
+        .btn-visit-submit {
             width: 100%;
             padding: 15px;
-            background-color: var(--color-blue);
-            color: var(--color-white);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
             border: none;
             border-radius: 8px;
-            font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: 0.3s;
         }
-        .form-container .btn-primary:hover {
-            background-color: var(--color-dark-blue);
+        .btn-visit-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(118, 75, 162, 0.4);
         }
     </style>
-</head>
-<body>
 
-    <!-- NAVBAR -->
-    <nav class="navbar">
-        <div class="navbar-left">
-            <a href="/sosial-kemanusiaan" class="back-button" style="display: inline-flex;">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z" fill="currentColor"></path></svg>
-                Kembali
-            </a>
-            <a href="/" class="nav-logo">Relawan Nusantara</a>
-        </div>
-        <ul class="nav-menu">
-            <li class="nav-item"><a href="/pendidikan">Pendidikan</a></li>
-            <li class="nav-item"><a href="/lingkungan">Lingkungan</a></li>
-            <li class="nav-item"><a href="/kesehatan">Kesehatan</a></li>
-            <li class="nav-item"><a href="/sosial-kemanusiaan">Sosial & Kemanusiaan</a></li>
-        </ul>
-        <div class="nav-right">
-            <a href="/login" class="btn btn-secondary nav-login-btn">Login</a>
-        </div>
-        <div class="hamburger">
-            <div class="bar1"></div>
-            <div class="bar2"></div>
-            <div class="bar3"></div>
-        </div>
-    </nav>
-
-    <!-- PAGE HEADER -->
-    <section class="page-header section">
-        <h1 class="section-title">Form Kunjungan Panti Jompo</h1>
-    </section>
-
-    <!-- FORM -->
     <section class="section">
-        <div class="form-container">
-            <h1 style="text-align: center;">Kunjungi Panti Jompo<br><small style="font-weight: 400;">Berbagi waktu, menghadirkan senyuman</small></h1>
+        <div class="form-container-visit">
+            <h1>Kunjungi Panti Jompo<br><small style="font-weight: 400; font-size: 0.6em;">Berbagi waktu, menghadirkan senyuman</small></h1>
             <form id="pantiJompoVisitForm">
-                <div class="form-group">
+                <div class="form-group-visit">
                     <label for="volunteerName">Nama Relawan:</label>
                     <input type="text" id="volunteerName" name="volunteerName" required>
                 </div>
-                <div class="form-group">
+                <div class="form-group-visit">
                     <label for="volunteerAge">Usia Relawan:</label>
                     <input type="number" id="volunteerAge" name="volunteerAge" min="17" required>
                 </div>
-                <div class="form-group">
+                <div class="form-group-visit">
                     <label for="contact">No. HP / Email:</label>
                     <input type="text" id="contact" name="contact" required>
                 </div>
-                <div class="form-group">
+                <div class="form-group-visit">
                     <label for="visitDate">Pilih Jadwal:</label>
                     <input type="date" id="visitDate" name="visitDate" required>
                 </div>
-                <div class="form-group">
+                <div class="form-group-visit">
                     <label for="activity">Pilih Aktivitas:</label>
                     <select id="activity" name="activity" required>
                         <option value="">Pilih Aktivitas</option>
@@ -145,40 +78,29 @@
                         <option value="lainnya">Lainnya</option>
                     </select>
                 </div>
-                <div class="form-group">
+                <div class="form-group-visit">
                     <label for="notes">Catatan Tambahan:</label>
                     <textarea id="notes" name="notes"></textarea>
                 </div>
-                <div class="form-group">
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="agreeRules" name="agreeRules" required>
-                        <label for="agreeRules">Saya setuju untuk mengikuti aturan panti dan menjaga kesantunan selama kunjungan</label>
-                    </div>
-                </div>
-
-                <button type="submit" class="btn-primary">Daftar & Tebar Kebaikan</button>
+                
+                <button type="submit" class="btn-visit-submit">Daftar & Tebar Kebaikan</button>
             </form>
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    const form = document.getElementById('pantiJompoVisitForm');
-                    form.addEventListener('submit', function(event) {
-                        event.preventDefault();
-                        document.body.classList.add('fade-out');
-                        setTimeout(function() {
-                            window.location.href = '/sosial-kemanusiaan';
-                        }, 500);
-                    });
-                });
-            </script>
         </div>
     </section>
 
-    <!-- FOOTER -->
     <footer class="footer">
         <p>&copy; 2026 Relawan Nusantara. Semua Hak Dilindungi.</p>
     </footer>
 
-    <script src="/script.js"></script>
-
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('pantiJompoVisitForm');
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+                alert('Terima kasih atas kepedulian Anda.');
+                window.location.href = '/sosial-kemanusiaan';
+            });
+        });
+    </script>
 </body>
 </html>
