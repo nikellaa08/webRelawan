@@ -1,347 +1,86 @@
 <%- include('partials/header') %>
 
-<style>
-    /* Register Page Styling (Identical to Login) */
-    .register-page {
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 120px 20px 40px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    }
-
-    .register-card {
-        background: white;
-        border-radius: 20px;
-        padding: 50px 40px;
-        width: 100%;
-        max-width: 450px;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        animation: slideUp 0.6s ease-out;
-    }
-
-    @keyframes slideUp {
-        from {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    .register-back-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        margin-bottom: 25px;
-        padding: 8px 16px;
-        background: #f5f5f5;
-        border: 2px solid #e0e0e0;
-        border-radius: 25px;
-        color: #666;
-        text-decoration: none;
-        font-size: 0.9rem;
-        font-weight: 600;
-        transition: all 0.3s ease;
-    }
-
-    .register-back-btn:hover {
-        background: #667eea;
-        border-color: #667eea;
-        color: white;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
-    }
-
-    .register-back-btn svg {
-        width: 18px;
-        height: 18px;
-        fill: currentColor;
-    }
-
-    .register-header {
-        text-align: center;
-        margin-bottom: 40px;
-    }
-
-    .register-icon {
-        width: 80px;
-        height: 80px;
-        margin: 0 auto 20px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
-    }
-
-    .register-icon svg {
-        width: 40px;
-        height: 40px;
-        fill: white;
-    }
-
-    .register-header h1 {
-        font-size: 2rem;
-        font-weight: 700;
-        color: #333;
-        margin-bottom: 10px;
-    }
-
-    .register-header p {
-        color: #666;
-        font-size: 0.95rem;
-    }
-
-    .register-form .input-group {
-        margin-bottom: 25px;
-        position: relative;
-    }
-
-    .register-form label {
-        display: block;
-        font-weight: 600;
-        color: #333;
-        margin-bottom: 8px;
-        font-size: 0.9rem;
-    }
-
-    .input-wrapper {
-        position: relative;
-        display: flex;
-        align-items: center;
-    }
-
-    .input-icon {
-        position: absolute;
-        left: 15px;
-        width: 20px;
-        height: 20px;
-        fill: #667eea;
-        pointer-events: none;
-    }
-
-    .register-form input[type="email"],
-    .register-form input[type="password"],
-    .register-form input[type="text"] {
-        width: 100%;
-        padding: 14px 45px 14px 50px;
-        border: 2px solid #e0e0e0;
-        border-radius: 12px;
-        font-size: 1rem;
-        font-family: 'Poppins', sans-serif;
-        transition: all 0.3s ease;
-        background: #f9f9f9;
-    }
-
-    .register-form input:focus {
-        outline: none;
-        border-color: #667eea;
-        background: white;
-        box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
-    }
-
-    .toggle-password {
-        position: absolute;
-        right: 15px;
-        background: none;
-        border: none;
-        cursor: pointer;
-        padding: 5px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .toggle-password svg {
-        width: 20px;
-        height: 20px;
-        fill: #999;
-        transition: fill 0.3s ease;
-    }
-
-    .toggle-password:hover svg {
-        fill: #667eea;
-    }
-
-    .register-btn {
-        width: 100%;
-        padding: 15px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        border: none;
-        border-radius: 12px;
-        font-size: 1.1rem;
-        font-weight: 700;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-        margin-top: 10px;
-    }
-
-    .register-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.5);
-    }
-
-    .divider {
-        text-align: center;
-        margin: 25px 0;
-        position: relative;
-    }
-
-    .divider::before {
-        content: '';
-        position: absolute;
-        top: 50%;
-        left: 0;
-        right: 0;
-        height: 1px;
-        background: #e0e0e0;
-    }
-
-    .divider span {
-        background: white;
-        padding: 0 15px;
-        color: #999;
-        font-size: 0.9rem;
-        position: relative;
-    }
-
-    .login-link {
-        text-align: center;
-        margin-top: 20px;
-    }
-
-    .login-link p {
-        color: #666;
-        font-size: 0.95rem;
-        margin-bottom: 10px;
-    }
-
-    .login-link a {
-        display: inline-block;
-        padding: 12px 30px;
-        background: transparent;
-        border: 2px solid #667eea;
-        color: #667eea;
-        border-radius: 12px;
-        text-decoration: none;
-        font-weight: 600;
-        transition: all 0.3s ease;
-    }
-
-    .login-link a:hover {
-        background: #667eea;
-        color: white;
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-        .register-card {
-            padding: 40px 30px;
-        }
-    }
-</style>
-
-<main class="register-page">
-    <div class="register-card">
-        <a href="/" class="register-back-btn">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                <path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z"/>
-            </svg>
-            Kembali ke Beranda
-        </a>
-
-        <div class="register-header">
-            <div class="register-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                </svg>
+<main class="auth-container">
+    <!-- Sisi Kiri: Form Putih -->
+    <div class="auth-form-side">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1>Daftar Akun</h1>
+                <p>Mulai perjalanan kebaikan Anda hari ini.</p>
             </div>
-            <h1>Buat Akun Baru</h1>
-            <p>Bergabunglah sebagai Relawan Nusantara</p>
-        </div>
 
-        <% if (typeof message !== 'undefined' && message) { %>
-            <div style="color: #721c24; background-color: #f8d7da; border: 1px solid #f5c6cb; padding: 12px; border-radius: 8px; margin-bottom: 20px; text-align: center; font-size: 14px;">
-                <%= message %>
-            </div>
-        <% } %>
-
-        <form method="POST" action="/api/register" class="register-form">
-            <div class="input-group">
-                <label for="username">Nama Pengguna</label>
-                <div class="input-wrapper">
-                    <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                    </svg>
-                    <input type="text" id="username" name="username" placeholder="Masukkan nama pengguna" required>
+            <% if (typeof message !== 'undefined' && message) { %>
+                <div style="color: #721c24; background-color: #f8d7da; border: 1px solid #f5c6cb; padding: 12px; border-radius: 8px; margin-bottom: 20px; text-align: center; font-size: 14px;">
+                    <%= message %>
                 </div>
-            </div>
+            <% } %>
 
-            <div class="input-group">
-                <label for="email">Email</label>
-                <div class="input-wrapper">
-                    <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
-                    </svg>
+            <form action="/auth/register" method="POST" class="auth-form">
+                <div class="input-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" placeholder="Pilih username" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="nama_lengkap">Nama Lengkap</label>
+                    <input type="text" id="nama_lengkap" name="nama_lengkap" placeholder="Masukkan nama lengkap" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="email">Email</label>
                     <input type="email" id="email" name="email" placeholder="Masukkan email Anda" required>
                 </div>
-            </div>
 
-            <div class="input-group">
-                <label for="password">Password</label>
-                <div class="input-wrapper">
-                    <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
-                    </svg>
-                    <input type="password" id="password" name="password" placeholder="Buat password minimal 6 karakter" required minlength="6">
-                    <button type="button" class="toggle-password" id="togglePassword">
-                        <svg id="eye-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
-                        </svg>
-                    </button>
+                <div class="input-group">
+                    <label for="whatsapp">Nomor WhatsApp</label>
+                    <input type="tel" id="whatsapp" name="whatsapp" placeholder="Contoh: 081234567890" required>
                 </div>
-            </div>
 
-            <button type="submit" class="register-btn">
-                Daftar Sekarang
-            </button>
-        </form>
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="password" name="password" placeholder="Minimal 6 karakter" required minlength="6">
+                        <button type="button" class="password-toggle" id="togglePassword">
+                            <i class="fas fa-eye" id="eye-icon"></i>
+                        </button>
+                    </div>
+                </div>
 
-        <div class="divider">
-            <span>ATAU</span>
+                <button type="submit" class="auth-btn">Daftar Sekarang</button>
+            </form>
         </div>
+    </div>
 
-        <div class="login-link">
-            <p>Sudah punya akun?</p>
-            <a href="/login">Masuk Sekarang</a>
+    <!-- Sisi Kanan: Panel Hijau -->
+    <div class="auth-panel-side">
+        <div class="panel-content">
+            <h2>Halo, Teman!</h2>
+            <p>Sudah punya akun? Silakan masuk untuk melanjutkan aktivitas relawan Anda di platform kami.</p>
+            <a href="/login" class="panel-btn">Masuk Akun</a>
         </div>
     </div>
 </main>
 
 <script>
-    const togglePassword = document.getElementById('togglePassword');
-    const passwordInput = document.getElementById('password');
-    const eyeIcon = document.getElementById('eye-icon');
+    const togglePassword = document.querySelector('#togglePassword');
+    const password = document.querySelector('#password');
+    const eyeIcon = document.querySelector('#eye-icon');
 
-    togglePassword.addEventListener('click', function() {
-        const isPassword = passwordInput.getAttribute('type') === 'password';
-        passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+    togglePassword.addEventListener('click', function (e) {
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
         
-        if (isPassword) {
-            eyeIcon.innerHTML = '<path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.27l3.02 3.02c-.86.48-1.87.75-2.95.75-2.76 0-5-2.24-5-5 0-1.08.27-2.09.75-2.95z"/>';
+        if (type === 'text') {
+            eyeIcon.classList.remove('fa-eye');
+            eyeIcon.classList.add('fa-eye-slash');
         } else {
-            eyeIcon.innerHTML = '<path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>';
+            eyeIcon.classList.remove('fa-eye-slash');
+            eyeIcon.classList.add('fa-eye');
         }
     });
 </script>
+
+<!-- Link FontAwesome untuk icon mata -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
 <%- include('partials/footer') %>

@@ -3,8 +3,10 @@
 -- Tabel users
 CREATE TABLE IF NOT EXISTS users (
   id INT AUTO_INCREMENT PRIMARY KEY,
+  username VARCHAR(100) NOT NULL UNIQUE,
   nama_lengkap VARCHAR(255) NOT NULL,
   email VARCHAR(255) NOT NULL UNIQUE,
+  whatsapp VARCHAR(20),
   password VARCHAR(255) NOT NULL,
   skills TEXT,
   motivation TEXT,
@@ -48,10 +50,12 @@ ALTER TABLE events ADD COLUMN reward_koin INT DEFAULT 50;
 -- Tabel registrations
 CREATE TABLE IF NOT EXISTS registrations (
   id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT,
   program_slug VARCHAR(100) NOT NULL,
   fullname VARCHAR(255) NOT NULL,
   email VARCHAR(255) NOT NULL,
   whatsapp VARCHAR(20) NOT NULL,
   details TEXT,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
 );

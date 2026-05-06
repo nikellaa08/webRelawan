@@ -21,22 +21,22 @@ export async function getUserByEmail(email) {
 
 /**
  * Mendaftarkan user baru ke database.
- * @param {object} userData - Objek yang berisi data user (e.g., { name, email, password, skills, motivation }).
+ * @param {object} userData - Objek yang berisi data user (e.g., { username, name, email, whatsapp, password, skills, motivation }).
  * @returns {object|null} - Objek user yang baru dibuat atau null jika gagal.
  */
 export async function registerUser(userData) {
-  const { name, email, password, skills, motivation } = userData;
+  const { username, name, email, whatsapp, password, skills, motivation } = userData;
   try {
     const [result] = await db.execute(
-      'INSERT INTO users (nama_lengkap, email, password, skills, motivation) VALUES (?, ?, ?, ?, ?)',
-      [name, email, password, skills || null, motivation || null]
+      'INSERT INTO users (username, nama_lengkap, email, whatsapp, password, skills, motivation) VALUES (?, ?, ?, ?, ?, ?, ?)',
+      [username, name, email, whatsapp || null, password, skills || null, motivation || null]
     );
-    console.log(`User '${name}' berhasil didaftarkan dengan ID: ${result.insertId}`);
-    return { id: result.insertId, name, email };
+    console.log(`User '${username}' berhasil didaftarkan dengan ID: ${result.insertId}`);
+    return { id: result.insertId, username, name, email, whatsapp };
   } catch (error) {
-    // Jika error karena email sudah terdaftar (duplicate entry)
+    // Jika error karena email atau username sudah terdaftar (duplicate entry)
     if (error.code === 'ER_DUP_ENTRY') {
-      console.log(`Email ${email} sudah terdaftar.`);
+      console.log(`Email atau Username sudah terdaftar.`);
       return null;
     }
     console.error('Gagal mendaftarkan user baru:', error.message);

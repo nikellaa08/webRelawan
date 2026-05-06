@@ -13,14 +13,16 @@ const pool = mysql.createPool({
 
 const db = pool.promise();
 
-// 2. Fungsi Tes Koneksi
+// 2. Fungsi Tes Koneksi (Refined for Safety)
 async function testDbConnection() {
+  let connection;
   try {
-    const connection = await pool.getConnection();
+    connection = await pool.getConnection();
     console.log('✅ Koneksi ke database berhasil!');
-    connection.release();
   } catch (error) {
     console.error('❌ Koneksi ke database gagal:', error.message);
+  } finally {
+    if (connection) connection.release();
   }
 }
 testDbConnection();
@@ -39,8 +41,6 @@ export const getAllCategories = async () => {
 
 export const getAllEvents = async () => {
   try {
-    // Sesuaikan nama tabel: 'programs' atau 'events'? 
-    // Saya pakai 'events' sesuai fungsi temanmu sebelumnya
     const [rows] = await db.query(`
       SELECT e.*, c.name AS category_name 
       FROM events e 
@@ -55,11 +55,11 @@ export const getAllEvents = async () => {
 };
 
 export const createRegistration = async (regData) => {
-  const { program_slug, fullname, email, whatsapp, details } = regData;
+  const { user_id, program_slug, fullname, email, whatsapp, details } = regData;
   try {
     const [result] = await db.execute(
-      'INSERT INTO registrations (program_slug, fullname, email, whatsapp, details) VALUES (?, ?, ?, ?, ?)',
-      [program_slug, fullname, email, whatsapp, JSON.stringify(details)]
+      'INSERT INTO registrations (user_id, program_slug, fullname, email, whatsapp, details) VALUES (?, ?, ?, ?, ?, ?)',
+      [user_id || null, program_slug, fullname, email, whatsapp, JSON.stringify(details)]
     );
     return result.insertId;
   } catch (error) {

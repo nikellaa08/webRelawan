@@ -4,44 +4,37 @@ import { getUserByEmail, registerUser } from '../models/userModel.js';
 
 /**
  * Fungsi untuk menangani proses login.
- * @param {object} req - Objek request Express.
- * @param {object} res - Objek response Express.
  */
 export const login = async (req, res) => {
   const { email, password } = req.body;
 
-  // 1. Validasi input
   if (!email || !password) {
     req.session.message = '⚠️ Email dan password harus diisi.';
     return res.redirect('/login');
   }
 
   try {
-    // 2. Cek email di tabel users
     const user = await getUserByEmail(email);
 
-    // Jika email TIDAK ditemukan di database
     if (!user) {
       req.session.message = '❌ Email belum terdaftar. Silakan daftar terlebih dahulu.';
-      return res.redirect('/registration-form');
+      return res.redirect('/register');
     }
 
-    // 3. Verifikasi password - bandingkan langsung (plain text)
     if (password !== user.password) {
       req.session.message = '❌ Password yang Anda masukkan salah.';
       return res.redirect('/login');
     }
 
-    // 4. Jika berhasil, set session.user dengan data dari database
     req.session.user = {
       id: user.id,
+      username: user.username,
       email: user.email,
-      name: user.nama_lengkap || user.name || email.split('@')[0]
+      name: user.nama_lengkap,
+      whatsapp: user.whatsapp
     };
 
-    req.session.message = `✅ Selamat datang kembali, ${req.session.user.name}!`;
-
-    // 5. Redirect ke halaman utama setelah login sukses
+    req.session.message = `✅ Selamat datang kembali, ${user.nama_lengkap}!`;
     res.redirect('/');
 
   } catch (error) {
@@ -53,62 +46,54 @@ export const login = async (req, res) => {
 
 /**
  * Fungsi untuk menangani proses registrasi.
- * @param {object} req - Objek request Express.
- * @param {object} res - Objek response Express.
  */
 export const register = async (req, res) => {
-  const { fullname, email, password, skills, motivation } = req.body;
+  const { fullname, email, whatsapp, username, password } = req.body;
 
-  // 1. Validasi input
-  if (!fullname || !email || !password) {
-    req.session.message = '⚠️ Nama lengkap, email, dan password harus diisi.';
-    return res.redirect('/registration-form');
+  if (!fullname || !email || !whatsapp || !username || !password) {
+    req.session.message = '⚠️ Semua field wajib diisi (Username, Nama Lengkap, Email, WhatsApp, Password).';
+    return res.redirect('/register');
   }
 
-  // 2. Validasi password minimal 6 karakter
   if (password.length < 6) {
     req.session.message = '⚠️ Password minimal 6 karakter.';
-    return res.redirect('/registration-form');
+    return res.redirect('/register');
   }
 
   try {
-    // 3. Cek apakah email sudah terdaftar
     const existingUser = await getUserByEmail(email);
     if (existingUser) {
-      req.session.message = '⚠️ Email sudah terdaftar. Silakan gunakan email lain atau login.';
-      return res.redirect('/registration-form');
+      req.session.message = '⚠️ Email sudah terdaftar.';
+      return res.redirect('/register');
     }
 
-    // 4. Daftarkan user baru ke database
     const newUser = await registerUser({
+      username,
       name: fullname,
       email,
-      password,
-      skills: skills || null,
-      motivation: motivation || null
+      whatsapp,
+      password
     });
 
     if (!newUser) {
-      req.session.message = '⚠️ Gagal mendaftarkan akun. Silakan coba lagi.';
-      return res.redirect('/registration-form');
+      req.session.message = '⚠️ Gagal mendaftarkan akun. Username atau Email mungkin sudah digunakan.';
+      return res.redirect('/register');
     }
 
-    // 5. Set session user
     req.session.user = {
       id: newUser.id,
+      username: newUser.username,
       name: newUser.name,
-      email: newUser.email
+      email: newUser.email,
+      whatsapp: newUser.whatsapp
     };
 
-    req.session.message = `✅ Pendaftaran berhasil! Silakan login dengan email dan password Anda.`;
-    console.log(`✅ User baru terdaftar: ${fullname} (${email})`);
-
-    // 6. Redirect ke halaman login
-    res.redirect('/login');
+    req.session.message = `✅ Pendaftaran berhasil! Selamat datang, ${newUser.name}.`;
+    res.redirect('/');
 
   } catch (error) {
     console.error('❌ Error saat proses registrasi:', error.message);
     req.session.message = '⚠️ Terjadi kesalahan server saat pendaftaran.';
-    res.redirect('/registration-form');
+    res.redirect('/register');
   }
 };
