@@ -198,6 +198,24 @@ async function getAllCategories() {
   }
 }
 
+/**
+ * Menyimpan data pendaftaran baru ke database.
+ */
+async function createRegistration(regData) {
+  const { program_slug, fullname, email, whatsapp, details } = regData;
+  try {
+    const [result] = await pool.execute(
+      'INSERT INTO registrations (program_slug, fullname, email, whatsapp, details) VALUES (?, ?, ?, ?, ?)',
+      [program_slug, fullname, email, whatsapp, JSON.stringify(details)]
+    );
+    console.log(`✅ Pendaftaran berhasil disimpan dengan ID: ${result.insertId}`);
+    return result.insertId;
+  } catch (error) {
+    console.error('❌ Gagal menyimpan pendaftaran:', error.message);
+    throw error;
+  }
+}
+
 
 // Ekspor fungsi-fungsi agar bisa digunakan di file lain
 export {
@@ -207,6 +225,7 @@ export {
   updateEvent,
   deleteEvent,
   getUserByEmail,
-  getAllCategories, // Export fungsi baru ini
+  getAllCategories,
+  createRegistration, // Export fungsi baru ini
   pool
 };

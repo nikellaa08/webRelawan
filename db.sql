@@ -44,3 +44,14 @@ INSERT IGNORE INTO categories (name, description) VALUES
 
 ALTER TABLE users ADD COLUMN koin INT DEFAULT 0;
 ALTER TABLE events ADD COLUMN reward_koin INT DEFAULT 50;
+
+-- Tabel registrations
+CREATE TABLE IF NOT EXISTS registrations (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  program_slug VARCHAR(100) NOT NULL,
+  fullname VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  whatsapp VARCHAR(20) NOT NULL,
+  details TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

@@ -4,6 +4,7 @@ import { fileURLToPath } from 'url';
 import { exec } from 'child_process';
 import os from 'os';
 import session from 'express-session';
+import { createRegistration } from './db.js';
 
 // Import controllers
 import { login, register } from './controllers/authController.js';
@@ -96,6 +97,15 @@ app.get('/kunjungan-panti-asuhan-form', (req, res) => res.render('kunjungan-pant
 app.get('/kunjungan-panti-jompo-form', (req, res) => res.render('kunjungan-panti-jompo-form', { user: req.session.user || null }));
 app.get('/jadwal', (req, res) => res.render('jadwal', { user: req.session.user || null }));
 
+// --- Success Page ---
+app.get('/success', (req, res) => {
+    const program = req.query.program || 'Relawan';
+    res.render('success', { 
+        user: req.session.user || null, 
+        program: program 
+    });
+});
+
 // Handle pendaftaran dari form - SIMPAN KE DATABASE
 app.post('/daftar', register);
 
@@ -147,7 +157,7 @@ app.get('/daftar/:program', (req, res) => {
 });
 
 // Handle submit form pendaftaran kesehatan
-app.post('/daftar/:program', (req, res) => {
+app.post('/daftar/:program', async (req, res) => {
     const programSlug = req.params.program;
     const { fullname, email, whatsapp, umur, emergencyName, emergencyPhone } = req.body;
 
@@ -191,17 +201,31 @@ app.post('/daftar/:program', (req, res) => {
         }
     }
 
-    // Simpan data pendaftaran (untuk sementara ke console, bisa dikembangkan ke database)
-    console.log(`✅ Pendaftaran ${programSlug}:`, {
-        fullname,
-        email,
-        whatsapp,
-        ...(programSlug === 'donor-darah' && { umur, emergencyName, emergencyPhone }),
-        ...req.body
-    });
+    // Data program untuk mapping title (Fix ReferenceError)
+    const programs = {
+        'pemeriksaan-gratis': { title: 'Pemeriksaan Kesehatan Gratis' },
+        'donor-darah': { title: 'Donor Darah Nasional' },
+        'gizi-anak': { title: 'Sosialisasi Gizi Anak' },
+        'mental-health': { title: 'Support System Mental Health' }
+    };
+    const program = programs[programSlug];
 
-    // Redirect dengan parameter success
-    res.redirect(`/daftar/${programSlug}?success=true`);
+    // Simpan data pendaftaran ke database
+    try {
+        await createRegistration({
+            program_slug: programSlug,
+            fullname,
+            email,
+            whatsapp,
+            details: req.body
+        });
+
+        // Redirect ke halaman sukses
+        res.redirect(`/success?program=${encodeURIComponent(program.title)}`);
+    } catch (error) {
+        req.session.message = '⚠️ Terjadi kesalahan saat menyimpan data.';
+        res.redirect(`/daftar/${programSlug}`);
+    }
 });
 
 // ============================================
@@ -260,7 +284,7 @@ app.get('/daftar-pendidikan/:program', (req, res) => {
 });
 
 // Handle submit form pendaftaran pendidikan
-app.post('/daftar-pendidikan/:program', (req, res) => {
+app.post('/daftar-pendidikan/:program', async (req, res) => {
     const programSlug = req.params.program;
     const { fullname, email, whatsapp } = req.body;
 
@@ -356,16 +380,31 @@ app.post('/daftar-pendidikan/:program', (req, res) => {
         }
     }
 
-    // Simpan data pendaftaran (untuk sementara ke console, bisa dikembangkan ke database)
-    console.log(`✅ Pendaftaran Pendidikan [${programSlug}]:`, {
-        fullname,
-        email,
-        whatsapp,
-        ...req.body
-    });
+    // Data program untuk mapping title (Fix ReferenceError)
+    const programs = {
+        'donasi-perlengkapan': { title: 'Donasi Perlengkapan Sekolah' },
+        'taman-baca-keliling': { title: 'Taman Baca Keliling' },
+        'bimbingan-belajar': { title: 'Bimbingan Belajar Gratis' },
+        'renovasi-fasilitas': { title: 'Renovasi Fasilitas Pendidikan' }
+    };
+    const program = programs[programSlug];
 
-    // Redirect dengan parameter success
-    res.redirect(`/daftar-pendidikan/${programSlug}?success=true`);
+    // Simpan data pendaftaran ke database
+    try {
+        await createRegistration({
+            program_slug: programSlug,
+            fullname,
+            email,
+            whatsapp,
+            details: req.body
+        });
+
+        // Redirect ke halaman sukses
+        res.redirect(`/success?program=${encodeURIComponent(program.title)}`);
+    } catch (error) {
+        req.session.message = '⚠️ Terjadi kesalahan saat menyimpan data.';
+        res.redirect(`/daftar-pendidikan/${programSlug}`);
+    }
 });
 
 // ============================================
@@ -428,7 +467,7 @@ app.get('/daftar-lingkungan/:program', (req, res) => {
 });
 
 // Handle submit form pendaftaran lingkungan
-app.post('/daftar-lingkungan/:program', (req, res) => {
+app.post('/daftar-lingkungan/:program', async (req, res) => {
     const programSlug = req.params.program;
     const { fullname, email, whatsapp } = req.body;
 
@@ -489,16 +528,31 @@ app.post('/daftar-lingkungan/:program', (req, res) => {
         }
     }
 
-    // Simpan data pendaftaran (untuk sementara ke console, bisa dikembangkan ke database)
-    console.log(`✅ Pendaftaran Lingkungan [${programSlug}]:`, {
-        fullname,
-        email,
-        whatsapp,
-        ...req.body
-    });
+    // Data program untuk mapping title (Fix ReferenceError)
+    const programs = {
+        'tanam-mangrove': { title: 'Aksi Tanam Mangrove' },
+        'clean-up-day': { title: 'Clean-Up Day' },
+        'workshop-zero-waste': { title: 'Workshop Zero Waste' },
+        'adopsi-pohon': { title: 'Adopsi Pohon' }
+    };
+    const program = programs[programSlug];
 
-    // Redirect dengan parameter success
-    res.redirect(`/daftar-lingkungan/${programSlug}?success=true`);
+    // Simpan data pendaftaran ke database
+    try {
+        await createRegistration({
+            program_slug: programSlug,
+            fullname,
+            email,
+            whatsapp,
+            details: req.body
+        });
+
+        // Redirect ke halaman sukses
+        res.redirect(`/success?program=${encodeURIComponent(program.title)}`);
+    } catch (error) {
+        req.session.message = '⚠️ Terjadi kesalahan saat menyimpan data.';
+        res.redirect(`/daftar-lingkungan/${programSlug}`);
+    }
 });
 
 // ============================================
@@ -557,7 +611,7 @@ app.get('/daftar-sosial/:program', (req, res) => {
 });
 
 // Handle submit form pendaftaran sosial
-app.post('/daftar-sosial/:program', (req, res) => {
+app.post('/daftar-sosial/:program', async (req, res) => {
     const programSlug = req.params.program;
     const { fullname, email, whatsapp } = req.body;
 
@@ -622,16 +676,31 @@ app.post('/daftar-sosial/:program', (req, res) => {
         }
     }
 
-    // Simpan data pendaftaran (untuk sementara ke console, bisa dikembangkan ke database)
-    console.log(`✅ Pendaftaran Sosial [${programSlug}]:`, {
-        fullname,
-        email,
-        whatsapp,
-        ...req.body
-    });
+    // Data program untuk mapping title (Fix ReferenceError)
+    const programs = {
+        'donasi-pakaian': { title: 'Donasi Pakaian' },
+        'donasi-buku': { title: 'Donasi Buku' },
+        'kunjungan-panti-asuhan': { title: 'Kunjungan Panti Asuhan' },
+        'kunjungan-panti-jompo': { title: 'Kunjungan Panti Jompo' }
+    };
+    const program = programs[programSlug];
 
-    // Redirect dengan parameter success
-    res.redirect(`/daftar-sosial/${programSlug}?success=true`);
+    // Simpan data pendaftaran ke database
+    try {
+        await createRegistration({
+            program_slug: programSlug,
+            fullname,
+            email,
+            whatsapp,
+            details: req.body
+        });
+
+        // Redirect ke halaman sukses
+        res.redirect(`/success?program=${encodeURIComponent(program.title)}`);
+    } catch (error) {
+        req.session.message = '⚠️ Terjadi kesalahan saat menyimpan data.';
+        res.redirect(`/daftar-sosial/${programSlug}`);
+    }
 });
 
 // Route logout

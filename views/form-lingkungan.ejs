@@ -1369,23 +1369,6 @@
                 return;
             }
         });
-
-        // Tampilkan notifikasi sukses dari URL parameter
-        const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.get('success') === 'true') {
-            const notification = document.getElementById('successNotification');
-            notification.classList.add('show');
-
-            // Hilangkan notifikasi setelah 5 detik
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 5000);
-
-            // Redirect ke halaman lingkungan setelah 3 detik
-            setTimeout(() => {
-                window.location.href = '/lingkungan';
-            }, 3000);
-        }
     </script>
 
 </body>

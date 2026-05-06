@@ -1,0 +1,53 @@
+<%- include('partials/header') %>
+
+<main class="success-page">
+    <div class="success-card">
+        <!-- Animated Success Icon -->
+        <div class="success-icon-container">
+            <i class="fas fa-check"></i>
+        </div>
+
+        <!-- Success Message -->
+        <h1 class="success-header">Langkah Awal Kebaikan Dimulai!</h1>
+        <p class="success-description">
+            Terima kasih telah bergabung. Pendaftaranmu telah kami terima dan tim Relawan Nusantara akan segera melakukan verifikasi.
+        </p>
+
+        <!-- Registration Detail Box -->
+        <div class="registration-detail-box">
+            <div class="detail-item">
+                <span class="detail-label">Nama Program</span>
+                <span class="detail-value">
+                    <%= typeof program !== 'undefined' ? program : 'Program Relawan' %>
+                </span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Tanggal Daftar</span>
+                <span class="detail-value" id="currentDate">
+                    <!-- Date will be filled by JS -->
+                </span>
+            </div>
+        </div>
+
+        <!-- Navigation Actions -->
+        <div class="success-actions">
+            <a href="/" class="btn-success-primary">
+                <i class="fas fa-home mr-2"></i> Kembali ke Beranda
+            </a>
+            <a href="/jadwal" class="btn-success-secondary">
+                <i class="fas fa-calendar-alt mr-2"></i> Lihat Jadwal Lainnya
+            </a>
+        </div>
+    </div>
+</main>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Set Current Date in Indonesian format
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        const today = new Date().toLocaleDateString('id-ID', options);
+        document.getElementById('currentDate').textContent = today;
+    });
+</script>
+
+<%- include('partials/footer') %>

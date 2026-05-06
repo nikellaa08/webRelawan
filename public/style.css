@@ -110,6 +110,12 @@ body.fade-out {
     margin-left: 10px;
 }
 
+.nav-logo-image {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+
 .nav-menu {
     list-style: none;
     display: flex;
@@ -280,7 +286,7 @@ body.fade-out {
     left: 0;
     width: 100%;
     height: 100%;
-    background: url('Foto Arte digital conceptual para la diversidad en todo el mundo [Fotografía] de Midjourney 6, Freepik.jpg') no-repeat center center;
+    background: url('Foto Arte digital conceptual para la diversity en todo el mundo [Fotografía] de Midjourney 6, Freepik.jpg') no-repeat center center;
     background-size: cover;
     z-index: -2;
 }
@@ -1105,3 +1111,153 @@ body.fade-out {
 }
 
 /* Update: Smooth scroll navbar & glow effect - 7 April 2026 */
+
+/* === SUCCESS PAGE STYLES === */
+.success-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-color: var(--color-light);
+}
+
+.success-card {
+    background: var(--color-white);
+    max-width: 600px;
+    width: 100%;
+    padding: 60px 40px;
+    border-radius: 30px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
+    text-align: center;
+    animation: slideUpFade 0.8s ease-out forwards;
+    border: 1px solid rgba(0, 0, 0, 0.02);
+}
+
+@keyframes slideUpFade {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.success-icon-container {
+    width: 100px;
+    height: 100px;
+    background-color: #e8f5e9;
+    color: var(--color-green);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    margin: 0 auto 30px;
+    position: relative;
+}
+
+.success-icon-container i {
+    animation: checkScale 0.5s 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+}
+
+@keyframes checkScale {
+    from { transform: scale(0); }
+    to { transform: scale(1); }
+}
+
+.success-header {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--color-dark);
+    margin-bottom: 15px;
+    letter-spacing: -0.5px;
+}
+
+.success-description {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    line-height: 1.7;
+    margin-bottom: 40px;
+}
+
+.registration-detail-box {
+    background-color: #f9fbf9;
+    border-radius: 20px;
+    padding: 25px;
+    margin-bottom: 40px;
+    border: 1px solid #eef3ee;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+}
+
+.detail-item {
+    text-align: left;
+}
+
+.detail-label {
+    display: block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #999;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+}
+
+.detail-value {
+    font-weight: 700;
+    color: var(--color-dark);
+    font-size: 1rem;
+}
+
+.success-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+@media (min-width: 576px) {
+    .success-actions {
+        flex-direction: row;
+        justify-content: center;
+    }
+}
+
+.btn-success-primary {
+    background-color: var(--color-green);
+    color: white;
+    padding: 15px 35px;
+    border-radius: 15px;
+    font-weight: 700;
+    border: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(67, 160, 71, 0.2);
+    text-decoration: none;
+}
+
+.btn-success-primary:hover {
+    background-color: #388e3c;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(67, 160, 71, 0.3);
+}
+
+.btn-success-secondary {
+    background-color: white;
+    color: var(--color-green);
+    padding: 15px 35px;
+    border-radius: 15px;
+    font-weight: 700;
+    border: 2px solid var(--color-green);
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.btn-success-secondary:hover {
+    background-color: #f1f8f1;
+    transform: translateY(-2px);
+}
