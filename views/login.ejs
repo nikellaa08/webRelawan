@@ -15,10 +15,10 @@
                 </div>
             <% } %>
 
-            <form action="/auth/login" method="POST" class="auth-form">
+            <form action="/api/login" method="POST" class="auth-form">
                 <div class="input-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" placeholder="Masukkan email Anda" required>
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" placeholder="Masukkan username Anda" required>
                 </div>
 
                 <div class="input-group">
@@ -47,23 +47,30 @@
 </main>
 
 <script>
-    const togglePassword = document.querySelector('#togglePassword');
-    const password = document.querySelector('#password');
-    const eyeIcon = document.querySelector('#eye-icon');
+    const message = "<%= message %>";
+    
+    if (message && message !== "null" && message !== "") {
+        const isSuccess = message.toLowerCase().includes('berhasil') || message.toLowerCase().includes('selamat');
 
-    togglePassword.addEventListener('click', function (e) {
-        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-        password.setAttribute('type', type);
-        
-        if (type === 'text') {
-            eyeIcon.classList.remove('fa-eye');
-            eyeIcon.classList.add('fa-eye-slash');
-        } else {
-            eyeIcon.classList.remove('fa-eye-slash');
-            eyeIcon.classList.add('fa-eye');
-        }
-    });
+        Swal.fire({
+            title: isSuccess ? 'Mantap!' : 'Waduh...',
+            text: message,
+            icon: isSuccess ? 'success' : 'error',
+            showConfirmButton: !isSuccess,
+            timer: isSuccess ? 3000 : null,
+            timerProgressBar: isSuccess,
+            confirmButtonColor: '#16a34a', // Hijau Relawan
+            iconColor: isSuccess ? '#16a34a' : '#ef4444',
+            showClass: {
+                popup: 'animate__animated animate__fadeInDown'
+            },
+            hideClass: {
+                popup: 'animate__animated animate__fadeOutUp'
+            }
+        });
+    }
 </script>
+
 
 <!-- Link FontAwesome untuk icon mata -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">

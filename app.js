@@ -54,7 +54,7 @@ app.set('views', path.join(__dirname, 'views'));
 // --- Routes ---
 
 app.get('/', (req, res) => {
-    res.render('index');
+    res.render('index', { user: req.session.user || null });
     req.session.message = null; // Clear message after render
 });
 
@@ -64,53 +64,6 @@ app.get('/register', (req, res) => {
 
 app.get('/login', (req, res) => {
     res.render('login');
-});
-
-// Auth Routes
-app.post('/auth/register', async (req, res) => {
-    const { username, nama_lengkap, email, whatsapp, password } = req.body;
-    try {
-        await db.execute(
-            'INSERT INTO users (username, nama_lengkap, email, whatsapp, password) VALUES (?, ?, ?, ?, ?)',
-            [username, nama_lengkap, email, whatsapp, password]
-        );
-        req.session.message = 'Pendaftaran berhasil! Silakan login.';
-        res.redirect('/');
-    } catch (err) {
-        console.log('❌ Gagal Daftar:', err);
-        req.session.message = 'Gagal mendaftar. Silakan coba lagi.';
-        res.redirect('/register');
-    }
-});
-
-app.post('/auth/login', async (req, res) => {
-    const { email, password } = req.body;
-    try {
-        const [rows] = await db.execute(
-            'SELECT * FROM users WHERE email = ? AND password = ?',
-            [email, password]
-        );
-
-        if (rows.length > 0) {
-            const user = rows[0];
-            req.session.user = {
-                id: user.id,
-                username: user.username,
-                nama_lengkap: user.nama_lengkap,
-                email: user.email,
-                whatsapp: user.whatsapp
-            };
-            req.session.message = `Selamat datang kembali, ${user.nama_lengkap}!`;
-            res.redirect('/');
-        } else {
-            req.session.message = 'Email atau password salah.';
-            res.redirect('/login');
-        }
-    } catch (err) {
-        console.log('❌ Gagal Login:', err);
-        req.session.message = 'Terjadi kesalahan saat login.';
-        res.redirect('/login');
-    }
 });
 
 app.get('/logout', (req, res) => {
@@ -124,6 +77,38 @@ app.get('/logout', (req, res) => {
 app.get('/form-pendaftaran', requireAuth, (req, res) => {
     res.render('registration-form');
     req.session.message = null;
+});
+
+// Route Pendaftaran Kegiatan Baru
+app.get('/daftar-kegiatan/:program', requireAuth, (req, res) => {
+    const programSlug = req.params.program;
+    const programTitles = {
+        'donasi-perlengkapan': 'Donasi Perlengkapan Sekolah',
+        'taman-baca-keliling': 'Taman Baca Keliling',
+        'bimbingan-belajar': 'Bimbingan Belajar Gratis',
+        'renovasi-fasilitas': 'Renovasi Fasilitas Pendidikan',
+        'donasi-pakaian': 'Donasi Pakaian',
+        'donasi-buku': 'Donasi Buku',
+        'kunjungan-panti-asuhan': 'Kunjungan Panti Asuhan',
+        'kunjungan-panti-jompo': 'Kunjungan Panti Jompo',
+        'bersih-pantai': 'Aksi Bersih Pantai',
+        'tanam-pohon': 'Penanaman Seribu Pohon',
+        'daur-ulang': 'Workshop Daur Ulang'
+    };
+    const programName = programTitles[programSlug] || programSlug.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+    res.render('form-pendaftaran-baru', { programName, user: req.session.user });
+});
+
+app.post('/api/daftar-kegiatan', requireAuth, async (req, res) => {
+    const { program_name, nama, email, whatsapp, motivasi, jadwal } = req.body;
+    try {
+        const sql = 'INSERT INTO pendaftaran_kegiatan (user_id, program_name, nama, email, whatsapp, motivasi, jadwal) VALUES (?, ?, ?, ?, ?, ?, ?)';
+        await db.query(sql, [req.session.user.id, program_name, nama, email, whatsapp, motivasi, jadwal]);
+        res.json({ success: true, message: 'Pendaftaran Berhasil Dikirim!' });
+    } catch (err) {
+        console.error('ERROR DB:', err);
+        res.status(500).json({ success: false, message: 'Gagal menyimpan pendaftaran.' });
+    }
 });
 
 app.get('/pendidikan', (req, res) => res.render('pendidikan'));
@@ -168,41 +153,42 @@ app.get('/daftar/:program', (req, res) => {
     res.render('form-pendaftaran', { program: program });
 });
 
-app.post('/daftar/:program', async (req, res) => {
-    const programSlug = req.params.program;
-    const { fullname, email, whatsapp } = req.body;
+// --- Auth API Routes (Before app.listen) ---
+
+// Route POST /api/register
+app.post('/api/register', async (req, res) => {
+    const { username, nama_lengkap, email, whatsapp, password } = req.body;
     try {
-        await createRegistration({
-            user_id: req.session.user ? req.session.user.id : null,
-            program_slug: programSlug,
-            fullname,
-            email,
-            whatsapp,
-            details: req.body
-        });
-        res.redirect(`/success?program=${encodeURIComponent(programSlug)}`);
+        const sql = 'INSERT INTO users (username, nama_lengkap, email, whatsapp, password) VALUES (?, ?, ?, ?, ?)';
+        await db.query(sql, [username, nama_lengkap, email, whatsapp, password]);
+        
+        req.session.message = 'Akun berhasil dibuat! Silakan login.';
+        res.redirect('/login');
     } catch (err) {
-        console.error('Error pendaftaran:', err);
-        res.redirect(`/daftar/${programSlug}`);
+        console.error('DETAIL ERROR MYSQL:', err.sqlMessage || err.message, err.code);
+        req.session.message = 'Gagal mendaftar: ' + (err.sqlMessage || err.message);
+        res.redirect('/register');
     }
 });
 
-// Handle pendaftaran umum
-app.post('/daftar', async (req, res) => {
-    const { program_name, fullname, email, whatsapp } = req.body;
+// Route POST /api/login
+app.post('/api/login', async (req, res) => {
+    const { username, password } = req.body;
     try {
-        await createRegistration({
-            user_id: req.session.user ? req.session.user.id : null,
-            program_slug: program_name || 'Umum',
-            fullname,
-            email,
-            whatsapp,
-            details: req.body
-        });
-        res.redirect(`/success?program=${encodeURIComponent(program_name || 'Umum')}`);
-    } catch (error) {
-        req.session.message = '⚠️ Terjadi kesalahan saat menyimpan data.';
-        res.redirect('/form-pendaftaran');
+        const [rows] = await db.query('SELECT * FROM users WHERE username = ? AND password = ?', [username, password]);
+        
+        if (rows.length > 0) {
+            req.session.user = rows[0];
+            req.session.message = `Selamat datang kembali, ${rows[0].nama_lengkap}!`;
+            res.redirect('/');
+        } else {
+            req.session.message = 'Username atau Password salah!';
+            res.redirect('/login');
+        }
+    } catch (err) {
+        console.error('DETAIL ERROR MYSQL:', err.sqlMessage || err.message, err.code);
+        req.session.message = 'Terjadi kesalahan sistem.';
+        res.redirect('/login');
     }
 });
 
