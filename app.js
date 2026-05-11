@@ -3,7 +3,11 @@ import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import session from 'express-session';
+
 import { db, createRegistration } from './db.js';
+
+import db, { createRegistration } from './db.js';
+
 
 // Import controllers
 import { getCategories } from './controllers/categoryController.js';
@@ -677,8 +681,33 @@ app.post('/daftar-sosial/:program', async (req, res) => {
     }
 });
 
+// Handle submit form pendaftaran Donasi Perlengkapan Sekolah
+app.post('/daftar-donasi', async (req, res) => {
+    // Log Debugging: Melihat data yang masuk dari form
+    console.log('Data yang diterima:', req.body);
+
+    const { nama_lengkap, email, nomor_whatsapp, jenis_barang, jumlah_barang, metode_pengiriman } = req.body;
+
+    // Masukkan data ke tabel donasi_perlengkapan menggunakan parameterized queries
+    try {
+        await db.execute(
+            'INSERT INTO donasi_perlengkapan (nama_lengkap, email, nomor_whatsapp, jenis_barang, jumlah_barang, metode_pengiriman) VALUES (?, ?, ?, ?, ?, ?)',
+            [nama_lengkap, email, nomor_whatsapp, jenis_barang, jumlah_barang, metode_pengiriman]
+        );
+
+        console.log('✅ Data donasi perlengkapan sekolah berhasil disimpan ke database.');
+        
+        // Alur Redirect jika berhasil
+        res.redirect('/success?program=donasi-perlengkapan');
+    } catch (error) {
+        // Alur jika gagal: log error ke terminal
+        console.error('❌ Gagal menyimpan data donasi:', error.message);
+        res.status(500).send('Terjadi kesalahan pada server saat menyimpan data pendaftaran.');
+    }
+});
+
 // Route logout
->>>>>>> ab8c7b79948ef53b859e727647d4d5b4daf839f1
+
 app.get('/logout', (req, res) => {
     req.session.destroy((err) => {
         if (err) console.log('❌ Gagal Logout:', err);

@@ -532,13 +532,17 @@
     <!-- FORM PENDAFTARAN -->
     <main class="registration-form-page">
         <div class="form-card">
+            <a href="/sosial-kemanusiaan" class="back-to-program">
+                <i class="fas fa-chevron-left"></i> Kembali ke Program Sosial & Kemanusiaan
+            </a>
+
             <div class="form-header">
                 <div class="program-badge"><%= program.emoji %> <%= program.title %></div>
                 <h1>Form Pendaftaran</h1>
                 <p><%= program.description %></p>
             </div>
 
-            <form id="registrationForm" onsubmit="handleSuccess(event, 'sosial')" novalidate>
+            <form id="registrationForm" onsubmit="handleRegistration(event, 'sosial')" novalidate>
                 <!-- Field Umum -->
                 <div class="form-group">
                     <label for="fullname"><span class="label-icon">👤</span> Nama Lengkap *</label>
