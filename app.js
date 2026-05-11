@@ -66,8 +66,7 @@ app.get('/login', (req, res) => {
     res.render('login');
 });
 
-<<<<<<< HEAD
-=======
+
 // API Endpoints
 app.post('/api/login', login);
 app.post('/api/register', register);
