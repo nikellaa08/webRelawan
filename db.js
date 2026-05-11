@@ -5,7 +5,7 @@ const pool = mysql.createPool({
   host:     process.env.DB_HOST     || 'localhost',
   user:     process.env.DB_USER     || 'root',
   password: process.env.DB_PASSWORD || '',
-  database: 'web_relawan',
+  database: 'res_py', // Updated as per user instruction
   port:     3306,
   waitForConnections: true,
   connectionLimit: 10,
@@ -13,12 +13,19 @@ const pool = mysql.createPool({
 
 const db = pool.promise();
 
-// 2. Fungsi Tes Koneksi (Refined for Safety)
+
 async function testDbConnection() {
   let connection;
   try {
+
     connection = await pool.getConnection();
     console.log('✅ Koneksi ke database berhasil!');
+
+    // Karena kita pakai pool.promise(), kita gunakan db.getConnection()
+    const connection = await db.getConnection(); 
+    console.log('✅ Koneksi ke database berhasil!');
+    connection.release(); 
+
   } catch (error) {
     console.error('❌ Koneksi ke database gagal:', error.message);
   } finally {
@@ -58,7 +65,7 @@ export const createRegistration = async (regData) => {
   const { user_id, program_slug, fullname, email, whatsapp, details } = regData;
   try {
     const [result] = await db.execute(
-      'INSERT INTO registrations (user_id, program_slug, fullname, email, whatsapp, details) VALUES (?, ?, ?, ?, ?, ?)',
+      'INSERT INTOx` registrations (user_id, program_slug, fullname, email, whatsapp, details) VALUES (?, ?, ?, ?, ?, ?)',
       [user_id || null, program_slug, fullname, email, whatsapp, JSON.stringify(details)]
     );
     return result.insertId;

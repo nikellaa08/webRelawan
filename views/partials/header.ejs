@@ -35,6 +35,8 @@
     </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="/style.css">
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         /* Override some existing styles to work with Tailwind */
         .navbar { z-index: 50; }
@@ -45,6 +47,7 @@
 
     <!-- NAVBAR -->
     <nav class="navbar">
+<<<<<<< HEAD
         <a href="/" class="nav-logo">Relawan Nusantara</a>
         <ul class="nav-menu">
             <li class="nav-item"><a href="/pendidikan">Pendidikan</a></li>
@@ -75,6 +78,40 @@
             <div class="bar1"></div>
             <div class="bar2"></div>
             <div class="bar3"></div>
+=======
+        <div class="main-container flex justify-between items-center h-full">
+            <a href="/" class="nav-logo">
+                Relawan<span class="text-emerald-500">Nusantara</span>
+            </a>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="/pendidikan">Pendidikan</a></li>
+                <li class="nav-item"><a href="/lingkungan">Lingkungan</a></li>
+                <li class="nav-item"><a href="/kesehatan">Kesehatan</a></li>
+                <li class="nav-item"><a href="/sosial-kemanusiaan">Sosial & Kemanusiaan</a></li>
+            </ul>
+            <div class="nav-right">
+                <% if (typeof user !== 'undefined' && user) { %>
+                    <!-- User sudah login - Tampilkan sapaan -->
+                    <div class="nav-user-greeting">
+                        <i class="fas fa-user-circle"></i>
+                        <span>Halo, <%= user.name %>!</span>
+                    </div>
+                    <a href="/logout" class="btn-main border border-rose-200 text-rose-500 hover:bg-rose-50 px-6 py-2 text-sm">
+                        Keluar
+                    </a>
+                <% } else { %>
+                    <!-- User belum login - Tampilkan tombol Login -->
+                    <a href="/login" class="btn-main btn-main-primary px-8 py-2.5 text-sm">
+                        Masuk
+                    </a>
+                <% } %>
+            </div>
+            <div class="hamburger">
+                <div class="bar1"></div>
+                <div class="bar2"></div>
+                <div class="bar3"></div>
+            </div>
+>>>>>>> ab8c7b79948ef53b859e727647d4d5b4daf839f1
         </div>
     </nav>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
