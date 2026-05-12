@@ -4,115 +4,77 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Relawan Nusantara - Platform Relawan & Donasi</title>
+    
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS & Frameworks -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
         theme: {
           extend: {
             colors: {
-              emerald: {
-                50: '#ecfdf5',
-                500: '#10b981',
-                600: '#059669',
-              },
-              slate: {
-                50: '#f8fafc',
-              }
+              emerald: { 50: '#ecfdf5', 500: '#10b981', 600: '#059669' },
+              slate: { 50: '#f8fafc' }
             },
-            fontFamily: {
-              sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
-            },
-            borderRadius: {
-              '2xl': '1rem',
-              '3xl': '1.5rem',
-            }
+            fontFamily: { sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'] },
+            borderRadius: { '2xl': '1rem', '3xl': '1.5rem' }
           }
         }
       }
     </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="/style.css">
-    <!-- SweetAlert2 -->
+    
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
     <style>
-        /* Override some existing styles to work with Tailwind */
         .navbar { z-index: 50; }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; }
     </style>
 </head>
-<body class="">
+<body class="bg-slate-50">
 
     <!-- NAVBAR -->
-    <nav class="navbar">
-<<<<<<< HEAD
-        <a href="/" class="nav-logo">Relawan Nusantara</a>
-        <ul class="nav-menu">
-            <li class="nav-item"><a href="/pendidikan">Pendidikan</a></li>
-            <li class="nav-item"><a href="/lingkungan">Lingkungan</a></li>
-            <li class="nav-item"><a href="/kesehatan">Kesehatan</a></li>
-            <li class="nav-item"><a href="/sosial-kemanusiaan">Sosial & Kemanusiaan</a></li>
-        </ul>
-        <div class="nav-right">
-            <% if (typeof user !== 'undefined' && user) { %>
-                <!-- User sudah login - Tampilkan sapaan -->
-                <div class="nav-user-greeting">
-                    <i class="fas fa-user-circle"></i>
-                    <span>Halo, <%= user.nama_lengkap %>!</span>
-                </div>
-                <a href="/logout" class="btn btn-logout nav-logout-btn">
-                    <i class="fas fa-sign-out-alt"></i>
-                    Logout
-                </a>
-            <% } else { %>
-                <!-- User belum login - Tampilkan tombol Login -->
-                <a href="/login" class="btn-login-global">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
-                    Masuk
-                </a>
-            <% } %>
-        </div>
-        <div class="hamburger">
-            <div class="bar1"></div>
-            <div class="bar2"></div>
-            <div class="bar3"></div>
-=======
+    <nav class="navbar bg-white/80 backdrop-blur-md border-b border-slate-100 fixed w-full top-0 z-[100] h-20">
         <div class="main-container flex justify-between items-center h-full">
-            <a href="/" class="nav-logo">
+            <a href="/" class="nav-logo text-xl font-bold tracking-tight">
                 Relawan<span class="text-emerald-500">Nusantara</span>
             </a>
-            <ul class="nav-menu">
-                <li class="nav-item"><a href="/pendidikan">Pendidikan</a></li>
-                <li class="nav-item"><a href="/lingkungan">Lingkungan</a></li>
-                <li class="nav-item"><a href="/kesehatan">Kesehatan</a></li>
-                <li class="nav-item"><a href="/sosial-kemanusiaan">Sosial & Kemanusiaan</a></li>
+            
+            <ul class="nav-menu hidden md:flex gap-8">
+                <li class="nav-item"><a href="/pendidikan" class="text-sm font-semibold text-slate-600 hover:text-emerald-600 transition-colors">Pendidikan</a></li>
+                <li class="nav-item"><a href="/lingkungan" class="text-sm font-semibold text-slate-600 hover:text-emerald-600 transition-colors">Lingkungan</a></li>
+                <li class="nav-item"><a href="/kesehatan" class="text-sm font-semibold text-slate-600 hover:text-emerald-600 transition-colors">Kesehatan</a></li>
+                <li class="nav-item"><a href="/sosial-kemanusiaan" class="text-sm font-semibold text-slate-600 hover:text-emerald-600 transition-colors">Sosial & Kemanusiaan</a></li>
             </ul>
-            <div class="nav-right">
-                <% if (typeof user !== 'undefined' && user) { %>
-                    <!-- User sudah login - Tampilkan sapaan -->
-                    <div class="nav-user-greeting">
-                        <i class="fas fa-user-circle"></i>
-                        <span>Halo, <%= user.name %>!</span>
+
+            <div class="nav-right flex items-center gap-4">
+                <% if (locals.user) { %>
+                    <div class="nav-user-greeting flex items-center gap-2 px-4 py-2 bg-emerald-50 rounded-full border border-emerald-100">
+                        <i class="fas fa-user-circle text-emerald-500"></i>
+                        <span class="text-sm font-bold text-emerald-700">Halo, <%= user.nama_lengkap || user.name || 'User' %>!</span>
                     </div>
-                    <a href="/logout" class="btn-main border border-rose-200 text-rose-500 hover:bg-rose-50 px-6 py-2 text-sm">
-                        Keluar
+                    <a href="/logout" class="text-sm font-bold text-rose-500 hover:text-rose-600 px-4 py-2 transition-all">
+                        <i class="fas fa-sign-out-alt"></i> Keluar
                     </a>
                 <% } else { %>
-                    <!-- User belum login - Tampilkan tombol Login -->
-                    <a href="/login" class="btn-main btn-main-primary px-8 py-2.5 text-sm">
+                    <a href="/login" class="bg-emerald-500 text-white px-6 py-2.5 rounded-xl text-sm font-bold hover:bg-emerald-600 transition-all shadow-lg shadow-emerald-500/20">
                         Masuk
                     </a>
                 <% } %>
             </div>
-            <div class="hamburger">
-                <div class="bar1"></div>
-                <div class="bar2"></div>
-                <div class="bar3"></div>
+
+            <div class="hamburger md:hidden cursor-pointer p-2">
+                <div class="w-6 h-0.5 bg-slate-950 mb-1.5"></div>
+                <div class="w-6 h-0.5 bg-slate-950 mb-1.5"></div>
+                <div class="w-6 h-0.5 bg-slate-950"></div>
             </div>
->>>>>>> ab8c7b79948ef53b859e727647d4d5b4daf839f1
         </div>
     </nav>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+    <main class="pt-20">

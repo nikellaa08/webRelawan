@@ -84,6 +84,28 @@
             line-height: 1.6;
         }
 
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 24px;
+            padding: 10px 20px;
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            border-radius: 50px; /* Pill-shaped */
+            color: #475569;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .btn-back:hover {
+            background: #e2e8f0;
+            color: #1e293b;
+            transform: translateX(-4px);
+        }
+
         /* Progress Bar Styles */
         .progress-bar-container {
             margin-bottom: 30px;
@@ -171,60 +193,6 @@
             color: #28a745;
         }
 
-        /* Live Counter for Adopsi Pohon */
-        .live-counter {
-            margin-bottom: 20px;
-            padding: 15px 20px;
-            background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
-            border-radius: 12px;
-            border: 2px solid #4CAF50;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.4);
-            }
-            50% {
-                box-shadow: 0 0 0 10px rgba(76, 175, 80, 0);
-            }
-        }
-
-        .live-counter .counter-text {
-            font-size: 0.95rem;
-            color: #2e7d32;
-            font-weight: 600;
-        }
-
-        .live-counter .counter-number {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #28a745;
-            animation: countPulse 1s ease-in-out infinite;
-        }
-
-        @keyframes countPulse {
-            0%, 100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.05);
-            }
-        }
-
-        .live-counter .counter-icon {
-            font-size: 2rem;
-            margin-right: 15px;
-        }
-
-        .live-counter-left {
-            display: flex;
-            align-items: center;
-        }
-
         /* Sticky Summary */
         .sticky-summary {
             position: sticky;
@@ -265,28 +233,6 @@
             color: #666;
         }
 
-        .back-to-program {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 24px;
-            padding: 10px 20px;
-            background: #f1f5f9;
-            border: 1px solid #e2e8f0;
-            border-radius: 50px; /* Pill-shaped */
-            color: #475569;
-            text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 700;
-            transition: all 0.3s ease;
-        }
-
-        .back-to-program:hover {
-            background: #e2e8f0;
-            color: #1e293b;
-            transform: translateX(-4px);
-        }
-
         .form-group {
             margin-bottom: 20px;
             padding-left: 20px;
@@ -321,12 +267,6 @@
             transition: all 0.3s ease;
         }
 
-        .form-group input::placeholder,
-        .form-group textarea::placeholder {
-            color: #999;
-            opacity: 1;
-        }
-
         .form-group input:focus,
         .form-group select:focus,
         .form-group textarea:focus {
@@ -334,308 +274,6 @@
             border-color: #28a745;
             background: white;
             box-shadow: 0 0 0 4px rgba(40, 167, 69, 0.1);
-        }
-
-        .form-group select {
-            cursor: pointer;
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23666' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 16px center;
-            padding-right: 40px;
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        /* Input number - hide spinners */
-        .form-group input[type="number"]::-webkit-outer-spin-button,
-        .form-group input[type="number"]::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-
-        .form-group input[type="number"] {
-            -moz-appearance: textfield;
-        }
-
-        .checkbox-group {
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .checkbox-group input[type="checkbox"] {
-            width: 20px;
-            height: 20px;
-            accent-color: #28a745;
-            cursor: pointer;
-            margin-top: 2px;
-        }
-
-        .checkbox-group label {
-            font-weight: 400;
-            color: #555;
-            cursor: pointer;
-            margin-bottom: 0;
-        }
-
-        /* Info Box untuk UX Cerdas */
-        .info-box {
-            display: flex;
-            align-items: flex-start;
-            gap: 8px;
-            margin-top: 8px;
-            padding: 10px 12px;
-            background: #f0f9f0;
-            border-left: 3px solid #4CAF50;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            color: #555;
-            line-height: 1.5;
-        }
-
-        .info-box .info-icon {
-            font-size: 1rem;
-            flex-shrink: 0;
-        }
-
-        /* Section Khusus untuk Adopsi Pohon */
-        .adoption-info-box {
-            margin-top: 20px;
-            padding: 15px;
-            background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
-            border-radius: 10px;
-            border: 2px solid #4CAF50;
-            text-align: center;
-        }
-
-        .adoption-info-box .tree-icon {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-        }
-
-        .adoption-info-box p {
-            margin: 0;
-            color: #2e7d32;
-            font-weight: 600;
-            font-size: 0.95rem;
-            line-height: 1.6;
-        }
-
-        /* Section Sertifikat */
-        .certificate-section {
-            margin-top: 25px;
-            padding-top: 20px;
-            border-top: 2px dashed #e0e0e0;
-            padding-left: 20px;
-        }
-
-        .certificate-section-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .certificate-section-header .icon-circle {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 36px;
-            height: 36px;
-            min-width: 36px;
-            background: linear-gradient(135deg, #4CAF50 0%, #8BC34A 100%);
-            border-radius: 50%;
-            font-size: 1.2rem;
-        }
-
-        .certificate-section-header h3 {
-            margin: 0;
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #333;
-        }
-
-        .certificate-note {
-            display: flex;
-            align-items: flex-start;
-            gap: 8px;
-            margin-top: 10px;
-            padding: 10px 12px;
-            background: #fffde7;
-            border-left: 3px solid #FFD700;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            color: #666;
-            line-height: 1.5;
-        }
-
-        .certificate-note .note-icon {
-            font-size: 1rem;
-            flex-shrink: 0;
-        }
-
-        /* Payment Methods UI (untuk Adopsi) - Professional Design */
-        .payment-methods {
-            margin-top: 12px;
-        }
-
-        .payment-category {
-            margin-bottom: 16px;
-        }
-
-        .payment-category-label {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: #555;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .payment-category-label .category-icon {
-            font-size: 1rem;
-        }
-
-        .payment-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 12px;
-        }
-
-        .payment-method {
-            position: relative;
-            padding: 16px 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            background: #fafafa;
-            overflow: hidden;
-        }
-
-        .payment-method::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(40, 167, 69, 0.05) 0%, rgba(76, 175, 80, 0.05) 100%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .payment-method:hover {
-            border-color: #4CAF50;
-            background: #ffffff;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.15);
-        }
-
-        .payment-method:hover::before {
-            opacity: 1;
-        }
-
-        .payment-method.selected {
-            border-color: #28a745;
-            background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
-            box-shadow: 0 4px 16px rgba(40, 167, 69, 0.25);
-            transform: translateY(-2px);
-        }
-
-        .payment-method.selected::before {
-            opacity: 1;
-        }
-
-        .payment-method.selected::after {
-            content: '✓';
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            width: 22px;
-            height: 22px;
-            background: #28a745;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 12px;
-            font-weight: bold;
-            animation: checkmarkPop 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        }
-
-        @keyframes checkmarkPop {
-            0% {
-                transform: scale(0);
-                opacity: 0;
-            }
-            50% {
-                transform: scale(1.2);
-            }
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-        .payment-method .method-icon {
-            font-size: 1.8rem;
-            margin-bottom: 8px;
-            position: relative;
-            z-index: 1;
-            transition: transform 0.3s ease;
-        }
-
-        .payment-method.selected .method-icon {
-            transform: scale(1.1);
-        }
-
-        .payment-method .method-name {
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: #333;
-            position: relative;
-            z-index: 1;
-            transition: color 0.3s ease;
-        }
-
-        .payment-method.selected .method-name {
-            color: #28a745;
-        }
-
-        .payment-method .method-desc {
-            font-size: 0.75rem;
-            color: #666;
-            margin-top: 4px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .payment-note {
-            margin-top: 16px;
-            padding: 12px 14px;
-            background: linear-gradient(135deg, #fff9e6 0%, #fff3cd 100%);
-            border-left: 3px solid #ffc107;
-            border-radius: 8px;
-            font-size: 0.8rem;
-            color: #666;
-            line-height: 1.6;
-            display: flex;
-            align-items: flex-start;
-            gap: 8px;
-        }
-
-        .payment-note .note-icon {
-            font-size: 1.1rem;
-            flex-shrink: 0;
         }
 
         .submit-btn {
@@ -653,68 +291,9 @@
             box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
         }
 
-        .submit-btn:hover:not(:disabled) {
+        .submit-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 20px rgba(40, 167, 69, 0.5);
-        }
-
-        .submit-btn:active:not(:disabled) {
-            transform: translateY(0);
-        }
-
-        .submit-btn:disabled {
-            background: linear-gradient(135deg, #ccc 0%, #999 100%);
-            cursor: not-allowed;
-            box-shadow: none;
-            opacity: 0.7;
-        }
-
-        /* Notifikasi Sukses */
-        .success-notification {
-            display: none;
-            position: fixed;
-            top: 100px;
-            right: 20px;
-            background: white;
-            padding: 20px 30px;
-            border-radius: 12px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-            border-left: 4px solid #4CAF50;
-            z-index: 9999;
-            animation: slideInRight 0.5s ease-out;
-        }
-
-        @keyframes slideInRight {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-
-        .success-notification.show {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .success-notification .icon {
-            font-size: 2rem;
-        }
-
-        .success-notification .message h3 {
-            margin: 0 0 5px;
-            color: #4CAF50;
-            font-size: 1.1rem;
-        }
-
-        .success-notification .message p {
-            margin: 0;
-            color: #666;
-            font-size: 0.9rem;
         }
 
         /* Validasi Error */
@@ -725,61 +304,12 @@
             display: none;
         }
 
-        .form-group.error input,
-        .form-group.error select,
-        .form-group.error textarea {
+        .form-group.error input {
             border-color: #f44336;
         }
 
         .form-group.error .error-message {
             display: block;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .form-card {
-                padding: 30px 20px;
-            }
-
-            .form-header h1 {
-                font-size: 1.5rem;
-            }
-
-            .form-header {
-                padding-left: 10px;
-            }
-
-            .form-group {
-                padding-left: 10px;
-            }
-
-            .certificate-section {
-                padding-left: 10px;
-            }
-
-            .payment-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-
-            .payment-category-label {
-                font-size: 0.8rem;
-            }
-
-            .payment-method {
-                padding: 12px 8px;
-            }
-
-            .payment-method .method-icon {
-                font-size: 1.5rem;
-            }
-
-            .payment-method .method-name {
-                font-size: 0.8rem;
-            }
-
-            .payment-method .method-desc {
-                font-size: 0.7rem;
-            }
         }
     </style>
 </head>
@@ -790,6 +320,8 @@
     <!-- FORM PENDAFTARAN -->
     <main class="registration-form-page">
         <div class="form-card">
+            <a href="/lingkungan" class="btn-back">< Kembali ke Program Lingkungan</a>
+
             <div class="form-header">
                 <div class="program-badge"><%= program.emoji %> <%= program.title %></div>
                 <h1>Form Pendaftaran</h1>
@@ -800,494 +332,76 @@
                 <!-- Field Umum -->
                 <div class="form-group">
                     <label for="fullname"><span class="label-icon">👤</span> Nama Lengkap *</label>
-                    <input type="text" id="fullname" name="fullname" placeholder="Masukkan nama lengkap Anda" required>
+                    <input type="text" id="fullname" name="fullname" placeholder="Masukkan nama lengkap Anda" value="<%= locals.user ? user.nama_lengkap : '' %>" required>
                     <div class="error-message">Nama lengkap wajib diisi</div>
                 </div>
 
                 <div class="form-group">
                     <label for="email"><span class="label-icon">📧</span> Alamat Email *</label>
-                    <input type="email" id="email" name="email" placeholder="Contoh: email@anda.com" required>
+                    <input type="email" id="email" name="email" placeholder="Contoh: email@anda.com" value="<%= locals.user ? user.email : '' %>" required>
                     <div class="error-message">Format email tidak valid</div>
                 </div>
 
                 <div class="form-group">
                     <label for="whatsapp"><span class="label-icon">📱</span> Nomor WhatsApp *</label>
-                    <input type="tel" id="whatsapp" name="whatsapp" placeholder="Contoh: 08123456789" required pattern="[0-9]+">
+                    <input type="tel" id="whatsapp" name="whatsapp" placeholder="Contoh: 08123456789" value="<%= locals.user ? user.whatsapp : '' %>" required pattern="[0-9]+">
                     <div class="error-message">Nomor WhatsApp hanya boleh angka dan minimal 10 digit</div>
-                    <div class="info-box">
-                        <span class="info-icon">📍</span>
-                        <span>Lokasi dan detail kegiatan akan diinformasikan via WhatsApp</span>
-                    </div>
                 </div>
 
-                <!-- Field Khusus: Aksi Lapangan (Tanam Mangrove & Clean-Up Day) -->
+                <!-- Field Khusus: Aksi Lapangan -->
                 <% if (program.type === 'aksi-lapangan') { %>
                     <div class="form-group">
                         <label for="alamat"><span class="label-icon">🏠</span> Alamat Domisili *</label>
                         <input type="text" id="alamat" name="alamat" placeholder="Masukkan alamat lengkap Anda" required>
                     </div>
-
-                    <div class="form-group">
-                        <label for="transportasi"><span class="label-icon">🚗</span> Transportasi *</label>
-                        <select id="transportasi" name="transportasi" required>
-                            <option value="">Pilih Metode Transportasi</option>
-                            <option value="pribadi">Transportasi Pribadi</option>
-                            <option value="panitia">Diantar Panitia</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="pengalaman"><span class="label-icon">📝</span> Pengalaman Relawan</label>
-                        <textarea id="pengalaman" name="pengalaman" rows="4" placeholder="Ceritakan pengalaman relawan Anda (jika ada)..."></textarea>
-                        <div class="info-box">
-                            <span class="info-icon">💡</span>
-                            <span>Tidak memiliki pengalaman? Tidak masalah! Semua orang dipersilakan bergabung.</span>
-                        </div>
-                    </div>
                 <% } %>
 
-                <!-- Field Khusus: Workshop Zero Waste -->
+                <!-- Field Khusus: Workshop -->
                 <% if (program.type === 'workshop') { %>
                     <div class="form-group">
                         <label for="metode"><span class="label-icon">💻</span> Metode Partisipasi *</label>
                         <select id="metode" name="metode" required>
                             <option value="">Pilih Metode</option>
-                            <option value="online">Online (Zoom/Google Meet)</option>
-                            <option value="offline">Offline (Tatap Muka)</option>
+                            <option value="online">Online</option>
+                            <option value="offline">Offline</option>
                         </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="minatBelajar"><span class="label-icon">🎯</span> Minat Belajar *</label>
-                        <select id="minatBelajar" name="minatBelajar" required>
-                            <option value="">Pilih Topik Minat</option>
-                            <option value="kompos">Pembuatan Kompos</option>
-                            <option value="daur-ulang">Kerajinan Daur Ulang</option>
-                            <option value="keduanya">Keduanya</option>
-                        </select>
-                    </div>
-
-                    <!-- Sertifikat Preview untuk Workshop -->
-                    <div class="certificate-section">
-                        <div class="certificate-section-header">
-                            <span class="icon-circle"></span>
-                            <h3>Sertifikat Digital</h3>
-                        </div>
-                        <div class="checkbox-group">
-                            <input type="checkbox" id="sertifikat" name="sertifikat">
-                            <label for="sertifikat">Saya ingin menerima e-sertifikat setelah kegiatan selesai</label>
-                        </div>
-                        <div class="certificate-note">
-                            <span class="note-icon">📧</span>
-                            <span>E-sertifikat akan dikirim ke email Anda setelah menyelesaikan workshop</span>
-                        </div>
-                    </div>
-                <% } %>
-
-                <!-- Field Khusus: Adopsi Pohon -->
-                <% if (program.type === 'adopsi') { %>
-                    <div class="form-group">
-                        <label for="jumlahPohon"><span class="label-icon">🌳</span> Jumlah Pohon *</label>
-                        <input type="number" id="jumlahPohon" name="jumlahPohon" placeholder="Masukkan jumlah pohon" min="1" required>
-                        <div class="info-box">
-                            <span class="info-icon">💰</span>
-                            <span>Donasi: Rp 50.000 per pohon</span>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="namaSertifikat"><span class="label-icon">✍️</span> Nama untuk Sertifikat *</label>
-                        <input type="text" id="namaSertifikat" name="namaSertifikat" placeholder="Nama yang ingin dicetak di sertifikat" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label><span class="label-icon">💳</span> Metode Pembayaran *</label>
-                        <div class="payment-methods">
-                            <!-- E-Wallet Category -->
-                            <div class="payment-category">
-                                <div class="payment-category-label">
-                                    <span class="category-icon">📱</span>
-                                    E-Wallet
-                                </div>
-                                <div class="payment-grid">
-                                    <div class="payment-method" onclick="selectPayment(this, 'gopay')">
-                                        <div class="method-icon">💚</div>
-                                        <div class="method-name">GOPAY</div>
-                                        <div class="method-desc">GoPay Indonesia</div>
-                                    </div>
-                                    <div class="payment-method" onclick="selectPayment(this, 'ovo')">
-                                        <div class="method-icon">💜</div>
-                                        <div class="method-name">OVO</div>
-                                        <div class="method-desc">OVO Digital</div>
-                                    </div>
-                                    <div class="payment-method" onclick="selectPayment(this, 'dana')">
-                                        <div class="method-icon">💙</div>
-                                        <div class="method-name">DANA</div>
-                                        <div class="method-desc">DANA Indonesia</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Bank Transfer Category -->
-                            <div class="payment-category">
-                                <div class="payment-category-label">
-                                    <span class="category-icon">🏦</span>
-                                    Transfer Bank
-                                </div>
-                                <div class="payment-grid">
-                                    <div class="payment-method" onclick="selectPayment(this, 'bca')">
-                                        <div class="method-icon">🔵</div>
-                                        <div class="method-name">BCA</div>
-                                        <div class="method-desc">Bank Central Asia</div>
-                                    </div>
-                                    <div class="payment-method" onclick="selectPayment(this, 'mandiri')">
-                                        <div class="method-icon">🟡</div>
-                                        <div class="method-name">Mandiri</div>
-                                        <div class="method-desc">Bank Mandiri</div>
-                                    </div>
-                                    <div class="payment-method" onclick="selectPayment(this, 'bni')">
-                                        <div class="method-icon">🟢</div>
-                                        <div class="method-name">BNI</div>
-                                        <div class="method-desc">Bank Negara Indonesia</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- QRIS Category -->
-                            <div class="payment-category">
-                                <div class="payment-category-label">
-                                    <span class="category-icon">📲</span>
-                                    QRIS
-                                </div>
-                                <div class="payment-grid">
-                                    <div class="payment-method" onclick="selectPayment(this, 'qris')">
-                                        <div class="method-icon">
-                                            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <rect x="4" y="4" width="10" height="10" fill="#333" rx="1"/>
-                                                <rect x="18" y="4" width="10" height="10" fill="#333" rx="1"/>
-                                                <rect x="4" y="18" width="10" height="10" fill="#333" rx="1"/>
-                                                <rect x="6" y="6" width="6" height="6" fill="white" rx="0.5"/>
-                                                <rect x="20" y="6" width="6" height="6" fill="white" rx="0.5"/>
-                                                <rect x="6" y="20" width="6" height="6" fill="white" rx="0.5"/>
-                                                <rect x="8" y="8" width="2" height="2" fill="#333"/>
-                                                <rect x="22" y="8" width="2" height="2" fill="#333"/>
-                                                <rect x="8" y="22" width="2" height="2" fill="#333"/>
-                                                <rect x="18" y="18" width="3" height="3" fill="#333"/>
-                                                <rect x="23" y="18" width="3" height="3" fill="#333"/>
-                                                <rect x="18" y="23" width="3" height="3" fill="#333"/>
-                                                <rect x="23" y="23" width="3" height="3" fill="#333"/>
-                                                <rect x="28" y="18" width="2" height="3" fill="#333"/>
-                                                <rect x="28" y="23" width="2" height="3" fill="#333"/>
-                                                <rect x="18" y="28" width="3" height="2" fill="#333"/>
-                                                <rect x="23" y="28" width="3" height="2" fill="#333"/>
-                                            </svg>
-                                        </div>
-                                        <div class="method-name">QRIS</div>
-                                        <div class="method-desc">Scan & Bayar</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="payment-note">
-                                <span class="note-icon">ℹ️</span>
-                                <span>Pembayaran akan dikonfirmasi secara manual melalui WhatsApp setelah pendaftaran selesai</span>
-                            </div>
-                        </div>
-                        <input type="hidden" id="metodePembayaran" name="metodePembayaran" required>
-                        <div class="error-message" id="paymentError">Pilih metode pembayaran</div>
-                    </div>
-
-                    <!-- Info Box untuk Adopsi -->
-                    <div class="adoption-info-box">
-                        <div class="tree-icon">🌱</div>
-                        <p>Donasi kamu akan digunakan untuk menanam dan merawat pohon atas namamu!</p>
-                    </div>
-
-                    <!-- Sertifikat Preview untuk Adopsi -->
-                    <div class="certificate-section">
-                        <div class="certificate-section-header">
-                            <span class="icon-circle">📜</span>
-                            <h3>Sertifikat Adopsi</h3>
-                        </div>
-                        <div class="checkbox-group">
-                            <input type="checkbox" id="sertifikat" name="sertifikat" checked>
-                            <label for="sertifikat">Saya ingin menerima e-sertifikat setelah kegiatan selesai</label>
-                        </div>
-                        <div class="certificate-note">
-                            <span class="note-icon">📧</span>
-                            <span>E-sertifikat adopsi akan dikirim ke email Anda setelah proses penanaman</span>
-                        </div>
                     </div>
                 <% } %>
 
                 <button type="submit" class="submit-btn" id="submitBtn">
-                    <i class="fas fa-paper-plane"></i> <%= program.submitText %>
+                    <i class="fas fa-paper-plane"></i> Kirim Pendaftaran
                 </button>
             </form>
         </div>
     </main>
 
-    <!-- Notifikasi Sukses -->
-    <div id="successNotification" class="success-notification">
-        <div class="icon">🎉</div>
-        <div class="message">
-            <h3>Pendaftaran Berhasil!</h3>
-            <p>Terima kasih telah mendaftar. Tim kami akan menghubungi Anda segera.</p>
-        </div>
-    </div>
-
-    <!-- FOOTER -->
     <footer class="footer">
         <p>&copy; 2026 Relawan Nusantara. Semua Hak Dilindungi.</p>
     </footer>
 
     <script src="/script.js"></script>
     <script>
-        // Progress Bar & Sticky Summary Logic
-        const programType = '<%= program.type %>';
-        const programSlug = '<%= program.slug %>';
-        
-        // Sticky Summary scroll effect
-        const stickySummary = document.getElementById('stickySummary');
-        let lastScrollY = window.scrollY;
-        
-        window.addEventListener('scroll', () => {
-            const currentScrollY = window.scrollY;
-            
-            if (currentScrollY > 100) {
-                stickySummary.classList.add('scrolled');
-            } else {
-                stickySummary.classList.remove('scrolled');
-            }
-            
-            lastScrollY = currentScrollY;
-        });
-
-        // Progress Bar Logic
-        function updateProgress(step) {
-            const steps = document.querySelectorAll('.progress-step');
-            const progressLine = document.getElementById('progressLine');
-            
-            steps.forEach((stepEl, index) => {
-                const stepNum = index + 1;
-                stepEl.classList.remove('active', 'completed');
-                
-                if (stepNum < step) {
-                    stepEl.classList.add('completed');
-                    stepEl.querySelector('.step-circle').innerHTML = '✓';
-                } else if (stepNum === step) {
-                    stepEl.classList.add('active');
-                } else {
-                    stepEl.querySelector('.step-circle').textContent = stepNum;
-                }
-            });
-            
-            // Update progress line
-            const progressPercentage = ((step - 1) / (steps.length - 1)) * 100;
-            progressLine.style.width = progressPercentage + '%';
-        }
-
-        // Track form completion to update progress
-        function checkFormProgress() {
-            const fullname = document.getElementById('fullname');
-            const email = document.getElementById('email');
-            const whatsapp = document.getElementById('whatsapp');
-            
-            // Step 1: Data Diri (fullname, email, whatsapp)
-            const step1Complete = fullname && fullname.value.trim() && 
-                                 email && email.value.trim() && 
-                                 whatsapp && whatsapp.value.trim();
-            
-            // Step 2: Data Program (depends on program type)
-            let step2Complete = true;
-            
-            if (programType === 'adopsi') {
-                const jumlahPohon = document.getElementById('jumlahPohon');
-                const namaSertifikat = document.getElementById('namaSertifikat');
-                const metodePembayaran = document.getElementById('metodePembayaran');
-                step2Complete = jumlahPohon && jumlahPohon.value && 
-                               namaSertifikat && namaSertifikat.value.trim() && 
-                               metodePembayaran && metodePembayaran.value;
-            } else if (programType === 'aksi-lapangan') {
-                const alamat = document.getElementById('alamat');
-                const transportasi = document.getElementById('transportasi');
-                step2Complete = alamat && alamat.value.trim() && 
-                               transportasi && transportasi.value;
-            } else if (programType === 'workshop') {
-                const metode = document.getElementById('metode');
-                const minatBelajar = document.getElementById('minatBelajar');
-                step2Complete = metode && metode.value && 
-                               minatBelajar && minatBelajar.value;
-            }
-            
-            // Update progress
-            if (step2Complete) {
-                updateProgress(3); // Step 3: Selesai
-            } else if (step1Complete) {
-                updateProgress(2); // Step 2: Data Program
-            } else {
-                updateProgress(1); // Step 1: Data Diri
-            }
-        }
-
-        // Add event listeners to track form changes
-        document.getElementById('registrationForm').addEventListener('input', checkFormProgress);
-        document.getElementById('registrationForm').addEventListener('change', checkFormProgress);
-        
-        // Initialize progress
-        updateProgress(1);
-
-        // Live Counter Animation for Adopsi Pohon
-        if (programType === 'adopsi') {
-            const treeCounter = document.getElementById('treeCounter');
-            let currentCount = 1240;
-            
-            // Simulate occasional increment
-            setInterval(() => {
-                // Random chance to increment (30% every 5 seconds)
-                if (Math.random() < 0.3) {
-                    currentCount++;
-                    treeCounter.textContent = currentCount.toLocaleString('id-ID');
-                    
-                    // Add a brief animation effect
-                    treeCounter.style.transform = 'scale(1.2)';
-                    setTimeout(() => {
-                        treeCounter.style.transform = 'scale(1)';
-                    }, 300);
-                }
-            }, 5000);
-        }
-
-        // Validasi Form
         const form = document.getElementById('registrationForm');
-        const whatsappInput = document.getElementById('whatsapp');
-        const emailInput = document.getElementById('email');
-        const submitBtn = document.getElementById('submitBtn');
-
-        // Validasi WhatsApp hanya angka dan minimal 10 digit
-        whatsappInput.addEventListener('input', function(e) {
-            this.value = this.value.replace(/[^0-9]/g, '');
-            validateWhatsApp();
-        });
-
-        function validateWhatsApp() {
-            const whatsappValue = whatsappInput.value;
-            if (whatsappValue && whatsappValue.length < 10) {
-                whatsappInput.parentElement.classList.add('error');
-                return false;
-            } else {
-                whatsappInput.parentElement.classList.remove('error');
-                return true;
-            }
-        }
-
-        // Validasi Email format
-        function isValidEmail(email) {
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return emailRegex.test(email);
-        }
-
-        // Payment Method Selection (khusus Adopsi Pohon)
-        function selectPayment(element, method) {
-            // Remove selected class from all payment methods
-            document.querySelectorAll('.payment-method').forEach(el => {
-                el.classList.remove('selected');
-            });
-
-            // Add selected class to clicked element
-            element.classList.add('selected');
-
-            // Set hidden input value
-            document.getElementById('metodePembayaran').value = method;
-
-            // Remove error if present
-            document.getElementById('paymentError').style.display = 'none';
-        }
-
-        // Validasi saat submit
+        
         form.addEventListener('submit', function(e) {
             let isValid = true;
+            const requiredInputs = form.querySelectorAll('[required]');
 
-            // Validasi nama
-            const fullname = document.getElementById('fullname');
-            if (!fullname.value.trim()) {
-                fullname.parentElement.classList.add('error');
-                isValid = false;
-            } else {
-                fullname.parentElement.classList.remove('error');
-            }
-
-            // Validasi email
-            if (!isValidEmail(emailInput.value)) {
-                emailInput.parentElement.classList.add('error');
-                isValid = false;
-            } else {
-                emailInput.parentElement.classList.remove('error');
-            }
-
-            // Validasi WhatsApp (minimal 10 digit)
-            if (!validateWhatsApp()) {
-                isValid = false;
-            }
-
-            // Validasi khusus Aksi Lapangan
-            if (programType === 'aksi-lapangan') {
-                const alamat = document.getElementById('alamat');
-                if (!alamat.value.trim()) {
-                    alamat.parentElement.classList.add('error');
+            requiredInputs.forEach(input => {
+                if (!input.value.trim()) {
+                    input.parentElement.classList.add('error');
                     isValid = false;
                 } else {
-                    alamat.parentElement.classList.remove('error');
+                    input.parentElement.classList.remove('error');
                 }
-            }
-
-            // Validasi khusus Adopsi Pohon
-            if (programType === 'adopsi') {
-                const jumlahPohon = document.getElementById('jumlahPohon');
-                if (!jumlahPohon.value || parseInt(jumlahPohon.value) < 1) {
-                    jumlahPohon.parentElement.classList.add('error');
-                    isValid = false;
-                } else {
-                    jumlahPohon.parentElement.classList.remove('error');
-                }
-
-                const namaSertifikat = document.getElementById('namaSertifikat');
-                if (!namaSertifikat.value.trim()) {
-                    namaSertifikat.parentElement.classList.add('error');
-                    isValid = false;
-                } else {
-                    namaSertifikat.parentElement.classList.remove('error');
-                }
-
-                // Validasi metode pembayaran
-                const metodePembayaran = document.getElementById('metodePembayaran').value;
-                if (!metodePembayaran) {
-                    document.getElementById('paymentError').style.display = 'block';
-                    isValid = false;
-                } else {
-                    document.getElementById('paymentError').style.display = 'none';
-                }
-            }
+            });
 
             if (!isValid) {
                 e.preventDefault();
-                return;
+                const firstError = form.querySelector('.error');
+                if (firstError) firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
         });
     </script>
-
-</body>
-</html>
-ntById('paymentError').style.display = 'none';
-                }
-            }
-
-            if (!isValid) {
-                e.preventDefault();
-                return;
-            }
-        });
-    </script>
-
 </body>
 </html>

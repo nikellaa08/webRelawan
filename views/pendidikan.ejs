@@ -69,7 +69,7 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <% educationPrograms.forEach(function(item, index) { %>
-                <div class="standard-card flex flex-col h-full group hover:border-blue-200">
+                <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl hover:border-blue-200 transition-all flex flex-col h-full group">
                     <div class="flex items-start justify-between mb-8">
                         <div class="w-14 h-14 bg-blue-100 rounded-2xl flex items-center justify-center text-3xl transition-transform group-hover:scale-110">
                             <%= item.emoji %>
@@ -80,134 +80,10 @@
                     <h3 class="text-2xl font-bold text-slate-900 mb-4 group-hover:text-blue-600 transition-colors"><%= item.title %></h3>
                     <p class="text-slate-500 italic mb-8 flex-grow">"<%= item.cta %>"</p>
 
-<<<<<<< HEAD
-        main::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 10px;
-        }
-
-        main::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, #FF8C00, #FFD700);
-            border-radius: 10px;
-        }
-
-        main::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(180deg, #FFD700, #FFA726);
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        /* Fade-in animation for cards */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .program-list .event-card {
-            animation: fadeInUp 0.6s ease-out;
-            animation-fill-mode: both;
-        }
-
-        .program-list .event-card:nth-child(1) {
-            animation-delay: 0.1s;
-        }
-
-        .program-list .event-card:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-
-        .program-list .event-card:nth-child(3) {
-            animation-delay: 0.3s;
-        }
-
-        .program-list .event-card:nth-child(4) {
-            animation-delay: 0.4s;
-        }
-
-        .program-list .event-card:hover {
-            animation-play-state: paused;
-        }
-    </style>
-
-    <main>
-        <section class="section">
-            <div class="container">
-                <h2 class="section-title">Program Relawan Pendidikan</h2>
-                <div class="section-subtitle">
-                    <p>Pendidikan adalah kunci untuk masa depan yang lebih baik. Bersama Relawan Nusantara, mari berikan kesempatan pendidikan yang merata dan berkualitas bagi setiap anak bangsa.</p>
-                    <p>Dari bimbingan belajar hingga penyediaan fasilitas, setiap kontribusimu adalah harapan. Mari gerakkan hati dan tangan untuk: <strong>mengajar, mendampingi, dan menginspirasi</strong>. Cerdaskan bangsa, sejahtera bersama!</p>
-                </div>
-
-                <%
-                const educationPrograms = [
-                    {
-                        emoji: "🎒",
-                        title: "Donasi Perlengkapan Sekolah",
-                        slug: "donasi-perlengkapan",
-                        cta: '"Satu pensil, satu buku, satu harapan. Donasikan perlengkapan sekolah untuk anak-anak yang membutuhkan."',
-                        schedule: "Sesuai jadwal pengumpulan",
-                        location: "Sekolah / Panti Asuhan",
-                        target: "Anak-anak SD, SMP, SMA",
-                        reward: "Koin + Lencana Donatur"
-                    },
-                    {
-                        emoji: "🚌",
-                        title: "Taman Baca Keliling",
-                        slug: "taman-baca-keliling",
-                        cta: '"Membawa jendela dunia lebih dekat kepada mereka. Mari bergerak bersama untuk menebar minat baca di pelosok negeri."',
-                        schedule: "Setiap minggu / sesuai rute",
-                        location: "Desa / Sekolah terpencil / Taman kota",
-                        target: "Anak-anak SD – SMP-SMA/SMK",
-                        reward: "Koin + Lencana Relawan Literasi"
-                    },
-                    {
-                        emoji: "👩‍🏫",
-                        title: "Bimbingan Belajar Gratis",
-                        slug: "bimbingan-belajar",
-                        cta: '"Bantu anak-anak meraih cita-cita. Bergabunglah sebagai pengajar atau pendamping bimbingan belajar gratis."',
-                        schedule: "Sesuai jadwal yang ditentukan",
-                        location: "Pusat Komunitas / Online",
-                        target: "Matematika, Bahasa Indonesia, IPA, IPS",
-                        reward: "Koin + Lencana Pengajar"
-                    },
-                    {
-                        emoji: "🏗️",
-                        title: "Renovasi Fasilitas Pendidikan",
-                        slug: "renovasi-facilities",
-                        cta: '"Lingkungan belajar yang nyaman, semangat belajar pun meningkat. Bantu wujudkan fasilitas pendidikan yang layak."',
-                        schedule: "Sesuai jadwal yang ditentukan",
-                        location: "Sekolah Rusak / Minim Fasilitas",
-                        target: "Tukang Bangunan, Umum",
-                        reward: "Koin + Lencana Pembangun"
-                    }
-                ];
-                %>
-
-                <div class="program-list grid">
-                    <% educationPrograms.forEach(function(item, index) { %>
-                    <div class="event-card">
-                        <div class="card-body">
-                            <h3 class="card-title"><%= item.emoji %> <%= item.title %></h3>
-                            <p class="call-to-action"><%= item.cta %></p>
-
-                            <div class="info-row">
-                                <span class="icon-circle">📅</span>
-                                <span class="info-label"><%= item.slug === 'donasi-perlengkapan' ? 'Batas Waktu:' : 'Jadwal Kegiatan:' %></span>
-                                <span class="info-value"><%= item.schedule %></span>
-=======
                     <div class="space-y-4 mb-10">
                         <div class="flex items-center gap-4 text-sm">
                             <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-400">
                                 <i class="fas fa-calendar-alt text-xs"></i>
->>>>>>> ab8c7b79948ef53b859e727647d4d5b4daf839f1
                             </div>
                             <div>
                                 <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Waktu</p>
@@ -240,17 +116,10 @@
                                 <p class="text-[10px] font-bold text-emerald-500 uppercase tracking-widest">Reward</p>
                                 <p class="text-slate-700 font-bold"><%= item.reward %></p>
                             </div>
-<<<<<<< HEAD
-
-                            <a href="/daftar-kegiatan/<%= item.slug %>" class="btn btn-primary btn-follow" style="margin-top: 1rem;">
-                                Ikuti Sekarang
-                            </a>
-=======
->>>>>>> ab8c7b79948ef53b859e727647d4d5b4daf839f1
                         </div>
                     </div>
 
-                    <a href="/daftar-pendidikan/<%= item.slug %>" class="btn-main bg-blue-600 text-white hover:bg-blue-700 shadow-lg shadow-blue-600/20 w-full">
+                    <a href="/daftar-pendidikan/<%= item.slug %>" class="bg-blue-600 text-white py-4 rounded-2xl text-center font-bold hover:bg-blue-700 shadow-lg shadow-blue-600/20 transition-all">
                         Ikuti Sekarang <i class="fas fa-arrow-right ml-2 text-xs"></i>
                     </a>
                 </div>

@@ -69,7 +69,7 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <% healthPrograms.forEach(function(item, index) { %>
-                <div class="standard-card flex flex-col h-full group hover:border-rose-200">
+                <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl hover:border-rose-200 transition-all flex flex-col h-full group">
                     <div class="flex items-start justify-between mb-8">
                         <div class="w-14 h-14 bg-rose-100 rounded-2xl flex items-center justify-center text-3xl transition-transform group-hover:scale-110">
                             <%= item.emoji %>
@@ -101,10 +101,10 @@
                         </div>
                         <div class="flex items-center gap-4 text-sm">
                             <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-400">
-                                <i class="fas fa-stethoscope text-xs"></i>
+                                <i class="fas fa-users text-xs"></i>
                             </div>
                             <div>
-                                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Kualifikasi</p>
+                                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Target</p>
                                 <p class="text-slate-700 font-bold"><%= item.target %></p>
                             </div>
                         </div>
@@ -119,8 +119,8 @@
                         </div>
                     </div>
 
-                    <a href="/daftar/<%= item.slug %>" class="btn-main bg-rose-500 text-white hover:bg-rose-600 shadow-lg shadow-rose-500/20 w-full">
-                        Daftar Sekarang <i class="fas fa-arrow-right ml-2 text-xs"></i>
+                    <a href="/daftar/<%= item.slug %>" class="bg-rose-600 text-white py-4 rounded-2xl text-center font-bold hover:bg-rose-700 shadow-lg shadow-rose-600/20 transition-all">
+                        Ikuti Sekarang <i class="fas fa-arrow-right ml-2 text-xs"></i>
                     </a>
                 </div>
                 <% }); %>

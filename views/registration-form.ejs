@@ -16,15 +16,15 @@
 
                 <div class="input-group">
                     <label for="fullname">Nama Lengkap</label>
-                    <input type="text" id="fullname" name="fullname" placeholder="Masukkan nama lengkap Anda" value="<%= user ? user.name : '' %>" <%= user ? 'readonly' : '' %> required>
+                    <input type="text" id="fullname" name="fullname" placeholder="Masukkan nama lengkap Anda" value="<%= locals.user ? user.nama_lengkap : '' %>" required>
                 </div>
                 <div class="input-group">
                     <label for="email">Alamat Email</label>
-                    <input type="email" id="email" name="email" placeholder="Contoh: email@anda.com" value="<%= user ? user.email : '' %>" <%= user ? 'readonly' : '' %> required>
+                    <input type="email" id="email" name="email" placeholder="Contoh: email@anda.com" value="<%= locals.user ? user.email : '' %>" required>
                 </div>
                 <div class="input-group">
                     <label for="whatsapp">Nomor WhatsApp</label>
-                    <input type="tel" id="whatsapp" name="whatsapp" placeholder="Contoh: 081234567890" value="<%= user ? user.whatsapp : '' %>" <%= user ? 'readonly' : '' %> required>
+                    <input type="tel" id="whatsapp" name="whatsapp" placeholder="Contoh: 081234567890" value="<%= locals.user ? user.whatsapp : '' %>" required>
                 </div>
                 
                 <div class="input-group">
