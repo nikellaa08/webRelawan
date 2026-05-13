@@ -8,9 +8,10 @@ import { db, getAllCategories, createRegistration } from './db.js';
 // Import controllers
 import { getCategories } from './controllers/categoryController.js';
 import { getEvents } from './controllers/eventController.js';
+import { login, register } from './controllers/authController.js';
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3360;
 
 // Konfigurasi __dirname untuk ES Modules
 const __filename = fileURLToPath(import.meta.url);
@@ -112,6 +113,10 @@ app.post('/api/login', async (req, res) => {
 });
 
 // --- Data API ---
+
+// API Endpoints
+app.post('/api/login', login);
+app.post('/api/register', register);
 app.get('/api/categories', getCategories);
 app.get('/api/events', getEvents);
 
@@ -348,6 +353,15 @@ app.post('/daftar-sosial/:program', async (req, res) => {
 // ============================================
 // ROUTES FITUR TIM & ADMIN
 // ============================================
+
+// Route logout
+
+app.get('/logout', (req, res) => {
+    req.session.destroy((err) => {
+        if (err) console.log('❌ Gagal Logout:', err);
+        res.redirect('/');
+    });
+});
 
 // Pendaftaran Kegiatan Baru (Fitur Admin/Tim)
 app.get('/daftar-kegiatan/:program', requireAuth, (req, res) => {

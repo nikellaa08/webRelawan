@@ -1,5 +1,6 @@
 // models/userModel.js
 import { db } from '../lib/db.js'; // Sesuaikan path ke lib/db.js
+import bcrypt from 'bcrypt';
 
 /**
  * Mengambil user berdasarkan email.
@@ -20,26 +21,34 @@ export async function getUserByEmail(email) {
 }
 
 /**
- * Mendaftarkan user baru ke database.
- * @param {object} userData - Objek yang berisi data user (e.g., { username, name, email, whatsapp, password, skills, motivation }).
+ * Mendaftarkan user baru ke database dengan password hashing.
+ * @param {object} userData - Objek yang berisi data user.
  * @returns {object|null} - Objek user yang baru dibuat atau null jika gagal.
  */
 export async function registerUser(userData) {
-  const { username, name, email, whatsapp, password, skills, motivation } = userData;
+  const { username, name, email, whatsapp, password } = userData;
   try {
+    // Hash password sebelum disimpan
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
     const [result] = await db.execute(
-      'INSERT INTO users (username, nama_lengkap, email, whatsapp, password, skills, motivation) VALUES (?, ?, ?, ?, ?, ?, ?)',
-      [username, name, email, whatsapp || null, password, skills || null, motivation || null]
+      'INSERT INTO users (username, fullname, email, whatsapp, password) VALUES (?, ?, ?, ?, ?)',
+      [username, name, email, whatsapp || null, hashedPassword]
     );
-    console.log(`User '${username}' berhasil didaftarkan dengan ID: ${result.insertId}`);
+    
+    console.log(`✅ User '${username}' berhasil didaftarkan dengan ID: ${result.insertId}`);
     return { id: result.insertId, username, name, email, whatsapp };
   } catch (error) {
-    // Jika error karena email atau username sudah terdaftar (duplicate entry)
     if (error.code === 'ER_DUP_ENTRY') {
-      console.log(`Email atau Username sudah terdaftar.`);
+      console.log(`⚠️ Email atau Username sudah terdaftar.`);
       return null;
     }
-    console.error('Gagal mendaftarkan user baru:', error.message);
+    console.error('❌ DATABASE ERROR (registerUser):', {
+      message: error.message,
+      code: error.code,
+      sqlMessage: error.sqlMessage
+    });
     throw error;
   }
 }
