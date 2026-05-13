@@ -328,23 +328,45 @@
                 <p><%= program.description %></p>
             </div>
 
-            <form id="registrationForm" onsubmit="handleSuccess(event, 'lingkungan')" novalidate>
+            <form id="registrationForm" action="/api/pendaftaran-lingkungan" method="POST" novalidate>
+                <style>
+                    #registrationForm input, 
+                    #registrationForm textarea, 
+                    #registrationForm select {
+                        color: #000000 !important;
+                    }
+                </style>
+                <input type="hidden" name="program_slug" value="<%= program.slug %>">
+                <input type="hidden" name="program_title" value="<%= program.title %>">
+
                 <!-- Field Umum -->
                 <div class="form-group">
                     <label for="fullname"><span class="label-icon">👤</span> Nama Lengkap *</label>
+
                     <input type="text" id="fullname" name="fullname" placeholder="Masukkan nama lengkap Anda" value="<%= locals.user ? user.nama_lengkap : '' %>" required>
+
+                    <input type="text" id="fullname" name="fullname" value="<%= user ? user.name : '' %>" placeholder="Masukkan nama lengkap Anda" required>
+
                     <div class="error-message">Nama lengkap wajib diisi</div>
                 </div>
 
                 <div class="form-group">
                     <label for="email"><span class="label-icon">📧</span> Alamat Email *</label>
+
                     <input type="email" id="email" name="email" placeholder="Contoh: email@anda.com" value="<%= locals.user ? user.email : '' %>" required>
+
+                    <input type="email" id="email" name="email" value="<%= user ? user.email : '' %>" placeholder="Contoh: email@anda.com" required>
+
                     <div class="error-message">Format email tidak valid</div>
                 </div>
 
                 <div class="form-group">
                     <label for="whatsapp"><span class="label-icon">📱</span> Nomor WhatsApp *</label>
+
                     <input type="tel" id="whatsapp" name="whatsapp" placeholder="Contoh: 08123456789" value="<%= locals.user ? user.whatsapp : '' %>" required pattern="[0-9]+">
+
+                    <input type="tel" id="whatsapp" name="whatsapp" value="<%= user ? user.whatsapp || '' : '' %>" placeholder="Contoh: 08123456789" required pattern="[0-9]+">
+
                     <div class="error-message">Nomor WhatsApp hanya boleh angka dan minimal 10 digit</div>
                 </div>
 
@@ -382,10 +404,25 @@
     <script src="/script.js"></script>
     <script>
         const form = document.getElementById('registrationForm');
-        
+        const whatsappInput = document.getElementById('whatsapp');
+        const emailInput = document.getElementById('email');
+
+        // Validasi WhatsApp hanya angka dan minimal 10 digit
+        whatsappInput.addEventListener('input', function(e) {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        // Validasi saat submit (Traditional Submit)
+
         form.addEventListener('submit', function(e) {
             let isValid = true;
             const requiredInputs = form.querySelectorAll('[required]');
+
 
             requiredInputs.forEach(input => {
                 if (!input.value.trim()) {
@@ -400,8 +437,44 @@
                 e.preventDefault();
                 const firstError = form.querySelector('.error');
                 if (firstError) firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+            const fullname = document.getElementById('fullname');
+            if (!fullname.value.trim()) {
+                fullname.parentElement.classList.add('error');
+                isValid = false;
+            } else {
+                fullname.parentElement.classList.remove('error');
+            }
+
+            if (!isValidEmail(emailInput.value)) {
+                emailInput.parentElement.classList.add('error');
+                isValid = false;
+            } else {
+                emailInput.parentElement.classList.remove('error');
+            }
+
+            if (whatsappInput.value.length < 10) {
+                whatsappInput.parentElement.classList.add('error');
+                isValid = false;
+            } else {
+                whatsappInput.parentElement.classList.remove('error');
+            }
+
+            if (!isValid) {
+                e.preventDefault();
+
             }
         });
+
+        // Tampilkan pesan error jika ada dari server (res.render)
+        <% if (locals.message) { %>
+            Swal.fire({
+                title: 'Waduh...',
+                text: '<%= message %>',
+                icon: 'warning',
+                confirmButtonColor: '#28a745'
+            });
+        <% } %>
     </script>
 </body>
 </html>

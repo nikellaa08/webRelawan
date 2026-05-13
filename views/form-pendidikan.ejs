@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="/style.css">
     <style>
+
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -195,6 +196,43 @@
                 padding: 30px 20px;
             }
         }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .registration-form-page { min-height: 100vh; padding: 120px 20px 60px; background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%); display: flex; align-items: flex-start; justify-content: center; animation: fadeIn 0.6s ease-out; }
+        .form-card { background: white; border-radius: 16px; padding: 40px; width: 100%; max-width: 700px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3); position: relative; overflow: hidden; }
+        .form-card::before { content: ''; position: absolute; left: 0; top: 0; width: 6px; height: 100%; background: linear-gradient(180deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%); border-radius: 16px 0 0 16px; }
+
+        /* Progress Bar Styles */
+        .progress-bar-container { margin-bottom: 30px; padding-left: 20px; }
+        .progress-steps { display: flex; align-items: center; justify-content: space-between; position: relative; padding: 20px 0; }
+        .progress-steps::before { content: ''; position: absolute; top: 50%; left: 0; right: 0; height: 3px; background: #e0e0e0; z-index: 0; }
+        .progress-line { position: absolute; top: 50%; left: 0; height: 3px; background: linear-gradient(90deg, #FFD700 0%, #FFA500 100%); z-index: 1; transition: width 0.4s ease; width: 0%; }
+        .progress-step { display: flex; flex-direction: column; align-items: center; position: relative; z-index: 2; flex: 1; }
+        .step-circle { width: 40px; height: 40px; border-radius: 50%; background: white; border: 3px solid #e0e0e0; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.9rem; color: #999; transition: all 0.3s ease; margin-bottom: 8px; }
+        .progress-step.active .step-circle { border-color: #FFA500; background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%); color: white; box-shadow: 0 4px 12px rgba(255, 165, 0, 0.3); }
+        .progress-step.completed .step-circle { border-color: #FFA500; background: #FFA500; color: white; }
+        .step-label { font-size: 0.8rem; color: #999; font-weight: 600; text-align: center; transition: color 0.3s ease; }
+        .progress-step.active .step-label, .progress-step.completed .step-label { color: #FFA500; }
+
+        /* Step Logic */
+        .form-step { display: none; }
+        .form-step.active { display: block; animation: fadeIn 0.4s ease-out; }
+        
+        .form-group { margin-bottom: 20px; padding-left: 20px; }
+        .form-group label { display: block; font-weight: 600; color: #333; margin-bottom: 8px; font-size: 0.9rem; }
+        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 14px 16px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem; color: #000 !important; background: #f9f9f9; transition: all 0.3s ease; }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus { outline: none; border-color: #FFA500; background: white; box-shadow: 0 0 0 4px rgba(255, 165, 0, 0.1); }
+        
+        .submit-btn { width: 100%; padding: 16px; background: linear-gradient(135deg, #FFA500 0%, #FF8C00 100%); color: white; border: none; border-radius: 12px; font-size: 1.1rem; font-weight: 700; cursor: pointer; margin-top: 25px; transition: all 0.3s ease; box-shadow: 0 5px 15px rgba(255, 165, 0, 0.4); }
+        .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(255, 165, 0, 0.5); }
+        
+        .section-divider { margin: 30px 0 20px; padding-left: 20px; border-top: 2px dashed #e0e0e0; padding-top: 20px; }
+        .section-divider h3 { display: flex; align-items: center; gap: 10px; font-size: 1.1rem; font-weight: 700; color: #333; }
+        .section-divider .section-icon { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%); border-radius: 50%; font-size: 1.2rem; }
+
+        .hidden { display: none !important; }
+
     </style>
 </head>
 <body>
@@ -272,5 +310,152 @@
             }
         });
     </script>
+=======
+<main class="registration-form-page">
+    <div class="form-card">
+        <div class="form-header">
+            <div class="program-badge"><%= program.emoji %> <%= program.title %></div>
+            <h1>Form Pendaftaran</h1>
+            <p><%= program.description %></p>
+        </div>
+
+        <!-- Stepper -->
+        <div class="progress-bar-container">
+            <div class="progress-steps">
+                <div class="progress-line" id="progressLine" style="width: 0%;"></div>
+                <div class="progress-step active" id="step1-indicator">
+                    <div class="step-circle">1</div>
+                    <div class="step-label">Data Diri</div>
+                </div>
+                <div class="progress-step" id="step2-indicator">
+                    <div class="step-circle">2</div>
+                    <div class="step-label">Detail Program</div>
+                </div>
+                <div class="progress-step" id="step3-indicator">
+                    <div class="step-circle">3</div>
+                    <div class="step-label">Selesai</div>
+                </div>
+            </div>
+        </div>
+
+        <form id="registrationForm">
+            <input type="hidden" name="program_slug" value="<%= program.slug %>">
+            <input type="hidden" name="program_title" value="<%= program.title %>">
+
+            <!-- STEP 1: DATA DIRI -->
+            <div class="form-step active" id="step1-content">
+                <div class="section-divider">
+                    <h3><span class="section-icon"><i class="fas fa-user"></i></span> Data Diri</h3>
+                </div>
+                <div class="form-group">
+                    <label>Nama Lengkap *</label>
+                    <input type="text" name="fullname" value="<%= user ? user.name : '' %>" required>
+                </div>
+                <div class="form-group">
+                    <label>Email *</label>
+                    <input type="email" name="email" value="<%= user ? user.email : '' %>" required>
+                </div>
+                <div class="form-group">
+                    <label>WhatsApp *</label>
+                    <input type="tel" name="whatsapp" value="<%= user ? user.whatsapp || '' : '' %>" required>
+                </div>
+                <div style="padding-left: 20px;">
+                    <button type="button" class="submit-btn" onclick="goToStep(2)">Lanjut <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+
+            <!-- STEP 2: DETAIL PROGRAM / DONASI -->
+            <div class="form-step" id="step2-content">
+                <div class="section-divider">
+                    <h3><span class="section-icon"><i class="fas fa-info-circle"></i></span> Detail <%= program.type === 'donasi' ? 'Donasi' : 'Pendaftaran' %></h3>
+                </div>
+
+                <% if (program.type === 'donasi') { %>
+                    <div class="form-group">
+                        <label>Jenis Barang *</label>
+                        <select name="jenisBarang" required>
+                            <option value="tas">Tas Sekolah</option>
+                            <option value="seragam">Seragam</option>
+                            <option value="alat-tulis">Alat Tulis</option>
+                            <option value="lainnya">Lainnya</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Jumlah *</label>
+                        <input type="number" name="jumlahBarang" min="1" required>
+                    </div>
+                <% } %>
+
+                <div class="form-group">
+                    <label>Motivasi Bergabung *</label>
+                    <textarea name="motivasi" rows="4" placeholder="Ceritakan motivasi Anda..." required></textarea>
+                </div>
+
+                <div style="padding-left: 20px; display: flex; gap: 10px;">
+                    <button type="button" class="submit-btn" style="background: #94a3b8;" onclick="goToStep(1)">Kembali</button>
+                    <button type="submit" class="submit-btn">Kirim Pendaftaran</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function goToStep(step) {
+        if (step === 2) {
+            // Validasi singkat step 1
+            const name = document.querySelector('[name="fullname"]').value;
+            const email = document.querySelector('[name="email"]').value;
+            if (!name || !email) {
+                Swal.fire('Oops!', 'Mohon lengkapi data diri Anda.', 'warning');
+                return;
+            }
+        }
+
+        // Switch content
+        document.querySelectorAll('.form-step').forEach(el => el.classList.remove('active'));
+        document.getElementById(`step${step}-content`).classList.add('active');
+
+        // Update stepper indicators
+        document.querySelectorAll('.progress-step').forEach((el, idx) => {
+            const s = idx + 1;
+            el.classList.remove('active', 'completed');
+            if (s < step) el.classList.add('completed');
+            else if (s === step) el.classList.add('active');
+        });
+
+        // Update progress line
+        document.getElementById('progressLine').style.width = (step === 1) ? '0%' : (step === 2) ? '50%' : '100%';
+    }
+
+    document.getElementById('registrationForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const data = Object.fromEntries(formData.entries());
+
+        try {
+            const response = await fetch('/api/pendaftaran-pendidikan', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            const result = await response.json();
+            if (result.success) {
+                goToStep(3);
+                Swal.fire('Berhasil!', 'Pendaftaran Anda telah kami terima.', 'success').then(() => {
+                    window.location.href = '/pendidikan';
+                });
+            } else {
+                Swal.fire('Gagal!', result.message, 'error');
+            }
+        } catch (err) {
+            Swal.fire('Error!', 'Gagal menghubungi server.', 'error');
+        }
+    });
+</script>
+
+<%- include('partials/header') %>
+
 </body>
 </html>

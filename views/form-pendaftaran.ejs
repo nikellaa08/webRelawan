@@ -201,7 +201,23 @@
                     <label for="fullname"><span class="label-icon">👤</span> Nama Lengkap *</label>
                     <input type="text" id="fullname" name="fullname" placeholder="Masukkan nama lengkap Anda" value="<%= locals.user ? user.nama_lengkap : '' %>" required>
                     <div class="error-message">Nama lengkap wajib diisi</div>
+            <div class="progress-bar-container">
+                <div class="progress-steps">
+                    <div class="progress-line" id="progressLine" style="width: 0%;"></div>
+                    <div class="progress-step active" id="step1-indicator">
+                        <div class="step-circle">1</div>
+                        <div class="step-label">Data Diri</div>
+                    </div>
+                    <div class="progress-step" id="step2-indicator">
+                        <div class="step-circle">2</div>
+                        <div class="step-label">Detail Program</div>
+                    </div>
+                    <div class="progress-step" id="step3-indicator">
+                        <div class="step-circle">3</div>
+                        <div class="step-label">Selesai</div>
+                    </div>
                 </div>
+            </div>
 
                 <div class="form-group">
                     <label for="email"><span class="label-icon">📧</span> Alamat Email *</label>
@@ -218,9 +234,175 @@
                 <button type="submit" class="submit-btn" id="submitBtn">
                     <i class="fas fa-paper-plane"></i> Kirim Pendaftaran
                 </button>
+            <style>
+                #registrationForm input, 
+                #registrationForm textarea, 
+                #registrationForm select {
+                    color: #000000 !important;
+                }
+                .form-step {
+                    display: none;
+                }
+                .form-step.active {
+                    display: block;
+                    animation: fadeIn 0.4s ease-out;
+                }
+            </style>
+
+            <form id="registrationForm" action="/api/pendaftaran-pendidikan" method="POST" novalidate>
+                <input type="hidden" name="program_slug" value="<%= program.slug %>">
+                <input type="hidden" name="program_title" value="<%= program.title %>">
+
+                <!-- STEP 1: DATA DIRI -->
+                <div class="form-step active" id="step1-content">
+                    <div class="form-group">
+                        <label for="fullname"><span class="label-icon">👤</span> Nama Lengkap *</label>
+                        <input type="text" id="fullname" name="fullname" value="<%= user ? user.name : '' %>" placeholder="Masukkan nama lengkap Anda" required>
+                        <div class="error-message">Nama lengkap wajib diisi</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email"><span class="label-icon">📧</span> Alamat Email *</label>
+                        <input type="email" id="email" name="email" value="<%= user ? user.email : '' %>" placeholder="Contoh: email@anda.com" required>
+                        <div class="error-message">Format email tidak valid</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="whatsapp"><span class="label-icon">📱</span> Nomor WhatsApp *</label>
+                        <input type="tel" id="whatsapp" name="whatsapp" value="<%= user ? user.whatsapp || '' : '' %>" placeholder="Contoh: 08123456789" required pattern="[0-9]+">
+                        <div class="error-message">Nomor WhatsApp hanya boleh angka</div>
+                    </div>
+
+                    <div style="padding-left: 20px; margin-top: 30px;">
+                        <button type="button" class="submit-btn" onclick="nextStep(2)">
+                            Lanjut ke Detail <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- STEP 2: DETAIL PROGRAM -->
+                <div class="form-step" id="step2-content">
+                    <!-- Field Khusus: Donor Darah -->
+                    <% if (program.slug === 'donor-darah') { %>
+                        <div class="form-group">
+                            <label for="umur"><span class="label-icon">🎂</span> Umur *</label>
+                            <input type="number" id="umur" name="umur" placeholder="Masukkan umur Anda" min="17" required>
+                            <div class="error-message age-error" id="ageError">
+                                ⚠️ Maaf, syarat minimal donor darah adalah 17 tahun
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="golongan-darah"><span class="label-icon">🩸</span> Golongan Darah *</label>
+                            <select id="golongan-darah" name="golonganDarah" required>
+                                <option value="">Pilih Golongan Darah</option>
+                                <option value="A">A</option>
+                                <option value="B">B</option>
+                                <option value="AB">AB</option>
+                                <option value="O">O</option>
+                            </select>
+                        </div>
+                    <% } %>
+
+                    <!-- Field Umum Detail (Contoh: Motivasi) -->
+                    <div class="form-group">
+                        <label for="motivasi"><span class="label-icon">💭</span> Motivasi Bergabung *</label>
+                        <textarea id="motivasi" name="motivasi" rows="4" placeholder="Apa alasan Anda ingin bergabung?" required></textarea>
+                        <div class="error-message">Motivasi wajib diisi</div>
+                    </div>
+
+                    <div style="padding-left: 20px; margin-top: 30px; display: flex; gap: 15px;">
+                        <button type="button" class="submit-btn" style="background: #94a3b8;" onclick="nextStep(1)">
+                            <i class="fas fa-arrow-left mr-2"></i> Kembali
+                        </button>
+                        <button type="submit" class="submit-btn" id="submitBtn">
+                            <i class="fas fa-check-circle mr-2"></i> Kirim Pendaftaran
+                        </button>
+                    </div>
+                </div>
+>>>>>>> 8af6275b6d73f42ddef3f5fde202a3f818754f6b
             </form>
         </div>
     </main>
+
+    <script>
+        function nextStep(step) {
+            // Validasi Step 1 sebelum lanjut
+            if (step === 2) {
+                const name = document.getElementById('fullname').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const wa = document.getElementById('whatsapp').value.trim();
+                
+                if (!name || !email || !wa) {
+                    Swal.fire({ icon: 'warning', title: 'Belum Lengkap', text: 'Mohon isi semua data diri Anda.' });
+                    return;
+                }
+            }
+
+            // Update UI
+            document.querySelectorAll('.form-step').forEach(el => el.classList.remove('active'));
+            document.getElementById(`step${step}-content`).classList.add('active');
+
+            // Update Stepper
+            document.querySelectorAll('.progress-step').forEach((el, idx) => {
+                if (idx + 1 < step) {
+                    el.classList.add('completed');
+                    el.classList.remove('active');
+                } else if (idx + 1 === step) {
+                    el.classList.add('active');
+                    el.classList.remove('completed');
+                } else {
+                    el.classList.remove('active', 'completed');
+                }
+            });
+
+            // Update Line
+            const progressLine = document.getElementById('progressLine');
+            progressLine.style.width = (step === 1) ? '0%' : (step === 2) ? '50%' : '100%';
+        }
+
+        document.getElementById('registrationForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData.entries());
+
+            try {
+                const response = await fetch('/api/pendaftaran-pendidikan', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const result = await response.json();
+                
+                if (result.success) {
+                    nextStep(3); // Update Stepper ke selesai
+                    Swal.fire({
+                        title: 'Berhasil!',
+                        text: 'Pendaftaran Anda telah kami terima.',
+                        icon: 'success',
+                        confirmButtonColor: '#10b981'
+                    }).then(() => { window.location.href = '/'; });
+                } else {
+                    Swal.fire({ icon: 'error', title: 'Gagal', text: result.message || 'Terjadi kesalahan.' });
+                }
+            } catch (err) {
+                Swal.fire({ icon: 'error', title: 'Error', text: 'Gagal menghubungi server.' });
+            }
+        });
+    </script>
+        </div>
+    </main>
+
+    <!-- Notifikasi Sukses -->
+    <div id="successNotification" class="success-notification">
+        <div class="icon">🎉</div>
+        <div class="message">
+            <h3>Pendaftaran Berhasil!</h3>
+            <p>Terima kasih telah mendaftar. Tim kami akan menghubungi Anda segera.</p>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
 
     <footer class="footer">
         <p>&copy; 2026 Relawan Nusantara. Semua Hak Dilindungi.</p>
