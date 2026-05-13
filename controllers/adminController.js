@@ -59,13 +59,16 @@ export const adminLogin = async (req, res) => {
     req.session.admin = {
       id: admin.id,
       email: admin.email,
-      name: admin.nama_lengkap,
+      name: admin.username, // Menggunakan username sesuai db.sql
       is_admin: 1
     };
     req.session.user = null;
 
-    req.session.message = `✅ Selamat datang kembali, Admin ${admin.nama_lengkap}!`;
-    res.redirect('/admin/dashboard');
+    // Tambahkan session.save() untuk mencegah error 'mental' saat redirect
+    req.session.save(() => {
+        req.session.message = `✅ Selamat datang kembali, Admin ${admin.username}!`;
+        res.redirect('/admin/dashboard');
+    });
 
   } catch (error) {
     console.error('Admin Login Error:', error.message);
@@ -104,7 +107,7 @@ export const getDashboard = async (req, res) => {
 export const getUsers = async (req, res) => {
   try {
     const dbConnected = await isDbConnected();
-    const [rows] = await db.query('SELECT id, nama_lengkap, email, skills, koin, created_at FROM users WHERE is_admin = 0 ORDER BY created_at DESC');
+    const [rows] = await db.query('SELECT id, username, email, keahlian, koin, created_at FROM users WHERE is_admin = 0 ORDER BY created_at DESC');
     res.render('admin/users', { admin: req.session.admin, users: rows, dbConnected, message: req.session.message || null });
     req.session.message = null;
   } catch (error) {
@@ -188,8 +191,9 @@ export const deleteCategory = async (req, res) => {
 
 // ADMIN LOGOUT
 export const adminLogout = (req, res) => {
-  req.session.destroy(() => {
-    res.clearCookie('connect.sid');
-    res.redirect('/admin/login');
+  req.session.destroy((err) => {
+    if (err) console.error("Logout error:", err);
+    res.clearCookie('connect.sid', { path: '/' });
+    return res.redirect('/admin/login');
   });
 };

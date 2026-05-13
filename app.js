@@ -13,7 +13,8 @@ import { getEvents } from './controllers/eventController.js';
 import { 
     adminLogin, getUsers, deleteUser, 
     getEvents as adminGetEvents, deleteEvent, 
-    getCategories as adminGetCategories, addCategory, deleteCategory 
+    getCategories as adminGetCategories, addCategory, deleteCategory,
+    adminLogout
 } from './controllers/adminController.js';
 import { checkAdmin, isAdminAlreadyLoggedIn } from './middleware/adminMiddleware.js';
 
@@ -67,12 +68,13 @@ app.all('/logout', (req, res) => {
 app.get('/admin/login', isAdminAlreadyLoggedIn, (req, res) => res.render('admin/login'));
 app.post('/admin/api/login', adminLogin);
 
+app.get('/admin/logout', adminLogout);
+
 app.get('/admin/dashboard', checkAdmin, async (req, res) => {
     try {
         const [uCount] = await db.query("SELECT COUNT(*) as count FROM users WHERE is_admin = 0");
         const [eCount] = await db.query("SELECT COUNT(*) as count FROM events");
         const [recentUsers] = await db.query("SELECT id, username, email, koin FROM users WHERE is_admin = 0 ORDER BY id DESC LIMIT 5");
-
         res.render('admin/dashboard', { 
             stats: { users: uCount[0].count, events: eCount[0].count, donations: 0, categories: 0 }, 
             users: recentUsers,
@@ -95,6 +97,6 @@ app.get('/kesehatan', (req, res) => res.render('kesehatan'));
 app.get('/sosial-kemanusiaan', (req, res) => res.render('sosial-kemanusiaan'));
 
 // --- Start Server ---
-app.listen(port, () => {
+app.listen(port, '0.0.0.0', () => {
     console.log(`🚀 Server running at http://localhost:${port}`);
 });

@@ -123,8 +123,10 @@ export const login = async (req, res) => {
             req.session.admin = null;
         }
 
-        req.session.message = `✅ Berhasil masuk sebagai ${userData.is_admin ? 'Admin' : 'Relawan'}.`;
-        res.redirect(userData.is_admin === 1 ? '/admin/dashboard' : '/');
+        req.session.save(() => {
+            req.session.message = `✅ Berhasil masuk sebagai ${userData.is_admin ? 'Admin' : 'Relawan'}.`;
+            res.redirect(userData.is_admin === 1 ? '/admin/dashboard' : '/');
+        });
 
     } catch (error) {
         console.log('LOGIN ERROR:', error);
