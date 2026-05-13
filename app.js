@@ -9,6 +9,7 @@ import { db, createRegistration } from './db.js';
 import { getCategories } from './controllers/categoryController.js';
 import { getEvents } from './controllers/eventController.js';
 import { login, register } from './controllers/authController.js';
+import { registerLingkungan } from './controllers/lingkunganController.js';
 
 const app = express();
 const port = process.env.PORT || 3360;
@@ -724,6 +725,34 @@ app.post('/api/daftar-kegiatan', requireAuth, async (req, res) => {
         res.status(500).json({ success: false, message: 'Gagal menyimpan pendaftaran.' });
     }
 });
+
+// Route Pendaftaran Pendidikan (2-Step Form)
+app.post('/api/pendaftaran-pendidikan', requireAuth, async (req, res) => {
+    const { program_slug, program_title, fullname, email, whatsapp, motivasi, ...extraFields } = req.body;
+    try {
+        const sql = 'INSERT INTO pendaftaran_pendidikan (user_id, program_slug, program_title, nama, email, whatsapp, motivasi, detail_lain) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+        const detailLain = JSON.stringify(extraFields);
+        
+        await db.query(sql, [
+            req.session.user.id, 
+            program_slug, 
+            program_title, 
+            fullname, 
+            email, 
+            whatsapp, 
+            motivasi, 
+            detailLain
+        ]);
+
+        res.json({ success: true, message: 'Pendaftaran pendidikan berhasil!' });
+    } catch (err) {
+        console.error('ERROR DB PENDIDIKAN:', err);
+        res.status(500).json({ success: false, message: 'Gagal menyimpan pendaftaran pendidikan.' });
+    }
+});
+
+// Route Pendaftaran Lingkungan
+app.post('/api/pendaftaran-lingkungan', requireAuth, registerLingkungan);
 
 // Start server
 app.listen(port, () => {
