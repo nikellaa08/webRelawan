@@ -1,6 +1,7 @@
 // controllers/authController.js
 
 import { getUserByEmail, registerUser } from '../models/userModel.js';
+import bcrypt from 'bcrypt';
 
 /**
  * Fungsi untuk menangani proses login.
@@ -21,7 +22,10 @@ export const login = async (req, res) => {
       return res.redirect('/register');
     }
 
-    if (password !== user.password) {
+    // Bandingkan password yang dimasukkan dengan hash di database
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (!isMatch) {
       req.session.message = '❌ Password yang Anda masukkan salah.';
       return res.redirect('/login');
     }
@@ -30,11 +34,11 @@ export const login = async (req, res) => {
       id: user.id,
       username: user.username,
       email: user.email,
-      name: user.nama_lengkap,
+      name: user.fullname, // Gunakan fullname sesuai database baru
       whatsapp: user.whatsapp
     };
 
-    req.session.message = `✅ Selamat datang kembali, ${user.nama_lengkap}!`;
+    req.session.message = `✅ Selamat datang kembali, ${user.fullname}!`;
     res.redirect('/');
 
   } catch (error) {
@@ -48,9 +52,10 @@ export const login = async (req, res) => {
  * Fungsi untuk menangani proses registrasi.
  */
 export const register = async (req, res) => {
-  const { fullname, email, whatsapp, username, password } = req.body;
+  console.log('DEBUG: Data registrasi diterima:', req.body);
+  const { nama_lengkap, email, whatsapp, username, password } = req.body;
 
-  if (!fullname || !email || !whatsapp || !username || !password) {
+  if (!nama_lengkap || !email || !whatsapp || !username || !password) {
     req.session.message = '⚠️ Semua field wajib diisi (Username, Nama Lengkap, Email, WhatsApp, Password).';
     return res.redirect('/register');
   }
@@ -69,7 +74,7 @@ export const register = async (req, res) => {
 
     const newUser = await registerUser({
       username,
-      name: fullname,
+      name: nama_lengkap,
       email,
       whatsapp,
       password
@@ -92,7 +97,10 @@ export const register = async (req, res) => {
     res.redirect('/');
 
   } catch (error) {
-    console.error('❌ Error saat proses registrasi:', error.message);
+    console.error('❌ Error saat proses registrasi:', {
+      message: error.message,
+      stack: error.stack
+    });
     req.session.message = '⚠️ Terjadi kesalahan server saat pendaftaran.';
     res.redirect('/register');
   }

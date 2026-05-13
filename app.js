@@ -8,9 +8,10 @@ import { db, createRegistration } from './db.js';
 // Import controllers
 import { getCategories } from './controllers/categoryController.js';
 import { getEvents } from './controllers/eventController.js';
+import { login, register } from './controllers/authController.js';
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3360;
 
 // Konfigurasi __dirname untuk ES Modules
 const __filename = fileURLToPath(import.meta.url);
@@ -66,8 +67,7 @@ app.get('/login', (req, res) => {
     res.render('login');
 });
 
-<<<<<<< HEAD
-=======
+
 // API Endpoints
 app.post('/api/login', login);
 app.post('/api/register', register);
@@ -679,7 +679,7 @@ app.post('/daftar-sosial/:program', async (req, res) => {
 });
 
 // Route logout
->>>>>>> ab8c7b79948ef53b859e727647d4d5b4daf839f1
+
 app.get('/logout', (req, res) => {
     req.session.destroy((err) => {
         if (err) console.log('❌ Gagal Logout:', err);
@@ -722,87 +722,6 @@ app.post('/api/daftar-kegiatan', requireAuth, async (req, res) => {
     } catch (err) {
         console.error('ERROR DB:', err);
         res.status(500).json({ success: false, message: 'Gagal menyimpan pendaftaran.' });
-    }
-});
-
-app.get('/pendidikan', (req, res) => res.render('pendidikan'));
-app.get('/lingkungan', (req, res) => res.render('lingkungan'));
-app.get('/kesehatan', (req, res) => res.render('kesehatan'));
-app.get('/sosial-kemanusiaan', (req, res) => res.render('sosial-kemanusiaan'));
-
-// Detail Pages
-app.get('/book-detail', (req, res) => res.render('book-detail'));
-app.get('/pakaian-detail', (req, res) => res.render('pakaian-detail'));
-app.get('/pendidikan-detail', (req, res) => res.render('pendidikan-detail'));
-app.get('/sosial-anak-detail', (req, res) => res.render('sosial-anak-detail'));
-
-// Form Pages
-app.get('/donation-book-form', (req, res) => res.render('donation-book-form'));
-app.get('/donation-form', (req, res) => res.render('donation-form'));
-app.get('/kunjungan-panti-asuhan-form', (req, res) => res.render('kunjungan-panti-asuhan-form'));
-app.get('/kunjungan-panti-jompo-form', (req, res) => res.render('kunjungan-panti-jompo-form'));
-app.get('/jadwal', (req, res) => res.render('jadwal'));
-
-// Success Page
-app.get('/success', (req, res) => {
-    const program = req.query.program || 'Relawan';
-    res.render('success', { program: program });
-});
-
-// API Endpoints
-app.get('/api/categories', getCategories);
-app.get('/api/events', getEvents);
-
-// Dynamic Program Registration (Kesehatan)
-app.get('/daftar/:program', (req, res) => {
-    const programSlug = req.params.program;
-    const programs = {
-        'pemeriksaan-gratis': { title: 'Pemeriksaan Kesehatan Gratis', slug: 'pemeriksaan-gratis', emoji: '🩺', description: 'Bergabunglah untuk memberikan pemeriksaan kesehatan gratis bagi masyarakat kurang mampu.' },
-        'donor-darah': { title: 'Donor Darah Nasional', slug: 'donor-darah', emoji: '🩸', description: 'Setetes darahmu menyelamatkan nyawa.' },
-        'gizi-anak': { title: 'Sosialisasi Gizi Anak', slug: 'gizi-anak', emoji: '🍎', description: 'Edukasi orang tua tentang nutrisi untuk cegah stunting.' },
-        'mental-health': { title: 'Support System Mental Health', slug: 'mental-health', emoji: '🧠', description: 'Saling mendukung untuk kesehatan jiwa yang lebih baik.' }
-    };
-    const program = programs[programSlug];
-    if (!program) return res.redirect('/kesehatan');
-    res.render('form-pendaftaran', { program: program });
-});
-
-// --- Auth API Routes (Before app.listen) ---
-
-// Route POST /api/register
-app.post('/api/register', async (req, res) => {
-    const { username, nama_lengkap, email, whatsapp, password } = req.body;
-    try {
-        const sql = 'INSERT INTO users (username, nama_lengkap, email, whatsapp, password) VALUES (?, ?, ?, ?, ?)';
-        await db.query(sql, [username, nama_lengkap, email, whatsapp, password]);
-        
-        req.session.message = 'Akun berhasil dibuat! Silakan login.';
-        res.redirect('/login');
-    } catch (err) {
-        console.error('DETAIL ERROR MYSQL:', err.sqlMessage || err.message, err.code);
-        req.session.message = 'Gagal mendaftar: ' + (err.sqlMessage || err.message);
-        res.redirect('/register');
-    }
-});
-
-// Route POST /api/login
-app.post('/api/login', async (req, res) => {
-    const { username, password } = req.body;
-    try {
-        const [rows] = await db.query('SELECT * FROM users WHERE username = ? AND password = ?', [username, password]);
-        
-        if (rows.length > 0) {
-            req.session.user = rows[0];
-            req.session.message = `Selamat datang kembali, ${rows[0].nama_lengkap}!`;
-            res.redirect('/');
-        } else {
-            req.session.message = 'Username atau Password salah!';
-            res.redirect('/login');
-        }
-    } catch (err) {
-        console.error('DETAIL ERROR MYSQL:', err.sqlMessage || err.message, err.code);
-        req.session.message = 'Terjadi kesalahan sistem.';
-        res.redirect('/login');
     }
 });
 

@@ -1,11 +1,11 @@
 import mysql from 'mysql2';
 
-// 1. Konfigurasi Database
+// 1. Konfigurasi Database (Ganti database ke web_relawan)
 const pool = mysql.createPool({
   host:     process.env.DB_HOST     || 'localhost',
   user:     process.env.DB_USER     || 'root',
   password: process.env.DB_PASSWORD || '',
-  database: 'res_py', // Updated as per user instruction
+  database: 'web_relawan', // Sesuai instruksi lo tadi
   port:     3306,
   waitForConnections: true,
   connectionLimit: 10,
@@ -13,29 +13,19 @@ const pool = mysql.createPool({
 
 const db = pool.promise();
 
-
+// 2. Fungsi Test Connection (Sudah diperbaiki biar nggak double variable)
 async function testDbConnection() {
-  let connection;
   try {
-
-    connection = await pool.getConnection();
-    console.log('✅ Koneksi ke database berhasil!');
-
-    // Karena kita pakai pool.promise(), kita gunakan db.getConnection()
     const connection = await db.getConnection(); 
     console.log('✅ Koneksi ke database berhasil!');
     connection.release(); 
-
   } catch (error) {
     console.error('❌ Koneksi ke database gagal:', error.message);
-  } finally {
-    if (connection) connection.release();
   }
 }
 testDbConnection();
 
-// 3. Fungsi-Fungsi CRUD (Gabungan)
-
+// 3. Fungsi-Fungsi CRUD
 export const getAllCategories = async () => {
   try {
     const [rows] = await db.query('SELECT * FROM categories ORDER BY name ASC');
@@ -65,7 +55,7 @@ export const createRegistration = async (regData) => {
   const { user_id, program_slug, fullname, email, whatsapp, details } = regData;
   try {
     const [result] = await db.execute(
-      'INSERT INTOx` registrations (user_id, program_slug, fullname, email, whatsapp, details) VALUES (?, ?, ?, ?, ?, ?)',
+      'INSERT INTO registrations (user_id, program_slug, fullname, email, whatsapp, details) VALUES (?, ?, ?, ?, ?, ?)',
       [user_id || null, program_slug, fullname, email, whatsapp, JSON.stringify(details)]
     );
     return result.insertId;
@@ -80,6 +70,6 @@ export const getUserByEmail = async (email) => {
   return rows[0] || null;
 };
 
-// Ekspor default agar tidak error
+// Ekspor agar app.js bisa baca
 export { db, pool };
 export default db;

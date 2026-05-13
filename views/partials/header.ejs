@@ -47,38 +47,6 @@
 
     <!-- NAVBAR -->
     <nav class="navbar">
-<<<<<<< HEAD
-        <a href="/" class="nav-logo">Relawan Nusantara</a>
-        <ul class="nav-menu">
-            <li class="nav-item"><a href="/pendidikan">Pendidikan</a></li>
-            <li class="nav-item"><a href="/lingkungan">Lingkungan</a></li>
-            <li class="nav-item"><a href="/kesehatan">Kesehatan</a></li>
-            <li class="nav-item"><a href="/sosial-kemanusiaan">Sosial & Kemanusiaan</a></li>
-        </ul>
-        <div class="nav-right">
-            <% if (typeof user !== 'undefined' && user) { %>
-                <!-- User sudah login - Tampilkan sapaan -->
-                <div class="nav-user-greeting">
-                    <i class="fas fa-user-circle"></i>
-                    <span>Halo, <%= user.nama_lengkap %>!</span>
-                </div>
-                <a href="/logout" class="btn btn-logout nav-logout-btn">
-                    <i class="fas fa-sign-out-alt"></i>
-                    Logout
-                </a>
-            <% } else { %>
-                <!-- User belum login - Tampilkan tombol Login -->
-                <a href="/login" class="btn-login-global">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
-                    Masuk
-                </a>
-            <% } %>
-        </div>
-        <div class="hamburger">
-            <div class="bar1"></div>
-            <div class="bar2"></div>
-            <div class="bar3"></div>
-=======
         <div class="main-container flex justify-between items-center h-full">
             <a href="/" class="nav-logo">
                 Relawan<span class="text-emerald-500">Nusantara</span>
@@ -111,7 +79,6 @@
                 <div class="bar2"></div>
                 <div class="bar3"></div>
             </div>
->>>>>>> ab8c7b79948ef53b859e727647d4d5b4daf839f1
         </div>
     </nav>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
